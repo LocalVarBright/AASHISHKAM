@@ -1,4 +1,4 @@
-def chapter_2(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, timeControl, pgFilter, saveFile, saveGame, curSaveName):
+def chapter_2(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful):
     route2 = {
         "house_studyChoice": 0,
         "house_kitchenChoice": 0,
@@ -668,9 +668,9 @@ NOW TELL ME.#.#.#
         saveGame(curSaveName, saveFile)
 
 
-def start(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, timeControl, pgFilter, saveFile, saveGame, curSaveName):
+def start(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful):
 
-    doDialogText("Loading Chapter 1.#.#.#", afterdelay=3)
+    doDialogText("Loading Chapter 2.#.#.#", afterdelay=3)
     print()
 
-    chapter_2(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, timeControl, pgFilter, saveFile, saveGame, curSaveName)
+    chapter_2(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful)

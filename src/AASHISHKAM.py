@@ -259,25 +259,12 @@ def downloadStuff():
     
     downloadList = [
         "chapters/chapter1.py",
-        "chapters/chapter2.py",
-        "chapters/chapter3.py",
-        "chapters/chapter4.py",
-
-        "assets/OST/credits.wav",
-        "assets/OST/credits_intro.wav",
-        "assets/OST/battle.wav",
-        "assets/OST/lokahbanger.wav"
+        "chapters/chapter2.py"
     ]
     
     downloadUrls = {
-        "chapters/chapter1.py": "",
-        "chapters/chapter2.py": "",
-        "chapters/chapter3.py": "",
-        "chapters/chapter4.py": "",
-        "assets/OST/credits.wav": "https://github.com/LocalVarBright/AASHISHKAM-OST/raw/refs/heads/main/credits.wav",
-        "assets/OST/credits_intro.wav": "https://github.com/LocalVarBright/AASHISHKAM-OST/raw/refs/heads/main/credits_intro.wav",
-        "assets/OST/battle.wav": "https://github.com/LocalVarBright/AASHISHKAM-OST/raw/refs/heads/main/battle.wav",
-        "assets/OST/lokahbanger.wav": "https://github.com/LocalVarBright/AASHISHKAM-OST/raw/refs/heads/main/lokahbanger.wav"
+        "chapters/chapter1.py": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter1.py",
+        "chapters/chapter2.py": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter2.py"
     }
     
     count = 1
@@ -572,8 +559,7 @@ print()
 # MOD LOADING FUNCTIONS
 
 global modArgs
-modArgs = (doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, timeControl, pgFilter)
-
+modArgs = (doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful)
 def loadMod(modPath): # AASHISHKAM/mods/TestMod/
     if os.path.exists(modPath): 
         spec = importlib.util.spec_from_file_location("mod", os.path.join(modPath, "mod.py")) # The spec of the module for the mod
@@ -586,7 +572,7 @@ def loadMod(modPath): # AASHISHKAM/mods/TestMod/
     startEngine(False)
 
 global chapterArgs
-chapterArgs = (doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, timeControl, pgFilter, saveFile, saveGame, curSaveName)
+chapterArgs = (doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful)
 def loadChapter(chapterPath): # AASHISHKAM/chapters/chapter1.py
     "chapterPath: AASHISHKAM/chapters/chapter1.py"
     if os.path.exists(chapterPath): 
@@ -807,7 +793,7 @@ def startEngine(notice=True):
         doDialogText("Quitting.#.#.#", afterdelay=3, spd=2)
         quit()
 
-#downloadStuff()
+downloadStuff()
 
 #checkChapters()
 
