@@ -1,3 +1,8 @@
+import random
+import time
+import math
+
+
 def chapter_4(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful):
     route4 = {
         "DEATHS": 0,
@@ -204,7 +209,7 @@ def chapter_4(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doT
             endMusic = False
             startTime = time.time()
 
-            playSong("OST/credits_intro.wav")
+            playSong("assets/soundtrack/videogame.ogg")
 
             texts = 0
             while not endMusic:
@@ -498,7 +503,7 @@ def chapter_4(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doT
             initTime = time.time()
 
             texts = 0
-            playSong("OST/battle.wav", looping=True)
+            playSong("assets/soundtrack/darkfight.ogg", looping=True)
             while True:
                 curTime = time.time() - initTime
 
@@ -704,7 +709,7 @@ def chapter_4(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doT
             doDialogText("ADVIL:# you wanna play deadshot?", indep=True, afterdelay=1.5)
 
             doDialogText("SIBIN:# sure, Im here anyways. What's the code?", afterdelay=1, indep=True)
-            playSong("OST/lokahbanger.wav")
+            playSong("assets/soundtrack/lokahbanger.ogg")
             startTime = time.time()
 
             doDialogText("ADVIL:# ", indep=True, line=False, afterdelay=0)
