@@ -253,9 +253,10 @@ def openFolder(path):
     else:  # Linux / others
         subprocess.Popen(["xdg-open", path])
 
-def downloadStuff():
+def downloadStuff(force=False):
 
-    os.makedirs(getFilePath("OST"), exist_ok=True)
+    os.makedirs(getFilePath("chapters"), exist_ok=True)
+    os.makedirs(getFilePath("assets/soundtrack"), exist_ok=True)
     
     downloadList = [
         "chapters/chapter1.py",
@@ -282,7 +283,7 @@ def downloadStuff():
     count = 1
     maxcount = len(downloadList)
     for item in downloadList:
-        if not checkFile(item): # Actually download the item (if its already downloaded,# then the else statement is executed).
+        if not checkFile(item) or force: # Actually download the item (if its already downloaded,# then the else statement is executed).
             print(f"Downloading ({count}/{maxcount})")
             urllib.request.urlretrieve(downloadUrls[item], getFilePath(item))
         else:
@@ -306,8 +307,14 @@ def getSound():
         except:
             print("Pygame wasn't detected. Attempting to install pygame.")
 
+            subprocess.check_call([sys.executable, "-m", "pip", "install", "pygame"])
+            import pygame
+            pygame.mixer.init()
+            soundImportSuccesful = True
+            doDialogText("Pygame was succesfully installed,# AUDIO has been enabled.")
+            
             try: # If pygame wasn't found, try to install it
-                subprocess.check_call([sys.executable, "-m", "pip", "install", "pygame", "--user"])
+                subprocess.check_call([sys.executable, "-m", "pip", "install", "pygame"])
 
                 import pygame
                 pygame.mixer.init()

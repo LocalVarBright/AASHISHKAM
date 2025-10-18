@@ -3654,6 +3654,15 @@ They look serious,# but they're actually really bored?""")
 
 
 def start(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful):
+    if soundImportSuccesful:
+        try:
+            import pygame
+            pygame.mixer.init()
+        except:
+            soundImportSuccesful = False
+            doDialogText("Pygame wasn't succesfully initialized.# Audio has been disabled.")
+            print()
+    
     doDialogText("Loading Chapter 4.#.#.#", afterdelay=3)
     print()
     chapter_4(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful)
