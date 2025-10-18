@@ -2,8 +2,17 @@ import random
 import time
 import math
 
+try:
+    import pygame
+    pygame.mixer.init()
+except:
+    soundImportSuccesful = False
+    print("Pygame wasn't succesfully initialized.# Audio has been disabled.")
+    print()
 
-def chapter_4(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful):
+
+
+def chapter_4(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, stopSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful):
     route4 = {
         "DEATHS": 0,
 
@@ -3653,16 +3662,8 @@ They look serious,# but they're actually really bored?""")
             doDialogText("There was an error in saving the game.")
 
 
-def start(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful):
-    if soundImportSuccesful:
-        try:
-            import pygame
-            pygame.mixer.init()
-        except:
-            soundImportSuccesful = False
-            doDialogText("Pygame wasn't succesfully initialized.# Audio has been disabled.")
-            print()
+def start(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, stopSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful):
     
     doDialogText("Loading Chapter 4.#.#.#", afterdelay=3)
     print()
-    chapter_4(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful)
+    chapter_4(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, stopSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful)

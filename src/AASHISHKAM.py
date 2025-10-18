@@ -295,38 +295,32 @@ def downloadStuff(force=False):
 
 soundImportSuccesful = False
 
-def getSound():
-    global soundImportSuccesful
-    importSound = getPrompt("Would you like to enable AUDIO? (will attempt to install pygame)")
-    if importSound:
-        try: # In case pygame is already present, try to access it
-            import pygame
-            pygame.mixer.init()
-            soundImportSuccesful = True
-            doDialogText("Pygame was found,# AUDIO has been enabled.")
-        except:
-            print("Pygame wasn't detected. Attempting to install pygame.")
-
+importSound = getPrompt("Would you like to enable AUDIO? (will attempt to install pygame)")
+if importSound:
+    try: # In case pygame is already present, try to access it
+        import pygame
+        pygame.mixer.init()
+        soundImportSuccesful = True
+        doDialogText("Pygame was found,# AUDIO has been enabled.")
+    except:
+        print("Pygame wasn't detected. Attempting to install pygame.")
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "pygame"])
+        import pygame
+        pygame.mixer.init()
+        soundImportSuccesful = True
+        doDialogText("Pygame was succesfully installed,# AUDIO has been enabled.")
+        
+        try: # If pygame wasn't found, try to install it
             subprocess.check_call([sys.executable, "-m", "pip", "install", "pygame"])
             import pygame
             pygame.mixer.init()
             soundImportSuccesful = True
             doDialogText("Pygame was succesfully installed,# AUDIO has been enabled.")
-            
-            try: # If pygame wasn't found, try to install it
-                subprocess.check_call([sys.executable, "-m", "pip", "install", "pygame"])
-
-                import pygame
-                pygame.mixer.init()
-                soundImportSuccesful = True
-                doDialogText("Pygame was succesfully installed,# AUDIO has been enabled.")
-            except: # If you couldn't install pygame, disable audio
-                doDialogText("Pygame failed to installed,# AUDIO has been disabled.")
-                soundImportSuccesful = False
-    else:
-        doDialogText("AUDIO has been disabled.")
-
-getSound()
+        except: # If you couldn't install pygame, disable audio
+            doDialogText("Pygame failed to installed,# AUDIO has been disabled.")
+            soundImportSuccesful = False
+else:
+    doDialogText("AUDIO has been disabled.")
 
 def playSong(name, interruptable=False, looping=False):
     songPath = getFilePath(name)
@@ -344,7 +338,9 @@ def playSong(name, interruptable=False, looping=False):
     if interruptable:
         input("Press ENTER to stop playing.")
         pygame.mixer.music.stop()
-
+        
+def stopSong():
+    pygame.mixer.music.stop()
 
 # MOD LOADING FUNCTIONS
 
@@ -578,7 +574,7 @@ print()
 # MOD LOADING FUNCTIONS
 
 global modArgs
-modArgs = (doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful)
+modArgs = (doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, stopSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful)
 def loadMod(modPath): # AASHISHKAM/mods/TestMod/
     if os.path.exists(modPath): 
         spec = importlib.util.spec_from_file_location("mod", os.path.join(modPath, "mod.py")) # The spec of the module for the mod
@@ -590,8 +586,6 @@ def loadMod(modPath): # AASHISHKAM/mods/TestMod/
             doDialogText("This mod is missing the start function.")
     startEngine(False)
 
-global chapterArgs
-chapterArgs = (doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful)
 def loadChapter(chapterPath): # AASHISHKAM/chapters/chapter1.py
     "chapterPath: AASHISHKAM/chapters/chapter1.py"
     if os.path.exists(chapterPath): 
@@ -600,7 +594,7 @@ def loadChapter(chapterPath): # AASHISHKAM/chapters/chapter1.py
         spec.loader.exec_module(chapterToLoad)
         if hasattr(chapterToLoad, "start"):
             global chapterArgs
-            chapterToLoad.start(*chapterArgs)
+            chapterToLoad.start(*modArgs)
         else:
             doDialogText("ERROR: This chapter is missing the start function.")
     
