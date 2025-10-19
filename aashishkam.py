@@ -49,11 +49,51 @@ def download():
     print("Downloading...")
     os.makedirs(getFilePath("src"), exist_ok=True)
     urllib.request.urlretrieve("https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/src/AASHISHKAM.py", getFilePath("src/AASHISHKAM.py"))
+
+def downloadStuff(force=False):
+
+    os.makedirs(getFilePath("chapters"), exist_ok=True)
+    os.makedirs(getFilePath("assets/soundtrack"), exist_ok=True)
     
+    downloadList = [
+        "chapters/chapter1.py",
+        "chapters/chapter2.py",
+        "chapters/chapter3.py",
+
+        "assets/soundtrack/darkfight.ogg",
+        "assets/soundtrack/videogame.ogg",
+        "assets/soundtrack/lokahbanger.ogg",
+        "assets/soundtrack/light_and_dark.ogg"
+    ]
+    
+    downloadUrls = {
+        "chapters/chapter1.py": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter1.py",
+        "chapters/chapter2.py": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter2.py",
+        "chapters/chapter3.py": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter3.py",
+
+        "assets/soundtrack/darkfight.ogg": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/darkfight.ogg",
+        "assets/soundtrack/videogame.ogg": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/videogame.ogg",
+        "assets/soundtrack/lokahbanger.ogg": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/lokahbanger.ogg",
+        "assets/soundtrack/light_and_dark.ogg": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/light_and_dark.ogg"
+    }
+    
+    count = 1
+    maxcount = len(downloadList)
+    for item in downloadList:
+        if not checkFile(item) or force: # Actually download the item (if its already downloaded,# then the else statement is executed).
+            print(f"Downloading ({count}/{maxcount})")
+            urllib.request.urlretrieve(downloadUrls[item], getFilePath(item))
+        else:
+            print(f"Already downloaded. ({count}/{maxcount})")
+        
+        count += 1
 
 def start():
     global offlineMode
     offlineMode = False
+
+    os.makedirs(getEngineDir(), exist_ok=True)
+
     # Get the version
     try: # Got the version.
         urllib.request.urlretrieve("https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/version.txt", getFilePath("version.txt"))
@@ -63,9 +103,12 @@ def start():
     time.sleep(0.5)
     
     if not offlineMode:
-        with open(getFilePath("version.txt"), "r") as f:
+        with open(getFilePath("version.txt"), "r") as f: # Access current version
             onlineVersion = f.read().strip()
-        if checkFile("src/AASHISHKAM.py"):
+        
+        downloadStuff(True)
+        
+        if checkFile("src/AASHISHKAM.py"): # Aashishkam was found
             aashishkam = load()
             if aashishkam.version == onlineVersion: # Latest version.
                 print("You have the latest version.")
@@ -78,9 +121,19 @@ def start():
                     aashishkam.startEngine()
                 else:
                     aashishkam.startEngine()
-        else:
+
+        else: # Aashishkam was not found
             download()
-            load()
+            aashishkam = load()
+            aashishkam.startEngine()
+    else: # Is on offline mode
+        # Check if Aashishkam is present
+        if checkFile("src/AASHISHKAM.py"):
+            aashishkam = load()
+            aashishkam.startEngine()
+        else:
+            print("AASHISHKAM is not installed and cannot be installed in offline mode. Please connect to the internet and try again.")
+            time.sleep(3)
 
 
 start()

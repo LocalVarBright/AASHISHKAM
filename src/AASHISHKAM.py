@@ -260,22 +260,24 @@ def downloadStuff(force=False):
         "chapters/chapter1.py",
         "chapters/chapter2.py",
         "chapters/chapter3.py",
-        "chapters/chapter4.py",
+        #"chapters/chapter4.py",
 
         "assets/soundtrack/darkfight.ogg",
         "assets/soundtrack/videogame.ogg",
-        "assets/soundtrack/lokahbanger.ogg"
+        "assets/soundtrack/lokahbanger.ogg",
+        "assets/soundtrack/light_and_dark.ogg"
     ]
     
     downloadUrls = {
         "chapters/chapter1.py": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter1.py",
         "chapters/chapter2.py": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter2.py",
         "chapters/chapter3.py": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter3.py",
-        "chapters/chapter4.py": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter4.py",
+        #"chapters/chapter4.py": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter4.py",
 
         "assets/soundtrack/darkfight.ogg": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/darkfight.ogg",
         "assets/soundtrack/videogame.ogg": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/videogame.ogg",
-        "assets/soundtrack/lokahbanger.ogg": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/lokahbanger.ogg"
+        "assets/soundtrack/lokahbanger.ogg": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/lokahbanger.ogg",
+        "assets/soundtrack/light_and_dark.ogg": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/light_and_dark.ogg"
     }
     
     count = 1
@@ -641,9 +643,9 @@ def startEngine(notice=True):
                 if saveFile["route3"]["COMPLETED"]: 
                     chapterChoices += ["CHAPTER 3: Him."]
                     if saveFile['route4']["COMPLETED"]: # This one is under works
-                        chapterChoices += ["CHAPTER 4: Light and Dark."]
+                        pass #chapterChoices += ["CHAPTER 4: Light and Dark."]
                     else:
-                        chapterChoices += ["CHAPTER 4: ???"]
+                        pass #chapterChoices += ["CHAPTER 4: ???"]
                 else:
                     chapterChoices += ["CHAPTER 3: ???"]
             else:
@@ -692,9 +694,9 @@ def startEngine(notice=True):
       ╟Select: ''')
             ostChoice = askChoice([1,2,3])
 
-            if ostChoice == 1: playSong("OST/credits.wav", True)
-            elif ostChoice == 2: playSong("OST/credits_intro.wav", True)
-            elif ostChoice == 3: playSong("OST/battle.wav", True)
+            if ostChoice == 1: playSong("assets/soundtrack/light_and_dark.ogg", True)
+            elif ostChoice == 2: playSong("assets/soundtrack/videogame.ogg", True)
+            elif ostChoice == 3: playSong("assets/soundtrack/darkfight.ogg", True)
             elif ostChoice == 4: startEngine(False)
 
             startEngine(False)
