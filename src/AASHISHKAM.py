@@ -15,9 +15,7 @@ try:
     timeControl = 1 / (float(timeInput))
 except:
     print("GAME SPEED SET TO 1 INSTEAD.")
-    if timeInput.strip().lower() == "ithappenstothebestofus": specialFeature = True
-    time.sleep(3)
-
+    time.sleep(1.3)
 
 # ENGINE DATA
 version = "2.0 BETA"
