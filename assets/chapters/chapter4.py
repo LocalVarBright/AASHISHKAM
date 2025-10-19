@@ -3087,551 +3087,127 @@ is your imagination.""")
 
         doCreditsSequence(soundImportSuccesful)
 
-
     else:
+        def doWaydantIntro(music=True):
+            if not music:
+                doDialogText("It's WAYDANT.")
+                print()
+                printGraphic('''
+ 
+     ▄▄
+    ████▄                                              ██▄  ▄█▄
+   ▄██ ██     ▄                            ▄     ▄▄    ████████
+  ▄██▄▄▄██   ▄██   ▄███ █ █▄ ▀█▀ ▄███ █ █▄ ██ ▄█ ███   █████▀██
+ ▄██▀▀▀▀███  ████  ██▄▄ ████  █  ██▄▄ ████ ████  ███   ██ ▀▀ ██
+ ███    ███ ██  █▄ ▄▄▄█ █ ██ ▄██ ▄▄▄█ █ ██ ██ █▄ █ ▀█ ██▀    ██
+
+
+''')
+                doDialogText("A GAME BY SIDDHARTH A.")
+                print()
+
+                doDialogText("STARRING:# ASHISH and DEVAGIRI HIGH TEAM")
+                print()
+
+                doDialogText("SPECIAL THANKS TO:# Aravind M,# for assisting with supplementary coding.")
+                print()
+
+                doDialogText("HEAVY INSPIRATIONS FROM: DELTARUNE by TOBY FOX.")
+                print()
+
+                doDialogText("AASHISHKAM.")
+                print()
+
+                doDialogText("COMING NEXT UPDATE.")
+                print()
+
+                doDialogText("To be continued.#.#.#")
+                print()
+            else:
+
+                playSong("OST/lokahbanger.wav")
+                startTime = time.time()
+
+                texts = 0
+                while True:
+                    curTime = time.time() - startTime
+
+                    if texts == 0 and 2.4 < curTime:
+                        doDialogText("It's WAYDANT.", spd=8,  step=2, indep=True, afterdelay=0)
+                        texts += 1
+
+                    if texts == 1 and 4.3 < curTime:
+                        texts += 1
+                        printGraphic('''
+ 
+     ▄▄
+    ████▄                                              ██▄  ▄█▄
+   ▄██ ██     ▄                            ▄     ▄▄    ████████
+  ▄██▄▄▄██   ▄██   ▄███ █ █▄ ▀█▀ ▄███ █ █▄ ██ ▄█ ███   █████▀██
+ ▄██▀▀▀▀███  ████  ██▄▄ ████  █  ██▄▄ ████ ████  ███   ██ ▀▀ ██
+ ███    ███ ██  █▄ ▄▄▄█ █ ██ ▄██ ▄▄▄█ █ ██ ██ █▄ █ ▀█ ██▀    ██
+
+
+''', afterdelay=0, step=25)
+                
+                    if texts == 2 and 5.8 < curTime:
+                        print()
+                        time.sleep(0.04)
+                        print("A GAME BY: Siddharth A.")
+                        texts += 1
+
+                    elif texts == 3 and 7.7 < curTime:
+                        print()
+                        time.sleep(0.04)
+                        print("STARRING: ASHISH and DEVAGIRI HIGH TEAM.")
+                        texts += 1
+
+                    elif texts == 4 and 10.4 < curTime:
+                        print()
+                        time.sleep(0.04)
+                        print("SPECIAL THANKS TO: Aravind M, for assisting with supplementary coding.")
+                        texts += 1
+
+                    elif texts == 5 and 13.0 < curTime:
+                        print()
+                        time.sleep(0.04)
+                        print("HEAVY INSPIRATIONS FROM: DELTARUNE by TOBY FOX.")
+                        texts += 1
+
+                    elif texts == 6 and 15.6 < curTime:
+                        print()
+                        time.sleep(0.04)
+                        print("AASHISHKAM.")
+                        texts += 1
+
+                    elif texts == 7 and 18.2 < curTime:
+                        print()
+                        time.sleep(0.04)
+                        print("COMING NEXT UPDATE.")
+                        texts += 1
+
+                    elif texts == 8 and 20.8 < curTime:
+                        print()
+                        time.sleep(0.04)
+                        doDialogText("The mystery continues...", indep=True)
+                        texts += 1
+
+                    elif texts == 9 and 26.6 < curTime:
+                        print()
+                        time.sleep(0.04)
+                        doDialogText("Thanks for playing.", indep=True)
+                        texts += 1
+
+                    elif curTime > 31.3: break
+
+        
         doDialogText(".#.#.#")
         doDialogText("You woke up to knocking on the door.")
         doDialogText("Someone's outside.")
         doDialogText("You look through the door's peephole.")
         doDialogText("(A tall figure.#.#.# holding a knife...)###")
         print()
-        doDialogText("It's WAYDANT.", afterdelay=1.5)
-        doDialogText("YOU:# Hey,# you're WAYDANT,# right?")
-        doDialogText("WAYDANT:# Yes,# I'm here to help you.")
-        doDialogText("YOU:# Help me?")
-        doDialogText("WAYDANT:# Let me in.")
-        doDialogText("YOU:# Not with that knife in the middle of the night.")
-        doDialogText("WAYDANT:# NO WAIT-# It's not what it looks like,# I swear!")
-        doDialogText("YOU:# Then why do you have a knife with you?")
-        doDialogText("WAYDANT:# Look-# I'll put it on the ground and walk away,# so you can have it.# The Knife's for you!")
-        doDialogText("YOU:# Why are you giving me the knife?")
-        doDialogText("WAYDANT:# It's to protect you from ADITHYA and his FANTASY gang.# Ok I will keep the knife right here so you can have it.")
-        doDialogText("Waydant rises the blade,# preparing to stab.")
-        doDialogText("His body lights up as he stabs at the ground.")
-        doDialogText("Suddenly-",afterdelay=0.3)
-        printGraphic(''' 
-█ ████████████████████████████████ █
- █ ████████████████████████████████ █
- █ ████████████████████████████████ █
- █ ████████████████████████████████ █
- █ ████████████████████████████████ █
- █ ████████████████████████████████ █
- █ ████████████████████████████████ █                 ▄▀▀▀▀▀▄
-  ▀▄▀██████████████████████████████ █              ▄▄▀▄     ▀▄▀▀▀
-▀▀ ▀▀▄▄▄▄▄▀███████████████████████ ▄█         ▄▀▀▄▀    █  ▄▄▄▀
- ▀█▄███████ ██████████████████████ █        ▄▀   ▀▄▄▀▀▀▄▀▀   ▀▄▄
-▀▄█▄▄▀▀████▀▄▀████████████████████ █        ▀▄▄▄▄▀▄▄   ▄▀▄▄ ▄▀  ▀
-▀▄▄▄▄▀▀▄▄▀▄▀█▀▄███████████████████ █      ▄▀▀▄   █  ▀▄▄█▄ ▄▀▄▀▀▀▀
-▀▄▄▄▀▀█▀▀▄▀▀▄█████████████████████ █      ▀▄  ▀▄▄▄▀▄▀   ▄▀   █
-▄▀▄▄  ███▀▄▀▄████      ███▀   ▀██ █▀        ▀█▄▄▄▄█  ▄▀ ▀▄▄     ▀
-▀▄ ▄▀▀▄▄▄▀▄▀█████      ███     ▀█ █          █    ▀▀▀▀▀▀█▄▄█▄▄▄▀▀
-▄▀▀▄▀▀▄▄▀▀ ██████▄    ▄███    ▄██ █          █                ▀▀▀
-▄█▄▀▀▄▄▄██ ███████    ▀▀█    ▄███ █          █
-   █ █████ ██████▀          ▄███▀ █          █
-   █ █████ ██████          ▄████ █▀          █▄
-   █▄▀████▄▀████▀          █████ █            █
-    █ █████ █████▀▀▀▀█▄   ▄█████ █            █
-    █ █████ ████      ▀█▄ █████▀ █            █
-▀▀▀▀▄▀ ▄▄▄▄▄█▀▀█       █▀▀█████ █▀            █
-    ▀█▄ ████   █▄     ▄█  ▀███▀ █             █▄▄▄▄▄▄
-      █ ▀██   ████▄▄▄▄███  ██▀ █▀                   ▀▀▀▀▀█▄▄▄▄▄
-▀▀▀▀▀▀ ▄██▄   ▀▀▀▀▀▀▀▀▀█▀ ▄█▀▄▀█▄                             ▀▀▀
-        ▄█▄ ▀   ▀█  █▀    ▀ ██▄  ▀▀▀▀▀▀▀▀▀▀██▄▄▄▄▄▄▄▄▄▄▄▄
-       █  ▀█▄  ▄██  █▄▄▄█▀▄▄        ▀▀▀  ▄▀             ▀▀▀▀▀▀▀▀▀
-     ▄▀     ▀▄██ ▀   █▀      ▀▀▀▀▀▀     ▄▀
-    ▄▀         ██▄▀▀▀██▀▀        ▄     ▄▀
-   ▄▀        ▄ ▀▄ ██▀ ▄▀▀▀    ▄▄      █
-  █          ▀▄ ▄▄▀▄▄▀ ▀▀█           █
- ▀      ▀▀     ▀     ▀▀▀            ▀
-''')
-        doDialogText("A Bright light flashes from the ground.")
-        doDialogText("WAYDANT: WAIT WHATS HAPPENING-", spd=2, afterdelay=0.5)
-        doDialogText("Waydant loses conciousness and is sucked into the light.")
-        doDialogText("YOU:# WHAT THE HELL JUST HAPPENED,# WAYDANT ARE YOU OKAY?!")
-        doDialogText("Waydant is sucked in by the light.")
-        doDialogText("You quickly open the door.")
-        printGraphic('''  ███  ███████████████████████████████████████████  ██████▄ █▄
-  ██  ████████████████████████████████████████████  ███████ ▀█
-  █  █████████████████████████████████████████████  ███████ █▄
-  █  █████████████████████████████████████████████  ███████  █
-     █████████████████████████████████████████████  ██████  ▄█
-     ▀████████████████████████████████████████████  ████▀  ██
- █▄   ▀███████████████████████████████████████████  ██ ▄ ▄█▀
-  █▄   ▀██████████████████████████████████████████▄▄     ▀
- ▀██     █████████████████████████████████████████▀█   ▄
-   ██   ▄█████████████████████████████████████████  ▄   █▄▄
-    ▀▄  ██████████████████████████████████████████  ▀▄   █▀
-     ▀  █████████████████ ▄▀▀██████████████████████  █    █
-        █████████████████ ███▄ ████████████████████  █
-     ▄   ████████████████ ████ ████████████████████     █▄▄
-     ██   ▀██████████████ ████ ████████████████████▄█  ███     ▄▄
-      ▀     █████████████ ████ ██████████████████████   █▀
-           █████████████ ▄▀▀██ ███████████████████▀██   █▀▄
-      ▄▄   █████████████ ███▄▄▀▀█████████████████▀ ██      ▀▀▄
-      ██   █████████████ ███████▄▄▀▀███████████▀   ██         ▀
-      ▀█    ▀███████████ █████████▀▄██████████▄    ████
-       ▀      ██████████ █████████ ████████████    ████
-              ▀█████████ ████████▀▄████████████    █▀█▄
-               ▄████████▄▀███████ ███████████▀      ▀▀███▄
-▄▄▄▄▄▄▄▄▀▀▄▄▄▄▀▀▀▀▀▀▀▀▀▀▀ ██████ ▀▀▀▀▀▀▀▀▀▀█▄▄▄▄▄▄▄▄▄▄▄▄██▄▄▄▄▄▄▄
-        █▄    ███████████ █████▀▄█████████▀     ██▀
-        ██     ▀█████████ █████ ██████████     ▄█▀
-          ▀      ████████ ████▀▄██████████     █
-               ▀▄▄▄███▄██ ██▀▀▄█████▀▀▀███▄▄▄ ▀
-                 ██▀▀████ ▄▄████████████▀
-              ▀▄▄  ▀▀▀█████████▄▄██▄▄▄▀
-                 ▀▀▀▀ ▀██▄████████▄
-               ▀▀▀      ▀▀▀▀▀▀█▄▄▄▀▀▀
-                               ▀▀         ▀
-''')
-        doDialogText("The light...# something's wrong with it.")
-        doDialogText("It's coming from the knife?")
-        doDialogText("And why is the light black?# Why is the knife black?!")
-        doDialogText("You try to pick up the knife,# but it's very heavy.")
-        doDialogText("The light fades,# but the knife is now pitch black.")
-        doDialogText("YOU:# What the hell is this knife?!")
-        doDialogText("You close and lock the door again.")
-        doDialogText("In the process,# the knife falls out of your hands.")
-        printGraphic('''          ▀████   ██   ▄█████████▀▀▀██     ▄ ██▄
-            ▀█    ███ ▄███████▀███  ██▄█  ▄▄▀██
-            ▀▄███▄███▄███████▄████ █████▀▀▀▄▀█
-              ▀██▀▀▀▀█████▀▄▀▀▀█████████▀█▀▄▀
-               ▄█  ▄█████▀▄███▄▄▀█▀▄███▄▀
-               ▄█  ██████ ███▄▄▄▀▄▀▄█▀▀██
-                █▄▀█████▀▄████ ▄▀▄▀██ ▄▀
-                ▀███████ █████ ██████▀█
-                ▀▄██████ ████ ███████▀
-                ▀▄██████ ████ ███████▄▀▄
-                █▀█████ █▄▄▄▀ ▀██████▄▀▄
-                 ▀█████ ███████▄▄▀███  █▀
-                ▀█▀████ ██████████ ███ ▄▀▄
-                  ▀█████ ███▀▄▀███ ██████▄█▀
-                  ▀▄████ ██▄▀▄▀▄██ ████▄█▀▄▀
-                  ▀▄▀███ ████▄████ ███▀█▄▀
-                 ▀█▄▀▄██ ████████ ███▀▄▀▄▀
-                    ▀▄██▄▀█▄▀███▀▄███▀▄▀
-                    ▀████ █▄▀██ █▀█▀ ▀
-                     ████ █▄█▀▄▀▄▀▄█▀
-                    ▀▄███ ██▀ ▄▀ ▀▀
-                     ▄███ █▀▄▀▄
-                    ▀▄███▄▄██▀▄
-                     ▄▀█▀███   ▀▄
-▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄    ▄▀   ▀▄▀▄ ▄
-               ▀▀▀▀▀ ▀ ▀ ▀ ▀ ▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-
-                      ▄ ▄ ▄ ▄     ▄ ▄
-            ▄▀▄     ▄▀▄█▄██▀▄▀▄    ▀██▄
-           ▀██▄      ▀▄▀█▀█▀▄▀       ▀
-             █▄▀▄
-                 ▀''')
-        doDialogText(".#.#.### This time the light engulfs you,# and you fall into the light.")
-        doDialogText("(Damn it... i'm losing conciousness...)")
-        print()
-        doDialogText("...")
-        doDialogText("You wake up again.")
-        doDialogText("This time you're surrounded by a snowy deserted area.")
-        doDialogText("The sky is pitch black.")
-        doDialogText("YOU:# Where the hell am I?")
-        doDialogText("FLOWERY:# You're in a DARK WORLD.")
-        doDialogText("YOU:# Oh,# thanks for telling me.", afterdelay=3)
-        doDialogText("     did that flower j-#just talk?")
-        doDialogText(f"FLOWERY:# Hello,# {saveFile['name']}!# I'm FLOWERY!# FLOWERY the FLOWER.")
-        doDialogText("YOU:# Why are you talking like that,# and WHY DO YOU KNOW MY NAME??")
-        doDialogText("FLOWERY:# Relax,# dude,# I'm the flower vase you keep near your apartment entrance.# I've known you as long as you've been living in the apartment.")
-        doDialogText("YOU:# W-#Huh?# What do you mean?# This ISN'T my apartment-# its the middle of nowhere!")
-        doDialogText("FLOWERY:# *sigh* let me explain...")
-        print()
-        doDialogText("FLOWERY: ==")
-        doDialogText("This is a DARK world.")
-        doDialogText("I saw what you two were doing out there.# That VEDANT guy stabbed the ground.")
-        doDialogText("What does that have to do with this?# EVERYTHING.")
-        doDialogText("By stabbing the ground in the dark,# with will and power,# you create a DARK WORLD that reflects your will.")
-        doDialogText("DARK WORLDS are reflection of the real worlds-# just in the dark,# when it's so dark that normal objects begin to distort and morph into something else,# completely based on your own mind and delusion.")
-        doDialogText("With one's such tremendous will and distortion,# the EARTH provides a sort of seperate dimension for you to play out your dreams.")
-        doDialogText("Basically your dreams,# but more real and cooler.")
-        doDialogText("That's basically it.")
-        doDialogText("YOU:# That certainly was a lot to take in.")
-        doDialogText("FLOWERY:# Do you have any questions?")
-        doDialogText("YOU:# So I'm dreaming?")
-        doDialogText("FLOWERY:# ...## yeah if you wanna think like that...")
-        doDialogText("YOU:# Finally,# something that makes sense.")
-        doDialogText("FLOWERY:# Do you wanna know how to get back?")
-        doDialogText("YOU:# Sure.")
-        doDialogText("""FLOWERY:# You know where you stabbed the knife?# That creates a fountain.###
-         A fountain is what gives shape and form to a DARK world.###
-         You can recognize a Dark fountain by it's Dark presence.###
-         Seal it,# and you'll go dizzy before waking back up in your world.###
-         But remember - Dark worlds aren't fully imaginary,# so anything you do in a Dark world WILL be reflected into the light.###
-         It's like the saying - anything you do in the dark comes to light,# heh.""")
-        doDialogText("YOU:# So where do I find this fountain?")
-        doDialogText("FLOWERY:# Somewhere.# But I have a vague idea where it could be,# if you're willing to follow me.")
-        doDialogText("YOU:# Okay,# lead the way.")
-        doDialogText("""FLOWERY:# Great!# This is gonna be a WONDERFUL journey!#####
-         ignore i said that it's very cringy""", afterdelay=0.4)
-        print()
-        doDialogText("You and Flowery start walking towards something in the distance.")
-        doDialogText("YOU:# Soo anything I do in the dark world gets reflected to the real world?")
-        doDialogText("FLOWERY:# Yes.# But if you're expecting a change,# you're gonna have to do something drastic.")
-        doDialogText("YOU:# So what if I were to kill you right now?")
-        doDialogText("FLOWERY:# Then your mom would be sad about her favourite flowers wilting.")
-        doDialogText("YOU:# Ohh.")
-        doDialogText("You and Flowery end up at a building shaped like a cupboard.")
-        doDialogText("YOU:# You have any idea what this building is?")
-        doDialogText("FLOWERY:# Yeah,# it's the cupboard you place your shoes in.")
-        doDialogText("YOU:# Oh.# It's bigger than us.")
-        doDialogText("FLOWERY:# Yeah...# and apparently it's also a shop.")
-        doDialogText("YOU:# What are we buying?")
-        doDialogText("FLOWERY:# Weapons.# Not every darkner we're coming across will be friendly.")
-        doDialogText("YOU:# What do you mean?# What is a darkner?")
-        doDialogText("FLOWERY:# You see,# in a dark world,# some objects that have a strong enough will turn into living creatures,# called DARKNERS.", afterdelay=0)
-        doDialogText("And not every darkner will think the same about you.# Some will want to fight you, so ofcourse you need to be prepared.")
-        doDialogText("YOU:# Oh..")
-        doDialogText("FLOWERY:# I'm gonna buy some stuff.")
-        doDialogText("YOU:# Where'd you get the money from?")
-        doDialogText("FLOWERY:# ...# you kept like 500 rupees under my vase and forgot about it.")
-        doDialogText("YOU:# OHHH That's where I kept it!")
-        doDialogText("FLOWERY:# ...you have a serious problem with forgetting money...")
-        doDialogText("Flowery buys some stuff from the shop.")
-        doDialogText("YOU:# So is that money gone forever?")
-        doDialogText("FLOWERY:# Actually since I'm on top of the cupboard we just shopped from,# it'll probably stay right where it is.")
-        doDialogText("YOU:# Oh nice.")
-        doDialogText("FLOWERY:# Better not forget it this time!# Here, take some stuff.")
-        doDialogText("YOU GOT THE VELCRO BAT.", spd=5, step=2)
-        doDialogText("YOU GOT THE LEATHER BOOTS.", spd=6, step=2)
-        player["weapon"] = "VELCRO BAT"
-        player["armor"] = "LEATHER BOOTS" # If you have the keychain, the keychain will offer higher defense. You can then give the boots to anyone in need, and your father's boots will be missing while the boots are somewhere else
-
-        if saveFile['route2']['house_roomChoice'] == "CLEANED":
-            doDialogText("Something resonates in your pants.")
-            doDialogText("YOU:# What is it?")
-            doDialogText("You take out your keychain you found!# It's now..# a locket?")
-            doDialogText("YOU GOT THE KEYCHAIN LOCKET.", spd=5, step=2)
-            doDialogText("FLOWERY:# Wow,# the dark world has shifted your keychain into a locket.# Try it on!")
-            doDialogText("You put on the locket.")
-            doDialogText("YOUR DEFENSE RAISED FROM 10 TO 12", spd=5, step=2)
-            player["defense"] = 12
-            player['armor'] = "KEYCHAIN LOCKET"
-            inventory.append("KEYCHAIN LOCKET")
-            doDialogText("YOU:# I feel tougher now!")
-            doDialogText("FLOWERY:# Well that's because your KEYCHAIN LOCKET has more defense than these boots,# and I can't really refund these so Ima hold on to them.")
-            doDialogText("YOU:# Oh...# Well that sucks")
-            doDialogText("FLOWERY:# Meh,# you never know when it is useful to have a spare boots.", afterdelay=1.4)
-            print()
-
-        doDialogText("You and Flowery arrive at what looks like a grand door.# The door is hundreds of times taller than you...")
-        doDialogText("YOU:# How do we get past this door?")
-        doDialogText("GREAT DOOR:# I am the GREAT DOOR.# Answer my question,# and I shall let you pass.")
-        doDialogText("FLOWERY:# Honestly I have no idea what it could be.# You're on your own.")
-        doDialogText("YOU:# Bruh,# ok.")
-        doDialogText("GREAT DOOR:# ANSWER NOW:")
-        doDialogText("Times of sixes and sevens stand at the second position,# the Northern lights point towards the stable first.#.#.#")
-        doDialogText("However,# in absolute chaos due the search of freedom,# does one succeed.")
-        deAnswer = doDialogChoice("The displacement of which sanctuary,# out of the three but many norths,# lies at the very peak?",
-                                  choices = ["First.", "Second.", "Third.", "Fourth."])
-        
-        if deAnswer == 3:
-            doDialogText("GREAT DOOR:# What?!# Where did you find the answer from?")
-            doDialogText("YOU:# Hmmmm...")
-            doDialogText("FLOWERY:# That's impressive,# how did you know the answer?")
-            if pgFilter:
-                doDialogText("(I have no clue,# I pulled that out of my ass.)")
-            else:
-                doDialogText("(I have no idea,# I just said it randomly.)")
-            doDialogText("GREAT DOOR:# U-#Uhh...# Very well.# The first test has been concluded.")
-            doDialogText("YOU:# The first?")
-            doDialogText("GREAT DOOR:# You must now prove your ability to fight!")
-            doDialogText("YOU:# Fight?!")
-            if pgFilter: doDialogText("FLOWERY:# Oh,# this is bullshit-", afterdelay=0)
-            print()
-        else:
-            doDialogText("GREAT DOOR:# WRONG!# You have failed to prove you get to pass through this door.")
-            doDialogText("YOU:# What kinda question was that,# was there some sort of hint?")
-            if pgFilter: doDialogText("FLOWERY:# Honestly sounded like bullshit to me.")
-            else: doDialogText("FLOWERY:# Honestly sounded like nonsense to me.")
-            doDialogText("GREAT DOOR:# You shall now prove yourself worthy to cross me by FIGHT!")
-            doDialogText("FLOWERY:# Huh?", afterdelay=0.3)
-            print()
-        
-        doDialogText("YOUR SENSES HIGHTEN IN RESPONSE TO BATTLE!", spd=5, step=2)
-        doDialogText("YOU:# WHAT'S HAPPENING?")
-        doDialogText("FLOWERY:# You're in battle now!# God-# lemme explain this quickly-")
-        doDialogText('''         You can FIGHT to attack the ENEMY.
-         You can perform ACTIONS to distract the ENEMY or do something else.
-         You-# no I can cast SPELLS to influence the ENEMY.
-         You can also use some ITEMS you collected along the way.
-         Or you could BEG FOR MERCY from the enemy if you're really hopeless.
-         GET READY!''')
-                
-        doDialogText("Two guards emerge from within the doors!")
-        guardA = {
-            "attack": 15,
-            "defense": 6,
-            "hp": 30
-        }
-        guardB = {
-            "attack": 15,
-            "defense": 6,
-            "hp": 30
-        }
-        turn = 0
-        endBattle = False
-        chosens = [False, False, False, False, False]
-        letDownDefense = False
-        firstBreakdance = True
-        breakCount = 0
-        
-        while not endBattle:
-            if player["hp"] <= 0:
-                route4["DEATHS"] += 1
-                player["hp"] = 1
-                doDialogText("Your HP was 0,# but you held on.")
-                doDialogText("HP Regenerated to 1!")
-            
-            # YOUR TURN
-            btselect = doDialogChoice("What will you do?", choices=["Fight", "Action", "Spell", "Items", "Beg For Mercy"])
-            if btselect == 1:
-                if not chosens[0]:
-                    doDialogText("FLOWERY:# We both will attack an enemy now.# Prepare to attack!")
-                    chosens[0] = True
-                enemy = doDialogChoice("Which enemy will you attack?", choices=['Guard A', 'Guard B'])
-                playingPlayers = ["You"]
-                if flowery['hp'] > 0: playingPlayers += ["Flowery"]
-                doDialogText(f"{", ".join(playingPlayers)} get ready to Attack The Guards!")
-                fightResult = doTimedAttack(3, 3, 2)
-                playingStructs = [player]
-                if flowery['hp'] > 0: playingStructs += [flowery]
-                if fightResult > 0.2:
-                    totalAtk = 0
-                    for pl in playingStructs:
-                        totalAtk += pl['attack']
-                    guardDef = [guardA, guardB][enemy-1]['defense']
-                    if letDownDefense: guardDef *= 0.6
-                    dmg = math.ceil((totalAtk)*fightResult/guardDef)
-                    [guardA, guardB][enemy-1]['hp'] -= dmg
-                    doDialogText(f"Your party deals {dmg} damage to {['GUARD A', 'GUARD B'][enemy-1]}! ({[guardA, guardB][enemy-1]['hp']}/30)")
-                else:
-                    doDialogText("Your party missed!")
-            elif btselect == 2:
-                if not chosens[1]:
-                    doDialogText("FLOWERY:# Actions are upto your judgement.# Do something you think will help this fight!")
-                    chosens[1] = True
-                
-                action = doDialogChoice("ACTIONS:", choices=["Check", "Talk.", "Breakdance...?"])
-                if action == 1:
-                    doDialogText(f"""GUARDS:
-ATTACK:# 15,
-DEFENSE:# 6,
-HP:# {guardA['hp']}/30, {guardB['hp']}/30.
-They look serious,# but they're actually really bored?""")
-                elif action == 2:
-                    if not letDownDefense:
-                        doDialogText("You try to talk to the guards.")
-                        doDialogText("They do not listen to you.")
-                    else:
-                        doDialogText("GUARDS:# Haha,# that was a funny performance.# Hadn't seen one in a while.")
-                        doDialogText("(The guards did not listen to you,# but you think you might have found something.)")
-                elif action == 3:
-                    if firstBreakdance:
-                        firstBreakdance = False
-                        
-                        doDialogText("You attempt to breakdance in order to catch the guards off guard...?")
-                        doDialogText("FLOWERY:# Hey!# what are you doing?!?!")
-                        doDialogText("YOU:# I HAVE NO IDEA WHY I'M DOING THIS!!!")
-                        doDialogText("But the guards are laughing???")
-                        doDialogText("The guards let their defense down!")
-                        letDownDefense = True
-                        continue
-                    else:
-                        
-                        if letDownDefense:
-                            doDialogText("You keep breakdancing.")
-                            breakCount += 1
-                            if breakCount > 4:
-                                doDialogText("You seem to be enjoying this...")
-                                doDialogText("FLOWERY:# are we ever gonna attack?")
-                        else:
-                            doDialogText("You try to breakdance to get the guards' attention.")
-                            doDialogText("The guards let down their defense!")
-                            letDownDefense = True
-                        continue
-            elif btselect == 3:
-                if not chosens[2]:
-                    
-                    doDialogText("FLOWERY:# I have the ability to use spells!")
-                    doDialogText("YOU:# What spell do you have?")
-                    doDialogText("FLOWERY:# Actually let me check.#.#.##")
-                    doDialogText("YOU:# ..?")
-                    
-                    if pgFilter: doDialogText("FLOWERY:# W-WHAT THE FUCK?# PHOTOSYNTHESIS?!", step=2)
-                    else: doDialogText("FLOWERY:# PHOTOSYNTHESIS?!", step=2)
-                    
-                    doDialogText("YOU:# What does uh...# Photosynthesis do in this context?")
-                    doDialogText("FLOWERY:# It's a healing spell...")
-                    doDialogText("YOU:# Isn't that useful?")
-                    doDialogText("FLOWERY:# It would be...")
-                    doDialogText("         IF IT WASNT FREAKING PHOTOSYNTHESIS!# THIS IS A WEAK SPELL.")
-                    doDialogText("YOU:# Oh,# lets try it anyways.")
-                
-                spell = doDialogChoice("SPELLS:", choices=flowery['spells'] + ["Return."])
-                curSpell = flowery["spells"][spell-1]
-                if curSpell == "PHOTOSYNTHESIS":
-                    doDialogText("Flowery channeled nearby sunlight!")
-                    player["hp"] += 1
-                    flowery["hp"] += 1
-                    if player['hp'] > getMaxHP(1): player['hp'] = getMaxHP(1)
-                    if player['hp'] > getMaxHP(4): player['hp'] = getMaxHP(4)
-                    doDialogText(f"{saveFile['name'].upper()} was HEALED. ({str(player['hp'])}/{str(getMaxHP(1))})")
-                    doDialogText(f"FLOWERY was HEALED. ({str(flowery['hp'])}/{str(getMaxHP(4))})")
-                    if not chosens[2]:
-                        chosens[2] = True
-                        doDialogText("YOU:# Well I don't think that was strong at all...")
-                    
-                elif curSpell == "Return.":
-                    chosens[2] = True
-                    continue
-            
-            elif btselect == 4:
-                if not chosens[3]:
-                    chosens[3] = True
-                    doDialogText("FLOWERY:# From here,# you can use ITEMS you have in your inventory.# Not every item can be used,# usefully.")
-                if inventory == []:
-                    doDialogText("Your inventory is empty.")
-                    continue
-                else:
-                    item = doDialogChoice("CHOOSE AN ITEM", choices=inventory + ["Return."])
-                    if item > len(inventory):
-                        continue
-                    elif inventory[item-1] == "KEYCHAIN LOCKET":
-                        doDialogText("You are already wearing the Keychain Locket.")
-                        continue
-                    else:
-                        doDialogText("HOW DO YOU HAVE AN ITEM THIS EARLY IN THE GAME.", spd=6, step=2)
-                        continue
-            elif btselect == 5:
-                if not chosens[4]:
-                    chosens[4] = True
-                    doDialogText("FLOWERY:# If the enemy feels charitable enough,# maybe they don't really want to fight so you could get spared.")
-                    doDialogText("         But you might wanna win their mercy first.")
-                if not firstBreakdance:
-                    doDialogText("GUARDS:# Kid,# we wanna spare you,# but it's our job to defeat you now!# I'm sorry.")
-                else:
-                    doDialogText("You asked the guards for mercy,# but they refused!")
-                    doDialogText("GUARDS:# It's our job to kill you.# No mercy can be spared.")
-                
-                doDialogText("It seems no mercy is possible.# You will have to defeat them.")
-            
-            # IF GUARD DIED:
-            if guardA['hp'] <= 0 or guardB['hp'] <= 0:
-                if guardA['hp'] <= 0:
-                    doDialogText("GUARD A was turned to dust.")
-                    doDialogText("You:# What just happened?")
-                    doDialogText("FLOWERY:# We defeated a guard.")
-                    doDialogText("GUARD B:# WAIT PAUSE PAUSE.###", afterdelay=0)
-                    doDialogText("         Guard A.#.#.#")
-                    doDialogText("FLOWERY:# I feel kinda bad now...")
-                    doDialogText("GUARD B:# ...### I guess you win now.# I don't really wanna die,# I'd rather get fired.")
-                    doDialogText("Guard B leaves with what's left of Guard A's dust.")
-                elif guardB['hp'] <= 0:
-                    doDialogText("GUARD B was turned to dust.")
-                    doDialogText("You:# What just happened?")
-                    doDialogText("FLOWERY:# We defeated a guard.")
-                    doDialogText("GUARD A:# WAIT STOP.###", afterdelay=0)
-                    doDialogText("         Guard B.#.#.## No.#.#.#")
-                    doDialogText("FLOWERY:# I feel kinda bad now...")
-                    doDialogText("GUARD A:# ...###### I guess you win now.# I can't fight without my buddy.")
-                    doDialogText("Guard A leaves with what's left of Guard B's dust.")
-
-                spare = doDialogChoice("Spare the remaining guard?", choices=["Spare him.", "Don't Spare him."])
-
-                route4["guard_spared"] = [True, False][spare-1]
-
-                if spare == 2:
-                    doDialogText("You channel all your energy at once...")
-                    printGraphic("insert guard struck \n")
-                    doDialogText("YOU DEALT 99999 DAMAGE TO THE REMAINING GUARD.", spd=6, step=3)
-
-                    if guardA['hp'] <= 0: doDialogText("GUARD B was turned to dust.")
-                    if guardB['hp'] <= 0: doDialogText("GUARD A was turned to dust.")
-                    route4["on_weirdRoute"] = True
-                    doDialogText("FLOWERY:# DAMN Dude I didn't know you could deal that much damage!")
-                    doDialogText("YOU:# I feel.#.#.# stronger.")
-                    player['lv'] = 2
-                    doDialogText("YOU LEVELED UP. (LV 3)", step=2, spd=6)
-                    player['attack'] += 10
-                    player['defense'] += 10
-                break
-
-                
-                
-            
-            # GUARDS ATTACK
-
-            doDialogText("THE GUARDS GET READY TO ATTACK!", spd=5, step=2)
-            attackN = random.randint(1, 3)
-            targetN = random.randint(0, 1)
-            targetName = ["YOU", "FLOWERY"][targetN]
-            targetStruct = [player, flowery][targetN]
-            guardsATK = (guardA['attack'] + guardB["attack"])*0.7
-
-            if attackN == 3:
-                if not firstBreakdance:
-                    doDialogText("The guards took inspiration from your performance and.#.#.# perform a classical dance?")
-                    doDialogText("|| SLAP! ||", spd=6, step=2)
-
-                    dmg = 1
-                    targetStruct['hp'] -= dmg
-                    doDialogText(f"The guards slapped {targetName} with beautiful coordination!")
-                    doDialogText(f"{targetName} lost {dmg} HP! ({targetStruct['hp']}/{getMaxHP(targetN)})")
-                else:
-                    attackN = random.randint(1, 2)
-            if attackN == 1:
-                doDialogText("The guards launch a unison attack with their spears!")
-                fResult = doTimedAttack(3, 1, 2)
-                if 0.9 <= fResult <= 1:
-                    doDialogText("The Guards missed their attack!")
-                else:
-                    dmg = getDamageDealt(guardsATK, targetStruct, fResult)
-                    targetStruct['hp'] -= dmg
-
-                    doDialogText(f"The guards struck {targetName}!")
-                    doDialogText(f"{targetName} lost {dmg} HP! ({targetStruct['hp']}/{getMaxHP(targetN)})")
-            elif attackN == 2:
-                doDialogText("The guards pull out GUNS?!# GET READY TO DODGE THE GUNFIRE!")
-                fResult = doTimedSpam(30)
-                if 0.7 <= fResult <= 1:
-                    doDialogText("Somehow,# you dodged the bullets.")
-                else:
-                    dmg = getDamageDealt(guardsATK, targetStruct, fResult)
-                    targetStruct['hp'] -= dmg
-                    doDialogText(f"{targetName} got caught in the gunfire!")
-                    doDialogText(f"{targetName} lost {dmg} HP! ({targetStruct['hp']}/{getMaxHP(targetN)})")
-            
-            turn += 1
-            letDownDefense = False
-
-        if not route4['guard_spared']:
-            doDialogText("FLOWERY:# That's because you just REALLY killed two guards.# The more you fight,# the stronger you get.")
-            doDialogText("YOU:# Huh.#.#.# like,# I can get really strong?")
-            doDialogText("FLOWERY:# Yeah,# but only if you work hard on it.")
-            doDialogText("YOU:# Interesting.#.#.#")
-            doDialogText("FLOWERY:# anyways you just OBLITERATED THAT TOUGH GUARD!# HE WAS ALL ARMORED UP AND STUFF?# WHAT'S UP WITH THAT?")
-            doDialogText("YOU:# I don't know.#.#.# I just hit him with all I had.")
-            print(end='     ')
-            doDialogText("I wanna do it again.")
-            doDialogText(f"FLOWERY:# You certainly have a lot of potential,# {saveFile['name']}.")
-            print(end='         ')
-            doDialogText("Just remember,# with great power comes great responsibility.")
-            doDialogText("(.#.#.#)")
-            
-        
-        print()
-        money += 20
-        doDialogText(f"YOU WON!# You now have {money} DARK DOLLARS!")
-        doDialogText("FLOWERY:# Well, let's continue through the door.")
-        doDialogText("YOU:# Okay.#.#.#")
-        doDialogText("FLOWERY:# Hey door,# not so confident now,# huh?")
-        doDialogText(".#.#.#", afterdelay = 3)
-        doDialogText("It's silent.")
+        doWaydantIntro(soundImportSuccesful)
 
     # THE SAVE SHENANIGANS
     if saveFile['route4']['COMPLETED'] == True:

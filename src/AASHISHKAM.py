@@ -260,7 +260,7 @@ def downloadStuff(force=False):
         "chapters/chapter1.py",
         "chapters/chapter2.py",
         "chapters/chapter3.py",
-        #"chapters/chapter4.py",
+        "chapters/chapter4.py",
 
         "assets/soundtrack/darkfight.ogg",
         "assets/soundtrack/videogame.ogg",
@@ -272,7 +272,7 @@ def downloadStuff(force=False):
         "chapters/chapter1.py": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter1.py",
         "chapters/chapter2.py": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter2.py",
         "chapters/chapter3.py": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter3.py",
-        #"chapters/chapter4.py": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter4.py",
+        "chapters/chapter4.py": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter4.py",
 
         "assets/soundtrack/darkfight.ogg": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/darkfight.ogg",
         "assets/soundtrack/videogame.ogg": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/videogame.ogg",
@@ -620,9 +620,10 @@ def startEngine(notice=True):
  ╟(2) Soundtrack                                ╠═══════════════════════╣
  ╟(3) Achievements                              ║   ╡MENU BY ARAVIND╞   ║
  ╟(4) About                                     ╠═══════════════════════╣
- ╟(5) Mods                                                              ║
- ╟(6) Settings                                                          ║
- ╟(7) Quit                                                              ║
+ ╟(5) LEGACY SITE                                                       ║
+ ╟(6) Mods                                                              ║
+ ╟(7) Settings                                                          ║
+ ╟(8) Quit                                                              ║
 ╔╩══════════════════════════════════════════════════════════════════════╩╗
 ╚════╦════════╤══════════════════════════════════════════════════════════╝
      ╟Select: ''', afterdelay=0)
