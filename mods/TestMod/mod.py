@@ -5,7 +5,9 @@ def downloadMusic():
     os.makedirs("music", exist_ok=True) # Create the music folder in the same folder as mod.py
     # NOTE: THE ABOVE LINE RUNS DIRECTLY FROM THE MODULE'S LOCATION, SO THE MUSIC FOLDER WILL BE CREATED IN THE SAME FOLDER AS mod.py
 
+    print("Downloading 'theme_1.ogg...")
     urllib.request.urlretrieve("https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/mods/TestMod/music/theme_1.ogg", "music/theme_1.ogg")
+    print()
 
 def start(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, stopSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful):
     if soundImportSuccesful:
@@ -36,3 +38,6 @@ def start(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimed
     doDialogText("2.0 also brings the ability to create MODS,# such as one you are playing right now.")
     doDialogText("Chapters in Aashishkam take a similar approach to how modding works,# so if you want a reference,# look at the chapter modules in the AppData folder.")
     doDialogText("AASHISHKAM is stored in %AppData%/AASHISHKAM now.")
+
+    if soundImportSuccesful:
+        stopSong()
