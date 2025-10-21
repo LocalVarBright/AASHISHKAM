@@ -1,11 +1,12 @@
 import time
+import io
 import os
 import sys
 import importlib.util
 import urllib.request
 import subprocess
 import json
-
+import zipfile
 
 # GAME SPEED
 specialFeature = False 
@@ -18,7 +19,7 @@ except:
     time.sleep(1.3)
 
 # ENGINE DATA
-version = "2.0 BETA"
+version = "2.0 BETA-1"
 
 
 # BASE GAME FUNCTIONS
@@ -298,27 +299,46 @@ soundImportSuccesful = False
 importSound = getPrompt("Would you like to enable AUDIO? (will attempt to install pygame)")
 if importSound:
     try: # In case pygame is already present, try to access it
+        lib_path = os.path.join(getEngineDir(), "lib")
+        if lib_path not in sys.path:
+            sys.path.insert(0, lib_path)
+        
         import pygame
         pygame.mixer.init()
         soundImportSuccesful = True
         doDialogText("Pygame was found,# AUDIO has been enabled.")
     except:
-        print("Pygame wasn't detected. Attempting to install pygame.")
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "pygame"])
-        import pygame
-        pygame.mixer.init()
-        soundImportSuccesful = True
-        doDialogText("Pygame was succesfully installed,# AUDIO has been enabled.")
-        
-        try: # If pygame wasn't found, try to install it
+        print("Pygame wasn't detected.")
+        installPygame = getPrompt("Try to install pygame?")
+
+        if installPygame:
+            """
             subprocess.check_call([sys.executable, "-m", "pip", "install", "pygame"])
             import pygame
             pygame.mixer.init()
             soundImportSuccesful = True
             doDialogText("Pygame was succesfully installed,# AUDIO has been enabled.")
-        except: # If you couldn't install pygame, disable audio
-            doDialogText("Pygame failed to installed,# AUDIO has been disabled.")
-            soundImportSuccesful = False
+
+            try: # If pygame wasn't found, try to install it
+                subprocess.check_call([sys.executable, "-m", "pip", "install", "pygame"])
+                import pygame
+                pygame.mixer.init()
+                soundImportSuccesful = True
+                doDialogText("Pygame was succesfully installed,# AUDIO has been enabled.")
+            except: # If you couldn't install pygame, disable audio
+                doDialogText("Pygame failed to installed,# AUDIO has been disabled.")
+                soundImportSuccesful = False
+        else:
+            doDialogText("AUDIO has been disabled.")
+            """
+
+
+            zipf = urllib.request.urlopen("https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/zips/pygame.zip")
+            zipd = io.BytesIO(zipf.read())
+            
+            with zipfile.ZipFile(zipd) as zip_ref:
+                zip_ref.extractall(getFilePath("lib", makeSure=True))
+
 else:
     doDialogText("AUDIO has been disabled.")
 
