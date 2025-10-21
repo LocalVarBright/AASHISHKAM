@@ -19,9 +19,12 @@ except:
     time.sleep(1.3)
 
 # ENGINE DATA
-version = "2.0 BETA-3"
+global version
+version = "2.0 BETA-4"
 
-
+def getVersion():
+    global version
+    return version
 # BASE GAME FUNCTIONS
 def doDialogText(text, spd = 4, afterdelay = 0.7, step = 1, line = True, indep = False):# PRINTS TEXT LETTER BY LETTER
     
@@ -634,7 +637,7 @@ def startEngine(notice=True):
 '''
 ╔═════════════════════════════╦════════════╦═════════════════════════════╗
 ╚╦════════════════════════════╣╡AASHISHKAM╞╠════════════════════════════╦╝   
- ║                            ╚════════════╝                            ║
+ ║                            ╚════════════╝      v2.0 BETA-4           ║
  ╟ A "Bomboclat" Dating Adventure                                       ║
  ║                         - By Siddharth A                             ║
  ╟(1) Play!                                                             ║
@@ -833,5 +836,3 @@ def startEngine(notice=True):
 downloadStuff()
 
 #checkChapters()
-
-startEngine()

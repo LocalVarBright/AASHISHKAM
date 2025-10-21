@@ -42,7 +42,7 @@ def load():
     spec = importlib.util.spec_from_file_location("AASHISHKAM", getFilePath("src/AASHISHKAM.py"))
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    
+
     return module
 
 def download():
@@ -101,26 +101,36 @@ def start():
         
         if checkFile("src/AASHISHKAM.py"): # Aashishkam was found
             aashishkam = load()
-            if aashishkam.version == onlineVersion: # Latest version.
+
+            if hasattr(aashishkam, "version"): print(True)
+            else:print(False)
+            if aashishkam.getVersion() == onlineVersion: # Latest version.
                 print("You have the latest version.")
+                print("CODE 1")
                 aashishkam.startEngine()
             else: # Update available.
                 ad = input("An update is available. Do you want to download it now? (y/n): ").strip().lower()
                 if ad.lower() in "yes":
                     download()
                     aashishkam = load()
+                    print("CODE 2")
                     aashishkam.startEngine()
+                    
                 else:
+                    print("CODE 3")
                     aashishkam.startEngine()
+                    
 
         else: # Aashishkam was not found
             download()
             aashishkam = load()
+            print("CODE 4")
             aashishkam.startEngine()
     else: # Is on offline mode
         # Check if Aashishkam is present
         if checkFile("src/AASHISHKAM.py"):
             aashishkam = load()
+            print("CODE 5")
             aashishkam.startEngine()
         else:
             print("AASHISHKAM is not installed and cannot be installed in offline mode. Please connect to the internet and try again.")
