@@ -19,7 +19,7 @@ except:
     time.sleep(1.3)
 
 # ENGINE DATA
-version = "2.0 BETA-2"
+version = "2.0 BETA-3"
 
 
 # BASE GAME FUNCTIONS
@@ -371,6 +371,8 @@ listOfMods = []
 listOfModFolders = []
 
 def checkMods():
+    global listOfModFolders
+    listOfModFolders = []
     # Ensure the mods folder exists
     modsPath = os.path.join(getEngineDir(), "mods")
     os.makedirs(modsPath, exist_ok=True)
@@ -384,7 +386,7 @@ def checkMods():
             modPath = os.path.join(modFolder, "mod.py") # AppData/AASHISHKAM/mods/modName/mod.py
             if os.path.exists(modPath):
 
-                global listOfModFolders
+                
                 listOfModFolders.append((modFolder)) # Adds the Folder Path of the Mod at the same time
 
                 #print(f"Mod found at {os.path.basename(modFolder)}")
@@ -753,7 +755,7 @@ def startEngine(notice=True):
             
             guiTexty = ""
 
-            returnListOfModFolders = listOfModFolders + ["Return"]
+            returnListOfModFolders = listOfModFolders.copy() + ["Return"]
             for i in range(len(returnListOfModFolders)):
                 modname = os.path.basename(returnListOfModFolders[i]) # ModName
 
@@ -772,7 +774,10 @@ def startEngine(notice=True):
             getModIndex = askChoice(returnListOfModFolders) - 1
             print()
 
-            loadMod(listOfModFolders[getModIndex])
+            if getModIndex < len(listOfModFolders):
+                loadMod(listOfModFolders[getModIndex])
+            
+            startEngine(False)
     elif menuChoice == 6: # SETTINGS
         """
 ╔════╩════════╧════════════════════════╗
