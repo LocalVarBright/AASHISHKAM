@@ -19,7 +19,7 @@ except:
     time.sleep(1.3)
 
 # ENGINE DATA
-version = "2.0 BETA-1"
+version = "2.0 BETA-2"
 
 
 # BASE GAME FUNCTIONS
@@ -558,7 +558,6 @@ def loadGame(saveName):
             doDialogText("The save was not loaded.# Quitting.#.#.#")
             quit()
     else: # CREATE NEW SAVE FILE
-        doDialogText(f"This save file ({saveName}.json) does not exist. Would you like to create a new one? (Y/N): ", line=False)
         createSave = getPrompt(f"This save file ({saveName}.json) does not exist. Would you like to create a new one?")
         if createSave:
             saveGame(saveName, saveFile)
@@ -640,10 +639,9 @@ def startEngine(notice=True):
  ╟(2) Soundtrack                                ╠═══════════════════════╣
  ╟(3) Achievements                              ║   ╡MENU BY ARAVIND╞   ║
  ╟(4) About                                     ╠═══════════════════════╣
- ╟(5) LEGACY SITE                                                       ║
- ╟(6) Mods                                                              ║
- ╟(7) Settings                                                          ║
- ╟(8) Quit                                                              ║
+ ╟(5) Mods                                                              ║
+ ╟(6) Settings                                                          ║
+ ╟(7) Quit                                                              ║
 ╔╩══════════════════════════════════════════════════════════════════════╩╗
 ╚════╦════════╤══════════════════════════════════════════════════════════╝
      ╟Select: ''', afterdelay=0)
