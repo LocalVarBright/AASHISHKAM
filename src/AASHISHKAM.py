@@ -20,7 +20,7 @@ except:
 
 # ENGINE DATA
 global version
-version = "2.0 BETA-4"
+version = "2.0 BETA-5"
 
 def getVersion():
     global version
@@ -637,7 +637,7 @@ def startEngine(notice=True):
 '''
 ╔═════════════════════════════╦════════════╦═════════════════════════════╗
 ╚╦════════════════════════════╣╡AASHISHKAM╞╠════════════════════════════╦╝   
- ║                            ╚════════════╝      v2.0 BETA-4           ║
+ ║                            ╚════════════╝      v2.0 BETA-5           ║
  ╟ A "Bomboclat" Dating Adventure                                       ║
  ║                         - By Siddharth A                             ║
  ╟(1) Play!                                                             ║
