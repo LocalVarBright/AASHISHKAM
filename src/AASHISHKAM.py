@@ -10,17 +10,11 @@ import zipfile
 
 # GAME SPEED
 specialFeature = False 
-timeInput = input("ENTER THE GAME SPEED (2 = 2x speed): ")
 timeControl = 1
-try:
-    timeControl = 1 / (float(timeInput))
-except:
-    print("GAME SPEED SET TO 1 INSTEAD.")
-    time.sleep(1.3)
 
 # ENGINE DATA
 global version
-version = "2.0 BETA-5"
+version = "2.0 BETA-6"
 
 def getVersion():
     global version
@@ -627,6 +621,22 @@ def loadChapter(chapterPath): # AASHISHKAM/chapters/chapter1.py
 
 # START FUNCTION (THIS FUNCTION STARTS THE ENTIRE ENGINE)
 def startEngine(notice=True):
+
+    # GAME SPEED
+    global specialFeature
+    specialFeature = False 
+    timeInput = input("ENTER THE GAME SPEED (2 = 2x speed): ")
+    global timeControl
+    timeControl = 1
+    try:
+        timeControl = 1 / (float(timeInput))
+    except:
+        print("GAME SPEED SET TO 1 INSTEAD.")
+        time.sleep(1.3)
+
+    # ENGINE DATA
+    global version
+    
     if notice:
         doDialogChoice("NOTICE:# It is recommended to use 'IDLE Dark' Highlight theme and Font: Consolas size 14 if using Python IDLE (Windows).",
                        choices = ["I understand,# and have changed my settings",
