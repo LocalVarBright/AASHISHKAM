@@ -639,7 +639,7 @@ def startEngine(notice=True):
 '''
 ╔═════════════════════════════╦════════════╦═════════════════════════════╗
 ╚╦════════════════════════════╣╡AASHISHKAM╞╠════════════════════════════╦╝   
- ║                            ╚════════════╝      v2.0 BETA-7           ║
+ ║                            ╚════════════╝      v2.0 BETA-8           ║
  ╟ A "Bomboclat" Dating Adventure                                       ║
  ║                         - By Siddharth A                             ║
  ╟(1) Play!                                                             ║
@@ -702,6 +702,8 @@ def startEngine(notice=True):
  
         if not getChapter >= len(chapterChoices):
             loadChapter(getFilePath("chapters/chapter"+str(getChapter)+".py"))
+        
+        startEngine(False)
  
  
  
@@ -782,7 +784,7 @@ def startEngine(notice=True):
             if getModIndex < len(listOfModFolders):
                 loadMod(listOfModFolders[getModIndex])
  
-            startEngine(False)
+        startEngine(False)
     elif menuChoice == 6: # SETTINGS
         """
 ╔════╩════════╧════════════════════════╗
@@ -795,6 +797,7 @@ def startEngine(notice=True):
 ╟(1) GAME SPEED                        ║
 ╟(2) CHANGE SAVE FILE                  ║
 ╟(3) PG FILTER                         ║
+╟(4) Return                            ║
 ╚════╦════════╤════════════════════════╝
      ╟Select: ''')
  
@@ -833,6 +836,5 @@ def startEngine(notice=True):
         startEngine(False)
     elif menuChoice == 7: # QUIT
         doDialogText("Quitting.#.#.#", afterdelay=3, spd=2)
-        quit()
  
 #checkChapters()
