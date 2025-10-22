@@ -16,7 +16,7 @@ timeControl = 1
  
 # ENGINE DATA
 global version
-version = "2.0 BETA-7"
+version = "2.0 BETA-8"
  
 def getVersion():
     global version
@@ -576,15 +576,15 @@ print()
  
  
 # MOD LOADING FUNCTIONS
- 
-global modArgs
-modArgs = (doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, stopSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful)
+
 def loadMod(modPath): # AASHISHKAM/mods/TestMod/
     if os.path.exists(modPath): 
         spec = importlib.util.spec_from_file_location("mod", os.path.join(modPath, "mod.py")) # The spec of the module for the mod
         modToLoad = importlib.util.module_from_spec(spec) # The module for the mod
         spec.loader.exec_module(modToLoad)
         if hasattr(modToLoad, "start"):
+            modArgs = (doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, stopSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful)
+            
             modToLoad.start(*modArgs)
         else:
             doDialogText("This mod is missing the start function.")
@@ -597,7 +597,8 @@ def loadChapter(chapterPath): # AASHISHKAM/chapters/chapter1.py
         chapterToLoad = importlib.util.module_from_spec(spec) # The module for the mod
         spec.loader.exec_module(chapterToLoad)
         if hasattr(chapterToLoad, "start"):
-            global chapterArgs
+            modArgs = (doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, stopSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful)
+
             chapterToLoad.start(*modArgs)
         else:
             doDialogText("ERROR: This chapter is missing the start function.")
