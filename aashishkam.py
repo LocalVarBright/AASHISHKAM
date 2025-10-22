@@ -106,32 +106,27 @@ def start():
             else:print(False)
             if aashishkam.getVersion() == onlineVersion: # Latest version.
                 print("You have the latest version.")
-                print("CODE 1")
-                #aashishkam.startEngine()
+                aashishkam.startEngine()
             else: # Update available.
                 ad = input("An update is available. Do you want to download it now? (y/n): ").strip().lower()
                 if ad.lower() in "yes":
                     download()
                     aashishkam = load()
-                    print("CODE 2")
-                    #aashishkam.startEngine()
+                    aashishkam.startEngine()
                     
                 else:
-                    print("CODE 3")
-                    #aashishkam.startEngine()
+                    aashishkam.startEngine()
                     
 
         else: # Aashishkam was not found
             download()
             aashishkam = load()
-            print("CODE 4")
-            #aashishkam.startEngine()
+            aashishkam.startEngine()
     else: # Is on offline mode
         # Check if Aashishkam is present
         if checkFile("src/AASHISHKAM.py"):
             aashishkam = load()
-            print("CODE 5")
-            #aashishkam.startEngine()
+            aashishkam.startEngine()
         else:
             print("AASHISHKAM is not installed and cannot be installed in offline mode. Please connect to the internet and try again.")
             time.sleep(3)
