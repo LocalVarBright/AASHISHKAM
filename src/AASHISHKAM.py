@@ -16,7 +16,7 @@ timeControl = 1
  
 # ENGINE DATA
 global version
-version = "2.0 BETA-8"
+version = "2.0 BETA-9"
  
 def getVersion():
     global version
@@ -306,6 +306,7 @@ def getSoundes():
  
             import pygame
             pygame.mixer.init()
+            global soundImportSuccesful
             soundImportSuccesful = True
             doDialogText("Pygame was found,# AUDIO has been enabled.")
         except:
@@ -639,7 +640,7 @@ def startEngine(notice=True):
 '''
 ╔═════════════════════════════╦════════════╦═════════════════════════════╗
 ╚╦════════════════════════════╣╡AASHISHKAM╞╠════════════════════════════╦╝   
- ║                            ╚════════════╝      v2.0 BETA-8           ║
+ ║                            ╚════════════╝      v2.0 BETA-9           ║
  ╟ A "Bomboclat" Dating Adventure                                       ║
  ║                         - By Siddharth A                             ║
  ╟(1) Play!                                                             ║
