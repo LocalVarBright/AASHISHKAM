@@ -303,7 +303,8 @@ def getSoundes():
             lib_path = os.path.join(getEngineDir(), "lib")
             if lib_path not in sys.path:
                 sys.path.insert(0, lib_path)
- 
+
+            global pygame
             import pygame
             pygame.mixer.init()
             global soundImportSuccesful
