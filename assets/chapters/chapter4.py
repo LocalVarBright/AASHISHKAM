@@ -40,8 +40,6 @@ def chapter_4(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doT
     doDialogText("CHAPTER 4:##  Light and Dark..", spd = 25, step = 3)
     print()
 
-    print(saveFile)
-
     nameChoice = saveFile['route1']['name_choice']
 
 
