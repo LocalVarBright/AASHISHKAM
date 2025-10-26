@@ -7,6 +7,7 @@ import urllib.request
 import subprocess
 import json
 import zipfile
+import traceback
  
 # GAME SPEED
 global timeControl
@@ -16,7 +17,7 @@ timeControl = 1
  
 # ENGINE DATA
 global version
-version = "2.0 BETA-9"
+version = "2.0 BETA-10"
  
 def getVersion():
     global version
@@ -641,7 +642,7 @@ def startEngine(notice=True):
 '''
 ╔═════════════════════════════╦════════════╦═════════════════════════════╗
 ╚╦════════════════════════════╣╡AASHISHKAM╞╠════════════════════════════╦╝   
- ║                            ╚════════════╝      v2.0 BETA-9           ║
+ ║                            ╚════════════╝      v2.0 BETA-10          ║
  ╟ A "Bomboclat" Dating Adventure                                       ║
  ║                         - By Siddharth A                             ║
  ╟(1) Play!                                                             ║
@@ -670,10 +671,10 @@ def startEngine(notice=True):
                 chapterChoices += ["CHAPTER 2: Booze and Bruises."]
                 if saveFile["route3"]["COMPLETED"]: 
                     chapterChoices += ["CHAPTER 3: Him."]
-                    if saveFile['route4']["COMPLETED"]: # This one is under works
-                        pass #chapterChoices += ["CHAPTER 4: Light and Dark."]
+                    if saveFile['route4']["COMPLETED"]:
+                        chapterChoices += ["CHAPTER 4: Light and Dark."]
                     else:
-                        pass #chapterChoices += ["CHAPTER 4: ???"]
+                        chapterChoices += ["CHAPTER 4: ???"]
                 else:
                     chapterChoices += ["CHAPTER 3: ???"]
             else:
@@ -784,7 +785,12 @@ def startEngine(notice=True):
             print()
  
             if getModIndex < len(listOfModFolders):
-                loadMod(listOfModFolders[getModIndex])
+                try:
+                    loadMod(listOfModFolders[getModIndex])
+                except Exception as e:
+                    doDialogText("An ERROR was encountered in the mod:")
+                    print()
+                    printGraphic(traceback.format_exc())
  
         startEngine(False)
     elif menuChoice == 6: # SETTINGS
