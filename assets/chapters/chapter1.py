@@ -1,4 +1,26 @@
-def chapter_1(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, stopSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful):
+def chapter_1(funcs):
+
+    # SETTING UP ALL THE FUNCTIONS
+    # just copy these every time you make a mod    
+    doDialogText = funcs['doDialogText']
+    doDialogSlow = funcs['doDialogSlow']
+    askChoice = funcs['askChoice']
+    askNum = funcs['askNum']
+    doDialogChoice = funcs['doDialogChoice']
+    doTimedQuestion = funcs['doTimedQuestion']
+    doTimedAttack = funcs['doTimedAttack']
+    doTimedSpam = funcs['doTimedSpam']
+    printGraphic = funcs['printGraphic']
+    getPrompt = funcs['getPrompt']
+    playSong = funcs['playSong']
+    stopSong = funcs['stopSong']
+    timeControl = funcs['timeControl']
+    pgFilter = funcs['pgFilter']
+    saveFile = funcs['saveFile']
+    saveGame = funcs['saveGame']
+    curSaveName = funcs['curSaveName']
+    soundImportSuccesful = funcs['soundImportSuccesful']
+
     
     aahanNameList = ["aahan", "ahan", "ahaan", "aahaan"]
     
@@ -335,10 +357,12 @@ def chapter_1(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doT
  
     
 
-def start(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, stopSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful):
+def start(funcs):
+
+    doDialogText = funcs['doDialogText']
 
     doDialogText("Loading Chapter 1.#.#.#", afterdelay=3)
     print()
 
-    chapter_1(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, stopSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful)
+    chapter_1(funcs)
     

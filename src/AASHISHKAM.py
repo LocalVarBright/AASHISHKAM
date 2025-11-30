@@ -17,7 +17,7 @@ timeControl = 1
  
 # ENGINE DATA
 global version
-version = "2.0 BETA-10"
+version = "2.0 BETA-11"
  
 def getVersion():
     global version
@@ -586,9 +586,26 @@ def loadMod(modPath): # AASHISHKAM/mods/TestMod/
         modToLoad = importlib.util.module_from_spec(spec) # The module for the mod
         spec.loader.exec_module(modToLoad)
         if hasattr(modToLoad, "start"):
-            modArgs = (doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, stopSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful)
+            modArgs = {'doDialogText':doDialogText, 
+                       'doDialogSlow':doDialogSlow, 
+                       'askChoice':askChoice,
+                       'askNum':askNum, 
+                       'doDialogChoice':doDialogChoice, 
+                       'doTimedQuestion':doTimedQuestion, 
+                       'doTimedAttack':doTimedAttack, 
+                       'doTimedSpam':doTimedSpam, 
+                       'printGraphic':printGraphic, 
+                       'getPrompt':getPrompt, 
+                       'playSong':playSong, 
+                       'stopSong':stopSong, 
+                       'timeControl':timeControl, 
+                       'pgFilter':pgFilter, 
+                       'saveFile':saveFile, 
+                       'saveGame':saveGame, 
+                       'curSaveName':curSaveName, 
+                       'soundImportSuccesful':soundImportSuccesful}
             
-            modToLoad.start(*modArgs)
+            modToLoad.start(modArgs)
         else:
             doDialogText("This mod is missing the start function.")
     startEngine(False)
@@ -600,9 +617,26 @@ def loadChapter(chapterPath): # AASHISHKAM/chapters/chapter1.py
         chapterToLoad = importlib.util.module_from_spec(spec) # The module for the mod
         spec.loader.exec_module(chapterToLoad)
         if hasattr(chapterToLoad, "start"):
-            modArgs = (doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, stopSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful)
+            modArgs = {'doDialogText':doDialogText, 
+                       'doDialogSlow':doDialogSlow, 
+                       'askChoice':askChoice,
+                       'askNum':askNum, 
+                       'doDialogChoice':doDialogChoice, 
+                       'doTimedQuestion':doTimedQuestion, 
+                       'doTimedAttack':doTimedAttack, 
+                       'doTimedSpam':doTimedSpam, 
+                       'printGraphic':printGraphic, 
+                       'getPrompt':getPrompt, 
+                       'playSong':playSong, 
+                       'stopSong':stopSong, 
+                       'timeControl':timeControl, 
+                       'pgFilter':pgFilter, 
+                       'saveFile':saveFile, 
+                       'saveGame':saveGame, 
+                       'curSaveName':curSaveName, 
+                       'soundImportSuccesful':soundImportSuccesful}
 
-            chapterToLoad.start(*modArgs)
+            chapterToLoad.start(modArgs)
         else:
             doDialogText("ERROR: This chapter is missing the start function.")
  

@@ -12,7 +12,27 @@ except:
 
 
 
-def chapter_4(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, stopSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful):
+def chapter_4(funcs):
+    doDialogText = funcs['doDialogText']
+    doDialogSlow = funcs['doDialogSlow']
+    askChoice = funcs['askChoice']
+    askNum = funcs['askNum']
+    doDialogChoice = funcs['doDialogChoice']
+    doTimedQuestion = funcs['doTimedQuestion']
+    doTimedAttack = funcs['doTimedAttack']
+    doTimedSpam = funcs['doTimedSpam']
+    printGraphic = funcs['printGraphic']
+    getPrompt = funcs['getPrompt']
+    playSong = funcs['playSong']
+    stopSong = funcs['stopSong']
+    timeControl = funcs['timeControl']
+    pgFilter = funcs['pgFilter']
+    saveFile = funcs['saveFile']
+    saveGame = funcs['saveGame']
+    curSaveName = funcs['curSaveName']
+    soundImportSuccesful = funcs['soundImportSuccesful']
+
+
     route4 = {
         "startIndex": 0,
         "DEATHS": 0,
@@ -3753,8 +3773,8 @@ is your imagination.""")
                 doDialogText("There was an error in saving the game.")
 
 
-def start(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, stopSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful):
+def start(funcs):
     
-    doDialogText("Loading Chapter 4.#.#.#", afterdelay=3)
+    funcs['doDialogText']("Loading Chapter 4.#.#.#", afterdelay=3)
     print()
-    chapter_4(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, stopSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful)
+    chapter_4(funcs)
