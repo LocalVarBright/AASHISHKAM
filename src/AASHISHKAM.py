@@ -8,6 +8,7 @@ import subprocess
 import json
 import zipfile
 import traceback
+import copy
  
 # GAME SPEED
 global timeControl
@@ -17,7 +18,7 @@ timeControl = 1
  
 # ENGINE DATA
 global version
-version = "2.0 BETA-11"
+version = "2.0 BETA-12"
  
 def getVersion():
     global version
@@ -508,7 +509,7 @@ def loadGame(saveName):
                 # If achievements doesn't exist, add them manually
                 try:
                     if dumpFile['achievements']:
-                        pass 
+                        pass
                 except:
                     dumpFile['achievements'] = []
                     doDialogText("Field 'achievements' wasn't detected on this save file,# so achievements has been added manually.", spd=2)
@@ -537,22 +538,138 @@ def loadGame(saveName):
  
                         return dumpFile
                     else:
-                        doDialogText("The save was not loaded.# Quitting.#.#.#")
-                        quit()
+                        doDialogText("The save was not loaded.")
+                        return "ERROR"
  
                 else: return dumpFile
         else:
-            doDialogText("The save was not loaded.# Quitting.#.#.#")
-            quit()
+            doDialogText("The save was not loaded.")
+            return "ERROR"
     else: # CREATE NEW SAVE FILE
         createSave = getPrompt(f"This save file ({saveName}.json) does not exist. Would you like to create a new one?")
         if createSave:
             saveGame(saveName, saveFile)
             return saveFile
         else:
-            doDialogText("The save was not created.# Quitting.#.#.#")
-            quit()
- 
+            doDialogText("The save was not created.")
+            return "ERROR"
+
+def getAchievementName(achID, saveFile):
+    # CHAPTER 1
+    if achID == "ach_spotify":
+        return saveFile['achievements'][0]['ach_spotify']
+    
+    # CHAPTER 2
+    elif achID == 'ach_study':
+        return "Cross Productive"
+    elif achID == 'ach_cake':
+        return saveFile['achievements'][1]['ach_cake']
+    elif achID == 'ach_roomClean':
+        return "Organized"
+    elif achID == 'ach_shower':
+        return saveFile['achievements'][1]['ach_shower']
+    elif achID == 'ach_badminton':
+        return "Team Player"
+    elif achID == 'ach_debayan':
+        return "Be The Bigger Man"
+
+    # CHAPTER 3
+    elif achID == 'ach_fight':
+        return saveFile['achievements'][2]['ach_fight']
+
+def evaluateSaveAchievements(oldFile):
+    saveFileNew = copy.deepcopy(oldFile)
+
+    chapter1 = {'visited': False}
+    chapter2 = {'visited': False}
+    chapter3 = {'visited': False}
+    #chapter4 = {'visited': False}
+
+    saveFileNew['achievements'] = []
+
+    # CHAPTER 1 ACHIEVEMENTS
+    if saveFileNew['route1']['COMPLETED'] == True:
+        chapter1['ach_spotify'] = "Aashishkam"
+        if saveFileNew['route1']['name_choice'] == "NORMAL": chapter1['ach_spotify'] = "Aashishkam"
+        elif saveFileNew['route1']['name_choice'] == "LUNATIC": chapter1['ach_spotify'] = "Smooth Criminal"
+        elif saveFileNew['route1']['name_choice'] == "RUDE": 
+            if saveFileNew['route1']['rude_choice'] == "APOLOGIZED":
+                chapter1['ach_spotify'] = "Ashakiran"
+            else:
+                chapter1['ach_spotify'] = "Billie Jean"
+    
+        saveFileNew['achievements'].append(chapter1)
+
+    # CHAPTER 2 ACHIEVEMENTS
+    if saveFileNew['route2']['COMPLETED'] == True:
+        chapter2['ach_study'] = False
+        if saveFileNew['route2']['house_studyChoice'] == "STUDYING": chapter2['ach_study'] = True
+
+        chapter2['ach_cake'] = 0
+        if saveFileNew['route2']['house_kitchenChoice'] == "DAD CAKE":
+            chapter2["ach_cake"] = "Dad's Special Cake..."
+        elif saveFileNew['route2']['house_kitchenChoice'] == "MOM CAKE":
+            chapter2["ach_cake"] = "Mom's Dessert"
+        elif saveFileNew['route2']['house_kitchenChoice'] == 0:
+            chapter2["ach_cake"] = "No Cake"
+
+        chapter2['ach_roomClean'] = False
+        if saveFileNew['route2']['house_roomChoice'] == "CLEANED":
+            chapter2['ach_roomClean'] = True
+
+        chapter2['ach_shower'] = False
+        if saveFileNew['route2']['house_bathChoice'] == "SHOWERED":
+            chapter2['ach_shower'] = "Showered"
+        elif saveFileNew['route2']['house_bathChoice'] == "NEAT FREAK":
+            chapter2['ach_shower'] = "Neat Freak"
+        elif saveFileNew['route2']['house_bathChoice'] == "NEAT MONSTER":
+            chapter2['ach_shower'] = "Neatness Monster"
+
+        chapter2['ach_badminton'] = False
+        if saveFileNew['route2']['badminton_advice'] == "ADVICED":
+            chapter2['ach_badminton'] = True
+
+        chapter2['ach_debayan'] = False
+        if saveFileNew['route2']['help_debayan'] == "HELPED":
+            chapter2['ach_debayan'] = True
+
+        saveFileNew['achievements'].append(chapter2)
+
+    # CHAPTER 3 ACHIEVEMENTS
+    if saveFileNew['route3']['COMPLETED'] == True:
+        chapter3['ach_fight'] = False
+
+        # 'fight_result' isn't present in previous save files, so enter a default one:
+        if not hasattr(saveFileNew['route3'], 'fight_result'):
+            saveFileNew['route3']['fight_result'] = 0
+
+        if saveFileNew['route3']['fight_result'] == 0: chapter3['ach_fight'] = "Absolute Ass"
+        if 0 < saveFileNew['route3']['fight_result'] < 6: chapter3['ach_fight'] = "Medium Attack"
+        if saveFileNew['route3']['fight_result'] == 6: chapter3['ach_fight'] = "Tajikistan level Threat"
+
+        saveFileNew['achievements'].append(chapter3)
+
+
+
+
+    
+    
+    
+    
+    #saveFileNew['achievements'].append(chapter4)
+
+
+    # CHECKING FOR NEW STUFF
+    for i in range(4):
+        if len(oldFile['achievements']) > i:
+            if saveFileNew['achievements'][i] != oldFile['achievements'][i]:
+                saveFileNew['achievements'][i]['visited'] = False
+            else:
+                saveFileNew['achievements'][i]['visited'] = True
+
+    global saveFile
+    saveFile = saveFileNew
+
 curSaveName = "aashishSave"
  
 def getSaveFile():
@@ -565,12 +682,16 @@ def getSaveFile():
  
     global saveFile
     saveFile = loadGame(curSaveName)
+
+    if saveFile == "ERROR":
+        getSaveFile()
  
  
 global pgFilter
 pgFilter = True
 def getPgFilter():
     # PG FILTER
+    global pgFilter
     pgFilter = not getPrompt("Would you like to enable the PG Filter?")
     """PG FILTER TRUE - Filter is disabled. 
     PG FILTER FALSE - Filter is enabled."""
@@ -664,6 +785,9 @@ def startEngine(notice=True):
         getSoundes()
  
         getSaveFile()
+
+        global saveFile
+        evaluateSaveAchievements(saveFile)
  
         downloadStuff()
  
@@ -676,7 +800,7 @@ def startEngine(notice=True):
 '''
 ╔═════════════════════════════╦════════════╦═════════════════════════════╗
 ╚╦════════════════════════════╣╡AASHISHKAM╞╠════════════════════════════╦╝   
- ║                            ╚════════════╝      v2.0 BETA-10          ║
+ ║                            ╚════════════╝      v2.0 BETA-12          ║
  ╟ A "Bomboclat" Dating Adventure                                       ║
  ║                         - By Siddharth A                             ║
  ╟(1) Play!                                                             ║
@@ -870,7 +994,7 @@ def startEngine(notice=True):
                 print("GAME SPEED SET TO 1 INSTEAD.")
                 time.sleep(3)
         elif settingsOption == 2:
-            pass #getSaveFile()
+            getSaveFile()
         elif settingsOption == 3:
             global pgFilter
             pgFilter = not getPrompt("Would you like to enable the PG Filter?")
