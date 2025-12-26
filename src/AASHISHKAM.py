@@ -275,19 +275,33 @@ def downloadStuff(force=False):
         "assets/soundtrack/darkfight.ogg",
         "assets/soundtrack/videogame.ogg",
         "assets/soundtrack/lokahbanger.ogg",
-        "assets/soundtrack/light_and_dark.ogg"
+        "assets/soundtrack/light_and_dark.ogg",
+        "assets/soundtrack/bach.ogg",
+        "assets/soundtrack/first_meet.ogg",
+        "assets/soundtrack/second_meet.ogg",
+        "assets/soundtrack/espada.ogg",
+        "assets/soundtrack/versus.ogg",
+        "assets/soundtrack/vs_adithya.ogg",
+        "assets/soundtrack/vs_tejas.ogg"
     ]
  
     downloadUrls = {
-        "chapters/chapter1.py": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter1.py",
-        "chapters/chapter2.py": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter2.py",
-        "chapters/chapter3.py": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter3.py",
-        "chapters/chapter4.py": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter4.py",
+        "chapters/chapter1.py":                   "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter1.py",
+        "chapters/chapter2.py":                   "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter2.py",
+        "chapters/chapter3.py":                   "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter3.py",
+        "chapters/chapter4.py":                   "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter4.py",
  
-        "assets/soundtrack/darkfight.ogg": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/darkfight.ogg",
-        "assets/soundtrack/videogame.ogg": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/videogame.ogg",
-        "assets/soundtrack/lokahbanger.ogg": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/lokahbanger.ogg",
-        "assets/soundtrack/light_and_dark.ogg": "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/light_and_dark.ogg"
+        "assets/soundtrack/darkfight.ogg":        "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/darkfight.ogg",
+        "assets/soundtrack/videogame.ogg":        "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/videogame.ogg",
+        "assets/soundtrack/lokahbanger.ogg":      "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/lokahbanger.ogg",
+        "assets/soundtrack/light_and_dark.ogg":   "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/light_and_dark.ogg",
+        "assets/soundtrack/bach.ogg":             "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/bach.ogg",
+        "assets/soundtrack/first_meet.ogg":       "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/first_meet.ogg",
+        "assets/soundtrack/second_meet.ogg":      "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/second_meet.ogg",
+        "assets/soundtrack/espada.ogg":           "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/espada.ogg",
+        "assets/soundtrack/versus.ogg":           "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/versus.ogg",
+        "assets/soundtrack/vs_adithya.ogg":       "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/vs_adithya.ogg",
+        "assets/soundtrack/vs_tejas.ogg":         "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/vs_tejas.ogg"
     }
  
     count = 1
