@@ -13,6 +13,7 @@ def chapter_3(funcs):
     getPrompt = funcs['getPrompt']
     playSong = funcs['playSong']
     stopSong = funcs['stopSong']
+    pauseSong = funcs['pauseSong']
     timeControl = funcs['timeControl']
     pgFilter = funcs['pgFilter']
     saveFile = funcs['saveFile']
@@ -102,6 +103,8 @@ def chapter_3(funcs):
     doDialogText("YOU:# What now?")
     doDialogText("ADITHYA:# I realise I haven't introduced myself yet, soo.#.#.# LISTEN UP!")
     doDialogText("(Oh brother.)")
+
+    playSong('assets/soundtrack/espada.ogg', looping=True) # THIS IS A PLACEHOLDER BECAUSE MY GUITAR SOUNDS ASS
     doDialogText("ADITHYA:# I'm#### ADITHYA.## Your WORST Enemy.")
     doDialogText("YOU:# Huh?")
     doDialogText("ADITHYA:# I KNOW what your plan is,# little dingaling.")
@@ -164,9 +167,11 @@ def chapter_3(funcs):
         doDialogText(f"Oh Hey!# Hello {saveFile['name']}!")
         doDialogText("YOU:# Oh,# EARWIND.# You're.#.#.# friends with that guy?")
         doDialogText("EARWIND:# Yeah,# he's usually chill, but I don't know what's happening-", afterdelay=0)
-        doDialogText("ADITHYA: ENOUGH!### Now continue the introduction!", afterdelay=2)
+        pauseSong()
+        doDialogText("ADITHYA: ENOUGH! Keep going gang! chop chop!", afterdelay=2)
         print("         ", end="")
         doDialogText("also you know him-", afterdelay=0)
+        pauseSong()
 
     doDialogText("A.R RAMHAN:# I'm Rahman.# Arakkal Rahman,# but for some reason you all call me A.R Rahman.")
     doDialogText("Arakkal is tearing up...?")
@@ -187,6 +192,8 @@ def chapter_3(funcs):
     doDialogText("ADITHYA: ==")
     doDialogText("I am simply the greatest alive. My full name is ADITHYA KRISHAN of class XI D of Devagiri High, a school that shall be blessed within my RIGHTEOUS presence and sense of justice that fails to no other, the one person alone that brings true glory and heritage and prestige to this prestigious prestige school, truly a GUARDIAN of GALAXIES, the HIGHEST standing winner from the Zero Reference Level, the one that just has the most POTENTIAL, the human that GODS worship, the lone soul that has no pair - but seeks an octet of beautiful spirits #(one that particularly starts with the letter 'A')#, the one consistent throughout all multiverses simply because he is too great to change, the LIGHT that shines even in the DARK, the GOATED engine that runs over any deer at sight, the one who donated the school theater to the school, the one that defines the mechanics of logic, the orbital with PURE s% CHARACTER, the one that BREAKS DOWN the DANCE and slows down TIME by adjusting his ROLEX wristwatch, the prophet that sees the future sitting cross-legged in his home theater, the one that is too grand to be theft-autoed by Rockstars, the Grandiose Harmony Of Perfection and Beauty, the engine that never runs out of gas-#-#-#", afterdelay=5)
 
+    stopSong()
+    
     doDialogText("Adithya falls to the ground.# He passed out.")
     doDialogText("Seems like he forgot to breathe through that long ass monologue.#.#.#")
     doDialogText("SAVAN:# Oops he died again")
@@ -340,6 +347,8 @@ def chapter_3(funcs):
     doDialogText("You're walking home now.")
     doDialogText("...someone's following you again.")
     doDialogText("YOU:# Who's there?")
+
+    playSong('assets/soundtrack/versus.ogg', looping=True)
     doDialogText("ADITHYA:# It's just me.")
     doDialogText("YOU:# .#.#.# are you kidding me?# Why are you following me now?")
     doDialogText("ADITHYA:# Chill,# I'm just here to get groceries with a friend.")
@@ -362,7 +371,12 @@ def chapter_3(funcs):
     doDialogText("ADITHYA:# You heard me.# But as you can see,# I'm shorter than you and don't have much muscle mass.")
     print("         ",end="")
     doDialogText("So to make things fair.#.#.#")
-    doDialogText("ADITHYA PULLS OUT BRASS KNUCKLES.", spd=8, step=2) # PG MARKER
+    pauseSong()
+
+    if pgFilter: doDialogText("ADITHYA PULLS OUT BRASS KNUCKLES.", spd=8, step=2)
+    else: doDialogText("ADITHYA PULLS OUT BOXING GLOVES.", spd=8, step=2)
+
+    pauseSong()
     doDialogText("ADITHYA:# You don't mind if I got some reinforcements,# do ya?")
     doDialogText("He's trying to fight you.#.#.?")
     doDialogText("TEJAS:# BRO!")
@@ -382,6 +396,8 @@ def chapter_3(funcs):
         doDialogText("YOU:# .#.#.#you really wanna fight me?")
         doDialogText("ADITHYA:# Yep.# Let's see what you got.")
         doDialogText("YOU:# I'll see the same thing about you.") # START FIGHT
+    
+    stopSong()
     
     doDialogText("- - - - - - - - - - - - - - -", afterdelay=0)
     doDialogText("  ADITHYA IS CHARGING AT YOU!", afterdelay=0)
@@ -412,11 +428,13 @@ def chapter_3(funcs):
         doDialogText("You caught his hand mid punch.")
         doDialogText("ADITHYA:# .#.#.#")
         doDialogText("He pulls his hands back.")
+    
+    playSong('assets/soundtrack/vs_adithya.ogg', looping=True)
     doDialogText("(Get ready for a fight!)")
     doDialogText("TUTORIAL:", afterdelay=0.3)
     doDialogText("You are entering a FIGHT scene. FIGHTING has THREE Mechanics:", spd=3)
-    doDialogText("1) Combo:# Press ENTER key as fast as you can,# but only specified number of times,# otherwise you'll be flagged as spamming and suffer an accuracy reduction of 70%.", spd=3)
-    doDialogText("2) Question:# A simple math problem will be asked, requiring a numreic answer.# Answer under a time limit, and accuracy will be granted as long as the answer is within a broad range of error.", spd=3)
+    doDialogText("1) Combo:# Press ENTER key as fast as you can following a countdown.", spd=3)
+    doDialogText("2) Question:# A simple math problem will be asked, requiring a numeric answer.# Accuracy will be granted as long as the answer is within a broad range of error.", spd=3)
     doDialogText("3) Spam:# Similar to combo,# except you spam the enter key. Be careful as you approach the end,# because at the end if it detects spamming then you suffer an accuracy reduction of 80%.", spd=3)
     doDialogSlow("Good luck. Now get ready to fight!", add = 1/1.07, spd=12)
     print()
@@ -447,7 +465,7 @@ def chapter_3(funcs):
     print()
     doDialogText("DODGE HIS RIGHT HOOK! ANSWER THE FOLLOWING QUESTION:", spd= 2, step=2, afterdelay=1)
 
-    f3 = doTimedQuestion("WHAT IS 10 + 8", 18, 5, 4)
+    f3 = doTimedQuestion("WHAT IS 10 + 8", 18, 5)
 
     if f3 == 0:
         doDialogText("|| CRASH! ||", step=2, spd=10, afterdelay=0.1)
@@ -497,7 +515,7 @@ def chapter_3(funcs):
 
     print()
     doDialogText("ADITHYA LAUNCHES TOWARDS YOU!", spd= 2, step=2, afterdelay=0.3)
-    f5 = doTimedQuestion("WHAT IS 12 + 15", 27, 8, 3)
+    f5 = doTimedQuestion("WHAT IS 12 + 15", 27, 8)
 
     aditHp -= f5
     if f5 == 0:
@@ -532,10 +550,11 @@ def chapter_3(funcs):
     else:
         doDialogText("You unleash a fury of punches on Adithya's body.# He looks like he's in a lot of pain.")
 
+    stop()
     doDialogText("TEJAS:# BRO!")
     print()
     # NOW TEJAS' TURN
-    if f6 > 0.6:
+    if f6 < 0.6:
         doDialogText("ADITHYA:# ughhh.#.#.# okay.")
     else:
         doDialogText("ADITHYA:# He has me beat.#.#.# HE HAS ME BEAT.#")
@@ -562,6 +581,8 @@ def chapter_3(funcs):
     doDialogText("|| Hit. ||", spd=5, step=2)
     doDialogText("Suddenly,# everything went black.")
     doDialogText("You feel a sharp pain in the right side of your head.")
+
+    playSong('assets/soundtrack/vs_tejas.ogg', looping=True)
     doDialogText("You open your eyes .# You're on the ground now.")
     doDialogText("(Did he do this?)")
     doDialogText("You try to stand up,# but suddenly the whole world is spinning.")
@@ -575,11 +596,13 @@ def chapter_3(funcs):
     doDialogText("BLOCK HIS ATTACK?!", spd=5, step=2, afterdelay=1.3)
     doTimedAttack(7, 1, 4)
     doDialogText("|| Crack. ||", spd=8, step=3)
-    doDialogText("Your block had no effect.# TEJAS broke your wrist.") # PG MARKER
+
+    if pgFilter: doDialogText("Your block had no effect.# TEJAS broke your wrist.")
+    else: doDialogText("Your block had no effect.")
 
     doDialogText("TEJAS IS POWERING A POWERFUL KNOCKOUT?! DO YOUR BEST TO BLOCK IT!", spd=5, step=1.5, afterdelay=2.3)
 
-    fBlock = doTimedQuestion("JW Workbook, Chapter 6, 8: A force (4i + 3j) displaces a body over displacement (3i + 4j) metre. The work done is:^ 1) 12J,# 2) 16J,# 3) 24J,# 4) 14J", 3, 0, 30)
+    fBlock = doTimedQuestion("JW Workbook, Chapter 6, 8: A force (4i + 3j) displaces a body over displacement (3i + 4j) metre. The work done is:^ 1) 12J,# 2) 16J,# 3) 24J,# 4) 14J", 3, 0)
     # PG MARKER BUT MAKE THIS QUESTION DOABLE FOR YOUNGER AUDIENCES
     if fBlock > 0:
         doDialogText("You can't block it.# Instead,# you move out of the way.")
@@ -590,6 +613,7 @@ def chapter_3(funcs):
     doDialogText("(Too...# strong...)", spd=5)
     doDialogText("As you're about to pass out,# TEJAS is squatting down to your face.")
     doDialogText("TEJAS:# Sorry bro,# I'll patch up your wounds.")
+    stopSong()
 
     print()
     doDialogText(".#.#.#", afterdelay=3)

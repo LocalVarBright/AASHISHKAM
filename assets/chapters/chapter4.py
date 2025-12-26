@@ -1294,7 +1294,7 @@ Ashish's Rival.# He looks strong,# but we can defeat him!""")
                                 "What's 5x8 + 1?",
                                 "If a man takes 4 seconds to jump after a TIMER starts,# and hits the ground when the TIMER reaches 45 seconds,# how long was the man in the air?"][ind]
 
-                    fResult = doTimedQuestion(question, 41, 5, 10)
+                    fResult = doTimedQuestion(question, 41, 5)
                     if fResult == 1:
                         doDialogText("You answered Edwin's question correctly!")
                     else:

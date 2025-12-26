@@ -41,8 +41,9 @@ def chapter_1(funcs):
  
     doDialogText(f"Your name is now {saveFile['name'].upper()}.### You're a new student at Devagiri High.",spd=5)
     doDialogText("It is your first day at this new,# prestigious school...", spd=5)
-    doDialogText("...and the kid that sits next to you is a shy kid,# named ASHISH.", spd=5, afterdelay=1.4)
- 
+    doDialogText("...and the kid that sits next to you is a shy kid,# named.#.#.#", spd=5, afterdelay=1.4)
+    
+    playSong('assets/soundtrack/first_meet.ogg', looping=True)
     doDialogText("ASHISH:# Hello,# my name is Ashish. What's your name?")
     if pgFilter: doDialogText("(He's cute...)")
     name_choice = doDialogChoice("", choices=["Answer him nicely.", "Answer him rudely.", "Say you don't know."])

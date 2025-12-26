@@ -17,8 +17,25 @@ specialFeature = False
 timeControl = 1
  
 # ENGINE DATA
+"""
+DEVLOG:
+(2.0 BETA 13 - Recoded the entire program to now work around a launcher-update system.
+               You no longer need to redownload Aashishkam every time for a new update,
+               just run the aashishkam launcher file and everything should arrange itself.
+               Also updated the first three chapters. Now they have their own songs!)
+
+1.8 - School Computer compatibility
+1.7 - Added sound support for both pygame and winsound.
+1.6 - Changed the game to use pygame for AUDIO.
+1.5 - CHAPTER 4 RELEASE, with PG Filter now and more features.
+1.4 - Fixed a bug with saving issues at the end of chapters.
+1.3 - CHAPTER 3 RELEASE.
+1.2 - CHAPTER 2 RELEASE, probable dialog bugs.
+1.1 - Fixed buggy save feature.
+1.0 - CHAPTER 1 RELEASE, save feature prototype.
+"""
 global version
-version = "2.0 BETA-12"
+version = "2.0 BETA-13"
  
 def getVersion():
     global version
@@ -114,10 +131,9 @@ def doDialogChoice(text, spd = 3, afterdelay = 0.7, step = 1, choices = ['Yes', 
  
     return choice
  
-def doTimedQuestion(text, answer, error, timer): # ASKS THE USER A QUESTION, AND DETERMINES ACCURACY BASED ON TIME TAKEN AND ANSWER GIVEN.
+def doTimedQuestion(text, answer, error): # ASKS THE USER A QUESTION, AND DETERMINES ACCURACY BASED ON TIME TAKEN AND ANSWER GIVEN.
     doDialogText(text, spd=3.6, step=3, afterdelay=0)
- 
-    curTime = time.time()
+
     inp = askNum()
  
     if error <= 0: error = 1
@@ -125,20 +141,12 @@ def doTimedQuestion(text, answer, error, timer): # ASKS THE USER A QUESTION, AND
     accuracy = 1 - abs(answer-inp/(error))
     if accuracy > 1: accuracy = 1
     elif accuracy < 0: accuracy = 0.0
- 
-    if accuracy > 1: accuracy = 1
-    elif accuracy < 0: accuracy = 0.0
- 
-    dt = time.time() - curTime - 0.75
-    if dt <= 0: dt = 0.01
-    accuracy *= 1 - (dt/timer)
-    if accuracy > 1: accuracy = 1
-    elif accuracy < 0: accuracy = 0.0
+
     return round(accuracy, 1)
  
 def doTimedAttack(countdown=3, combo=1, countspeed=1): # COUNTDOWN is how many seconds to count down. combo is how many times to hit enter.
     for count in range(countdown):
-        print("HIT ENTER KEY ONLY", combo, "TIMES IN:", countdown - count, "SECONDS.")
+        print("SPAM ENTER KEY", combo, "TIMES IN:", countdown - count, "SECONDS.")
         if count != 2:
             time.sleep(timeControl/countspeed)
         else:
@@ -150,13 +158,6 @@ def doTimedAttack(countdown=3, combo=1, countspeed=1): # COUNTDOWN is how many s
         if i in range(combo):
             input(f"HIT ENTER ONLY {str(combo)} TIMES!!! THEN WAIT 0.3 SECONDS")
             combos.append(time.time()) # TIME AT FIRST ENTER HIT, SECOND HIT, ETC.
-        else: # CHECK FOR SPAM HIT
-            input("DON'T HIT ENTER! WAIT 0.3 SECONDS")
-            combos.append(time.time())
-            if combos[i+1] - combos[i] < 0.3:
-                print("POTENTIAL SPAMMING DETECTED!!!")
-                spammed += 1
-            break
  
     times = [] # A List of the time taken between each hit
     for tm in range(combo):
@@ -218,7 +219,14 @@ def getPrompt(text, spd = 2, step=2, leanTrue = True):
         return ans in "YESYesyes"
     else:
         return not ans in "NOTNotnot"
- 
+
+
+# TIME CONTROLS
+
+def setTime(timen):
+    global timeControl
+    timeControl = timen
+
 # PATH FUNCTIONS
  
 def getEngineDir():
@@ -329,25 +337,37 @@ def getSoundes():
         doDialogText("AUDIO has been disabled.")
  
 def playSong(name, interruptable=False, looping=False):
-    songPath = getFilePath(name)
- 
-    # Load the music file
-    pygame.mixer.music.load(songPath)
- 
-    # Play the song (loop = -1 for infinite, 0 for play once)
-    if looping:
-        pygame.mixer.music.play(-1)
-    else:
-        pygame.mixer.music.play()
- 
-   # If interruptable, wait for input before stopping
-    if interruptable:
-        input("Press ENTER to stop playing.")
-        pygame.mixer.music.stop()
+    if soundImportSuccesful:
+        songPath = getFilePath(name)
+    
+        # Load the music file
+        pygame.mixer.music.load(songPath)
+    
+        # Play the song (loop = -1 for infinite, 0 for play once)
+        if looping:
+            pygame.mixer.music.play(-1)
+        else:
+            pygame.mixer.music.play()
+    
+        # If interruptable, wait for input before stopping
+        if interruptable:
+            input("Press ENTER to stop playing.")
+            pygame.mixer.music.stop()
  
 def stopSong():
-    pygame.mixer.music.stop()
- 
+    if soundImportSuccesful:
+        pygame.mixer.music.stop()
+
+def pauseSong():
+    if soundImportSuccesful:
+        if pygame.mixer.music.get_busy():
+            if pygame.mixer.music.get_paused():
+                pygame.mixer.music.unpause()
+            else:
+                pygame.mixer.music.pause()
+
+
+
 # MOD LOADING FUNCTIONS
  
 global listOfMods # LIST OF ALL THE MODS
@@ -718,8 +738,10 @@ def loadMod(modPath): # AASHISHKAM/mods/TestMod/
                        'printGraphic':printGraphic, 
                        'getPrompt':getPrompt, 
                        'playSong':playSong, 
-                       'stopSong':stopSong, 
-                       'timeControl':timeControl, 
+                       'stopSong':stopSong,
+                       'pauseSong': pauseSong,
+                       'timeControl':timeControl,
+                       'setTime': setTime,
                        'pgFilter':pgFilter, 
                        'saveFile':saveFile, 
                        'saveGame':saveGame, 
@@ -749,8 +771,10 @@ def loadChapter(chapterPath): # AASHISHKAM/chapters/chapter1.py
                        'printGraphic':printGraphic, 
                        'getPrompt':getPrompt, 
                        'playSong':playSong, 
-                       'stopSong':stopSong, 
-                       'timeControl':timeControl, 
+                       'stopSong':stopSong,
+                       'pauseSong': pauseSong,
+                       'timeControl':timeControl,
+                       'setTime': setTime,
                        'pgFilter':pgFilter, 
                        'saveFile':saveFile, 
                        'saveGame':saveGame, 
@@ -795,12 +819,12 @@ def startEngine(notice=True):
                        choices = ["I understand,# and have changed my settings",
                                   "I understand,# but don't mind visual bugs or mistakes."])
  
-   # Symbol List wowzie:»│ ┤ ╡ ╢ ╖  ╕ ╣ ║ ╗ ╝ ╜ ╛ ┐ ╞ ╟ ╚ ╔ ╩ ╦ ╠ ═ ╬ ╧ ╨ ╤ ╥ ╙ ╘ ╒ ╓ ╫ ╪ ┘ ┌ 
+   # Symbol List wowzie:»│ ┤ ╡ ╢ ╖ ╕ ╣ ║ ╗ ╝ ╜ ╛ ┐ └ ┴ ┬ ├ ─ ┼ ╞ ╟ ╚ ╔ ╩ ╦ ╠ ═ ╬ ╧ ╨ ╤ ╥ ╙ ╘ ╒ ╓ ╫ ╪ ┘ ┌ 
     printGraphic(
 '''
 ╔═════════════════════════════╦════════════╦═════════════════════════════╗
 ╚╦════════════════════════════╣╡AASHISHKAM╞╠════════════════════════════╦╝   
- ║                            ╚════════════╝      v2.0 BETA-12          ║
+ ║                            ╚════════════╝      v2.0 BETA-13          ║
  ╟ A "Bomboclat" Dating Adventure                                       ║
  ║                         - By Siddharth A                             ║
  ╟(1) Play!                                                             ║

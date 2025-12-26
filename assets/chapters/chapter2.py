@@ -12,6 +12,7 @@ def chapter_2(funcs):
     getPrompt = funcs['getPrompt']
     playSong = funcs['playSong']
     stopSong = funcs['stopSong']
+    pauseSong = funcs['pauseSong']
     timeControl = funcs['timeControl']
     pgFilter = funcs['pgFilter']
     saveFile = funcs['saveFile']
@@ -260,6 +261,7 @@ NOW TELL ME.#.#.#
 
     print()
 
+    playSong('assets/soundtrack/second_meet.ogg', looping=True)
     # BADMINTON SCENE
     if saveFile["route1"]["name_choice"] == "NORMAL": # You find AASHISH and play Badminton with him.
         doDialogText("You noticed Ashish near the stairs.")
@@ -286,10 +288,12 @@ NOW TELL ME.#.#.#
             doDialogText("YOU:# Instead,# hold it like this-", afterdelay=0.3)
             doDialogText("You hold Ashish's hand to show him how to hold the racket,# and give him tips on swinging.")
             if pgFilter:
+                pauseSong()
                 doDialogText("As you're explaining to him,# you catch him blushing.")
                 doDialogText("YOU: -#OH- oh sorry about that.#.# my bad.")
                 doDialogText("ASHISH:# No worries, i-#its fine.")
                 print("        ", end="")
+                pauseSong()
                 doDialogText("But thanks for giving me advice. Let's see how much better I can get!")
             else:
                 doDialogText("ASHISH:# Oh,# okay.# Thanks for giving me advice.# Let's see how much better I can get!")
@@ -329,12 +333,14 @@ NOW TELL ME.#.#.#
             doDialogText("ASHISH:# Yeah.#.#.#")
             doDialogText("He looks down slightly.#.#.#")
             doDialogText("YOU:# Hey,# is everything okay-", afterdelay=0.2)
+        pauseSong()
         doDialogText("\"WAAAAATTCHH OOOUUUUUUUTT!!!!!!\"", step=3, spd=6)
         doDialogText("There's a football flying towards you!# You reach your racket out in front of Ashish to maybe try and deflect it-")
         doDialogText("|| SSMACKK! ||", step=2, spd=10)
         doDialogText("The ball hit you instead.#.#.#")
         doDialogText("ASHISH:# OH-# A-ARE YOU OKAY?!")
         doDialogText("YOU:# Ugh,# yeah I'm fine.")
+        pauseSong()
         doDialogText("ASHISH:# Why did you protect me?!# The ball was coming towards you!")
         doDialogText("YOU: Sorry,# I thought it was going towards you.# I'm fine tho, no need to worry.")
         doDialogText("ASHISH:# B-#but thanks for protecting me though.#.#.#")
@@ -363,6 +369,7 @@ NOW TELL ME.#.#.#
                 doDialogText("ASHISH:# No thanks! I'm good!")
                 doDialogText("YOU:## No you aren't! Look-#", afterdelay = 0)
                 print("     ", end="")
+                pauseSong()
                 doDialogText("You're holding the racket like this,# and way too tight.# You'll never be able to move fast and use your strength.")
                 doDialogText("ASHISH:# O-#oh,# really?")
                 doDialogText("YOU:# Instead,# hold it like this-", afterdelay=0.3)
@@ -371,6 +378,7 @@ NOW TELL ME.#.#.#
                 doDialogText("YOU: -#OH- oh sorry about that.#.# my bad.")
                 doDialogText("ASHISH:# No worries, i-#its fine.")
                 print("        ", end="")
+                pauseSong()
                 doDialogText("But thanks for giving me advice. Let's see how much better I can get!")
                 doDialogText("You notice that he has gotten slightly better,# and is now able to play properly.")
                 doDialogText("He's still getting used to playing this way,# but he's getting the hang of it.")
@@ -406,12 +414,14 @@ NOW TELL ME.#.#.#
                 doDialogText("ASHISH:# Yeah.#.#.#")
                 doDialogText("He looks down slightly.#.#.#")
                 doDialogText("YOU:# Hey,# is everything okay-", afterdelay=0.2)
+            pauseSong()
             doDialogText("\"WAAAAATTCHH OOOUUUUUUUTT!!!!!!\"", step=3, spd=6)
             doDialogText("There's a football flying towards you!# You reach your racket out in front of Ashish to maybe try and deflect it-")
             doDialogText("|| SSMACKK! ||", step=2, spd=10)
             doDialogText("The ball hit you instead.#.#.#")
             doDialogText("ASHISH:# OH-# A-ARE YOU OKAY?!")
             doDialogText("YOU:# Ugh,# yeah I'm fine.")
+            pauseSong()
             doDialogText("ASHISH:# Why did you protect me?!# The ball was coming towards you!")
             doDialogText("YOU: Sorry,# I thought it was going towards you.# I'm fine tho, no need to worry.")
             doDialogText("ASHISH:# T-Thanks for protecting me though.#.#.#")
@@ -421,10 +431,12 @@ NOW TELL ME.#.#.#
             doDialogText("You look for another person to play Badminton with.")
             doDialogText("You spot ASHISH near the stairs,# but decide not to approach him.")
             doDialogText("You suddenly get a tap on your back:")
+            pauseSong()
             doDialogText("\"Hey,# you,# wanna play Badminton?\"")
             doDialogText("YOU:# Uh,# sure!")
             print("    ", end="")
             doDialogText("Uhm.#.#.# Who are you again?")
+            pauseSong()
             doDialogText("EARWIND:# I'm EARWIND!# What was your name?")
             doDialogText(f"YOU:# Oh,# I'm {saveFile['name']}.# Nice to meet you, Earwind.#.#.#")
             doDialogText("EARWIND:# Let's go over there.")
@@ -441,6 +453,7 @@ NOW TELL ME.#.#.#
             doDialogText("He is playing even more terribly now,# getting worse by the second.#.#.#")
             doDialogText("YOU:# Hey! You don't have to be hard on yourself.# Calm down")
             doDialogText("EARWIND:# Okay.#.#.#")
+            stopSong()
             doDialogText("Earwind takes a deep breath.#.#.#", afterdelay=1)
             doDialogText("His stance suddenly changes.")
             doDialogText("He's getting ready to serve in a completely different pose and confidence.")
@@ -448,8 +461,10 @@ NOW TELL ME.#.#.#
             doDialogText("YOU:# What the.#.#.#")
             doDialogText("It's still going higher.#.#.#")
             doDialogText(".#.#.# It landed on the lights of the ceiling of the PE Ground.# Now you can't reach it.")
+            playSong('assets/soundtrack/second_meet.ogg')
             doDialogText("EARWIND:# oops,# I was trying to focus.#.#.# My bad.")
             doDialogText("YOU:# Great.#.#.# Now we can't play at all.")
+            pauseSong()
             doDialogText("EARWIND:# Wait hear me out", afterdelay=0.4)
             doDialogText("Earwind is looking around for something.")
             doDialogText("YOU:# What are you gonna do?")
@@ -457,6 +472,7 @@ NOW TELL ME.#.#.#
             doDialogText("Oh,# brother.#.#.# Don't tell me-", afterdelay=0.2)
             doDialogText("Earwind has borrowed another shuttle and prepares himself.")
             doDialogText("He shoots it up into the air high again,# this time hitting the light and knocking both shuttles to the ground.")
+            pauseSong()
             doDialogText("YOU:# Okay,# not gonna lie that was cool as heck.")
             doDialogText("EARWIND:# Thanks!# I have #NO# idea how I managed to hit that again.")
             doDialogText("YOU:# Well,# I guess playing with you isn't gonna be as bad as I thought.")
@@ -517,16 +533,20 @@ NOW TELL ME.#.#.#
             doDialogText("ASHISH:# Yeah.#.#.#")
             doDialogText("He looks down slightly.#.#.#")
             doDialogText("YOU:# Hey,# is everything okay-", afterdelay=0.2)
+        pauseSong()
         doDialogText("\"WAAAAATTCHH OOOUUUUUUUTT!!!!!!\"", step=3, spd=6)
         doDialogText("There's a football flying towards you!# You reach your racket out in front to protect both of you.")
         doDialogText("|| TING! ||", step=2, spd=10)
         doDialogText("The ball hit your racket and knocks it out of your hand.")
+        pauseSong()
         doDialogText("ASHISH:# OH-# Are you alright?")
-        doDialogText("YOU:# Ugh,# yeah I'm fine.", line=False)
+        doDialogText("YOU:# Uh,# yeah I'm fine.", line=False)
         print("     ", end="")
         doDialogText("Knocked out my bat tho.")
         doDialogText("ASHISH:# Glad we're both safe.") # GO TO PE END
         print()
+    
+    stopSong()
     
     # PE END SCENE
     doDialogText("PE Class is over now.# You suspect that the only flavorful part of the day has finished.")
