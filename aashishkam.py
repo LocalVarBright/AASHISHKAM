@@ -70,9 +70,6 @@ def start():
         
         if checkFile("src/AASHISHKAM.py"): # Aashishkam was found
             aashishkam = load()
-
-            if hasattr(aashishkam, "version"): print(True)
-            else:print(False)
             if aashishkam.getVersion() == onlineVersion: # Latest version.
                 print("You have the latest version.")
                 aashishkam.startEngine()
