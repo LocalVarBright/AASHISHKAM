@@ -36,7 +36,7 @@ DEVLOG:
 1.0 - CHAPTER 1 RELEASE, save feature prototype.
 """
 global version
-version = "2.0 BETA-14"
+version = "2.0 BETA-15"
  
 def getVersion():
     global version
@@ -509,6 +509,7 @@ saveFile = {
     "route7": {
         "COMPLETED": False
     },
+    
     }
  
 def saveExists(saveName):
@@ -528,6 +529,9 @@ def loadGame(saveName):
         if confirmLoad:
             with open(os.path.join(getFilePath("saves"), f"{saveName}.json"), "r") as file:
                 dumpFile = json.load(file)
+
+                # Sometimes save.json only has the string "ERROR", which messes with the loading system.
+                if dumpFile == "ERROR": return "ERROR"
  
                 # REGENERATION OF THE SAVE FILE:
                 # If the save file has missing fields, automatically add them with default values.
@@ -718,6 +722,38 @@ def getSaveFile():
     saveFile = loadGame(curSaveName)
 
     if saveFile == "ERROR":
+        saveFile = {
+        "version": version,
+    
+        "name" : "DefulatName",
+        "achievements": {},
+    
+        "route1": {
+            "COMPLETED": False
+            },
+        "route2": {
+            "COMPLETED": False
+            },
+        "route3": {
+            "COMPLETED": False
+            },
+        "route4": {
+            "COMPLETED": False
+        },
+        "route5": {
+            "COMPLETED": False
+        },
+        "route6": {
+            "COMPLETED": False
+        },
+        "route7": {
+            "COMPLETED": False
+        }
+
+        }
+
+        saveGame(curSaveName, saveFile)
+
         getSaveFile()
  
  
@@ -923,7 +959,7 @@ def startEngine(notice=True):
                            'Soldier of Dark',
                            'Bach Cello Suite No. 1 in G Major, Prélude']
             
-            if tracks == []: tracks += "No soundtracks unlocked yet. Play the game!"
+            if tracks == []: tracks += ["No soundtracks unlocked yet. Play the game!"]
             else: tracks += ['Return']
             soundtrackText = '''
 ╔════╩════════╧═══════════════════════════════════════════════╗
