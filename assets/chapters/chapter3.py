@@ -104,7 +104,7 @@ def chapter_3(funcs):
     doDialogText("ADITHYA:# I realise I haven't introduced myself yet, soo.#.#.# LISTEN UP!")
     doDialogText("(Oh brother.)")
 
-    playSong('assets/soundtrack/espada.ogg', looping=True) # THIS IS A PLACEHOLDER BECAUSE MY GUITAR SOUNDS ASS
+    playSong('assets/soundtrack/espada.mp3', looping=True) # THIS IS A PLACEHOLDER BECAUSE MY GUITAR SOUNDS ASS
     doDialogText("ADITHYA:# I'm#### ADITHYA.## Your WORST Enemy.")
     doDialogText("YOU:# Huh?")
     doDialogText("ADITHYA:# I KNOW what your plan is,# little dingaling.")
@@ -550,7 +550,7 @@ def chapter_3(funcs):
     else:
         doDialogText("You unleash a fury of punches on Adithya's body.# He looks like he's in a lot of pain.")
 
-    stop()
+    stopSong()
     doDialogText("TEJAS:# BRO!")
     print()
     # NOW TEJAS' TURN

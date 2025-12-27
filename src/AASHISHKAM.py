@@ -19,6 +19,7 @@ timeControl = 1
 # ENGINE DATA
 """
 DEVLOG:
+(2.0 BETA 14 - Fixed some game breaking bugs, mainly because of downloading the soundtrack. Also, pausing music actually works now.)
 (2.0 BETA 13 - Recoded the entire program to now work around a launcher-update system.
                You no longer need to redownload Aashishkam every time for a new update,
                just run the aashishkam launcher file and everything should arrange itself.
@@ -35,7 +36,7 @@ DEVLOG:
 1.0 - CHAPTER 1 RELEASE, save feature prototype.
 """
 global version
-version = "2.0 BETA-13"
+version = "2.0 BETA-14"
  
 def getVersion():
     global version
@@ -276,10 +277,10 @@ def downloadStuff(force=False):
         "assets/soundtrack/videogame.ogg",
         "assets/soundtrack/lokahbanger.ogg",
         "assets/soundtrack/light_and_dark.ogg",
-        "assets/soundtrack/bach.ogg",
+        "assets/soundtrack/bach.mp3",
         "assets/soundtrack/first_meet.ogg",
         "assets/soundtrack/second_meet.ogg",
-        "assets/soundtrack/espada.ogg",
+        "assets/soundtrack/espada.mp3",
         "assets/soundtrack/versus.ogg",
         "assets/soundtrack/vs_adithya.ogg",
         "assets/soundtrack/vs_tejas.ogg"
@@ -295,10 +296,10 @@ def downloadStuff(force=False):
         "assets/soundtrack/videogame.ogg":        "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/videogame.ogg",
         "assets/soundtrack/lokahbanger.ogg":      "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/lokahbanger.ogg",
         "assets/soundtrack/light_and_dark.ogg":   "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/light_and_dark.ogg",
-        "assets/soundtrack/bach.ogg":             "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/bach.ogg",
+        "assets/soundtrack/bach.mp3":             "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/bach.mp3",
         "assets/soundtrack/first_meet.ogg":       "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/first_meet.ogg",
         "assets/soundtrack/second_meet.ogg":      "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/second_meet.ogg",
-        "assets/soundtrack/espada.ogg":           "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/espada.ogg",
+        "assets/soundtrack/espada.mp3":           "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/espada.mp3",
         "assets/soundtrack/versus.ogg":           "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/versus.ogg",
         "assets/soundtrack/vs_adithya.ogg":       "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/vs_adithya.ogg",
         "assets/soundtrack/vs_tejas.ogg":         "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/vs_tejas.ogg"
@@ -375,10 +376,9 @@ def stopSong():
 def pauseSong():
     if soundImportSuccesful:
         if pygame.mixer.music.get_busy():
-            if pygame.mixer.music.get_paused():
-                pygame.mixer.music.unpause()
-            else:
-                pygame.mixer.music.pause()
+            pygame.mixer.music.pause()
+        else:
+            pygame.mixer.music.unpause()
 
 
 
@@ -838,7 +838,7 @@ def startEngine(notice=True):
 '''
 ╔═════════════════════════════╦════════════╦═════════════════════════════╗
 ╚╦════════════════════════════╣╡AASHISHKAM╞╠════════════════════════════╦╝   
- ║                            ╚════════════╝      v2.0 BETA-13          ║
+ ║                            ╚════════════╝      v2.0 BETA-14          ║
  ╟ A "Bomboclat" Dating Adventure                                       ║
  ║                         - By Siddharth A                             ║
  ╟(1) Play!                                                             ║
@@ -908,23 +908,53 @@ def startEngine(notice=True):
  
     elif menuChoice == 2: # SOUNDTRACK
  
-        if soundImportSuccesful and saveFile['route4']["COMPLETED"]:
-            printGraphic('''\
+        if soundImportSuccesful:
+            tracks = []
+            if saveFile['route1']['COMPLETED']:
+                tracks += ['First Meet']
+            if saveFile['route2']['COMPLETED']:
+                tracks += ['Second Meet']
+            if saveFile['route3']['COMPLETED']:
+                tracks += ['Clavar La Espada', 
+                           'Versus']
+            if saveFile['route4']['COMPLETED']:
+                tracks += ['Light and Dark', 
+                           'Light and Dark (Game Ver)',
+                           'Soldier of Dark',
+                           'Bach Cello Suite No. 1 in G Major, Prélude']
+            
+            if tracks == []: tracks += "No soundtracks unlocked yet. Play the game!"
+            else: tracks += ['Return']
+            soundtrackText = '''
 ╔════╩════════╧═══════════════════════════════════════════════╗
 ║ |AASHISHKAM SOUNDTRACK|                                     ║
-║═══════════════════════════╣Composed by Siddharth A|╠════════║
-║ 1) Light and Dark.                                          ║
-║ 2) Light and Dark (Game Ver).                               ║
-║ 3) Soldier of Dark.                                         ║
-║ 4) Return.                                                  ║
+║═══════════════════════════╣Composed by Siddharth A|╠════════║'''
+            
+            for i in range(1, len(tracks)+1):
+                _trackName = tracks[i-1]
+                newLine = f"║ {i}) {_trackName}." + " "*(56-len(_trackName)) + "║"
+                soundtrackText += "\n" + newLine
+            soundtrackText += """
 ╚═════╦════════╤══════════════════════════════════════════════╝
-      ╟Select: ''')
-            ostChoice = askChoice([1,2,3])
- 
-            if ostChoice == 1: playSong("assets/soundtrack/light_and_dark.ogg", True)
-            elif ostChoice == 2: playSong("assets/soundtrack/videogame.ogg", True)
-            elif ostChoice == 3: playSong("assets/soundtrack/darkfight.ogg", True)
-            elif ostChoice == 4: startEngine(False)
+      ╟Select: """
+            printGraphic(soundtrackText)
+            ostChoice = askChoice(tracks)
+
+            track = tracks[ostChoice - 1]
+
+            musicPaths = {
+                'First Meet':                                 'assets/soundtrack/first_meet.ogg',
+                'Second Meet':                                'assets/soundtrack/second_meet.ogg',
+                'Clavar La Espada':                           'assets/soundtrack/espada.mp3',
+                'Versus':                                     'assets/soundtrack/versus_full.ogg',
+                'Light and Dark':                             'assets/soundtrack/light_and_dark.ogg',
+                'Light and Dark (Game Ver)':                  'assets/soundtrack/videogame.ogg',
+                'Soldier of Dark':                            'assets/soundtrack/darkfight.ogg',
+                'Bach Cello Suite No. 1 in G Major, Prélude': 'assets/soundtrack/bach.mp3'}
+            
+            if track not in ["Return", "No soundtracks unlocked yet. Play the game!"]:
+                path = musicPaths[track]
+                playSong(path, interruptable=True, looping=True)
  
             startEngine(False)
         else:
