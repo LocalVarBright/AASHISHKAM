@@ -843,7 +843,7 @@ def loadChapter(chapterPath): # AASHISHKAM/chapters/chapter1.py
  
  
 # START FUNCTION (THIS FUNCTION STARTS THE ENTIRE ENGINE)
-def startEngine(notice=True, offline=True):
+def startEngine(notice=True, offline=False):
     if notice:
         # GAME SPEED
         global specialFeature
