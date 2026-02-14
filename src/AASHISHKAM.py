@@ -274,7 +274,7 @@ def downloadStuff(force=False):
         "chapters/chapter2.py",
         "chapters/chapter3.py",
         "chapters/chapter4.py",
-        "chapters/chapter5.py"
+        "chapters/chapter5.py",
  
         "assets/soundtrack/darkfight.ogg",
         "assets/soundtrack/videogame.ogg",
