@@ -294,6 +294,7 @@ def downloadStuff(force=False):
         "chapters/chapter2.py":                   "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter2.py",
         "chapters/chapter3.py":                   "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter3.py",
         "chapters/chapter4.py":                   "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter4.py",
+        "chapters/chapter5.py":                   "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter5.py",
  
         "assets/soundtrack/darkfight.ogg":        "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/darkfight.ogg",
         "assets/soundtrack/videogame.ogg":        "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/videogame.ogg",
