@@ -19,6 +19,8 @@ timeControl = 1
 # ENGINE DATA
 """
 DEVLOG:
+(2.0 BETA 16 - Added chapter 5. Nothing else.)
+(2.0 BETA 15 - Fixed a soundtrack menu mistake and fixed an error in the saving system (probably))
 (2.0 BETA 14 - Fixed some game breaking bugs, mainly because of downloading the soundtrack. Also, pausing music actually works now.)
 (2.0 BETA 13 - Recoded the entire program to now work around a launcher-update system.
                You no longer need to redownload Aashishkam every time for a new update,
@@ -36,7 +38,7 @@ DEVLOG:
 1.0 - CHAPTER 1 RELEASE, save feature prototype.
 """
 global version
-version = "2.0 BETA-15"
+version = "2.0 BETA-16"
  
 def getVersion():
     global version
@@ -272,6 +274,7 @@ def downloadStuff(force=False):
         "chapters/chapter2.py",
         "chapters/chapter3.py",
         "chapters/chapter4.py",
+        "chapters/chapter5.py"
  
         "assets/soundtrack/darkfight.ogg",
         "assets/soundtrack/videogame.ogg",
@@ -649,7 +652,7 @@ def evaluateSaveAchievements(oldFile):
         elif saveFileNew['route2']['house_kitchenChoice'] == "MOM CAKE":
             chapter2["ach_cake"] = "Mom's Dessert"
         elif saveFileNew['route2']['house_kitchenChoice'] == 0:
-            chapter2["ach_cake"] = "No Cake"
+            chapter2["ach_cake"] = "Dodged a Bullet?"
 
         chapter2['ach_roomClean'] = False
         if saveFileNew['route2']['house_roomChoice'] == "CLEANED":
@@ -839,7 +842,7 @@ def loadChapter(chapterPath): # AASHISHKAM/chapters/chapter1.py
  
  
 # START FUNCTION (THIS FUNCTION STARTS THE ENTIRE ENGINE)
-def startEngine(notice=True):
+def startEngine(notice=True, offline=True):
     if notice:
         # GAME SPEED
         global specialFeature
@@ -863,7 +866,7 @@ def startEngine(notice=True):
         global saveFile
         evaluateSaveAchievements(saveFile)
  
-        downloadStuff()
+        if not offline: downloadStuff()
  
         doDialogChoice("NOTICE:# It is recommended to use 'IDLE Dark' Highlight theme and Font: Consolas size 14 if using Python IDLE (Windows).",
                        choices = ["I understand,# and have changed my settings",
@@ -874,7 +877,7 @@ def startEngine(notice=True):
 '''
 ╔═════════════════════════════╦════════════╦═════════════════════════════╗
 ╚╦════════════════════════════╣╡AASHISHKAM╞╠════════════════════════════╦╝   
- ║                            ╚════════════╝      v2.0 BETA-14          ║
+ ║                            ╚════════════╝      v2.0 BETA-15          ║
  ╟ A "Bomboclat" Dating Adventure                                       ║
  ║                         - By Siddharth A                             ║
  ╟(1) Play!                                                             ║
@@ -905,6 +908,10 @@ def startEngine(notice=True):
                     chapterChoices += ["CHAPTER 3: Him."]
                     if saveFile['route4']["COMPLETED"]:
                         chapterChoices += ["CHAPTER 4: Light and Dark."]
+                        if saveFile['route5']['COMPLETED']:
+                            chapterChoices += ["CHAPTER 5: Projection."]
+                        else:
+                            chapterChoices += ["CHAPTER 5: Projection."] # CHANGE THIS TO ??? AFTER THE ACTUAL CHAPTER RELEASES
                     else:
                         chapterChoices += ["CHAPTER 4: ???"]
                 else:
