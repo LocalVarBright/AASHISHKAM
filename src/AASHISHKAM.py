@@ -19,7 +19,8 @@ timeControl = 1
 # ENGINE DATA
 """
 DEVLOG:
-(2.0 BETA 16 - Added chapter 5. Nothing else.)
+(2.0 BETA 17 - Stopped any music playing when a mod/chapter unexpectedly crashes.)
+(2.0 BETA 16 - Added a fake chapter 5.)
 (2.0 BETA 15 - Fixed a soundtrack menu mistake and fixed an error in the saving system (probably))
 (2.0 BETA 14 - Fixed some game breaking bugs, mainly because of downloading the soundtrack. Also, pausing music actually works now.)
 (2.0 BETA 13 - Recoded the entire program to now work around a launcher-update system.
@@ -38,7 +39,7 @@ DEVLOG:
 1.0 - CHAPTER 1 RELEASE, save feature prototype.
 """
 global version
-version = "2.0 BETA-16"
+version = "2.0 BETA-17"
  
 def getVersion():
     global version
@@ -52,8 +53,16 @@ def doDialogText(text, spd = 4, afterdelay = 0.7, step = 1, line = True, indep =
  
  
     initStep = 0
+    foundChar = False
     for lel in range(len(text)):
         char = text[lel]
+
+        if char == ' ' and not foundChar:
+            print(char, end='')
+            continue
+        elif char != ' ' and not foundChar:
+            foundChar = True
+        
         initStep += 1
  
         if char == "#": # Filter out the unwanted characters first
@@ -878,7 +887,7 @@ def startEngine(notice=True, offline=False):
 '''
 ╔═════════════════════════════╦════════════╦═════════════════════════════╗
 ╚╦════════════════════════════╣╡AASHISHKAM╞╠════════════════════════════╦╝   
- ║                            ╚════════════╝      v2.0 BETA-15          ║
+ ║                            ╚════════════╝      v2.0 BETA-17          ║
  ╟ A "Bomboclat" Dating Adventure                                       ║
  ║                         - By Siddharth A                             ║
  ╟(1) Play!                                                             ║
@@ -1058,6 +1067,7 @@ def startEngine(notice=True, offline=False):
                 try:
                     loadMod(listOfModFolders[getModIndex])
                 except Exception as e:
+                    stopSong()
                     doDialogText("An ERROR was encountered in the mod:")
                     print()
                     printGraphic(traceback.format_exc())
