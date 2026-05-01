@@ -19,7 +19,8 @@ timeControl = 1
 # ENGINE DATA
 """
 DEVLOG:
-(2.0 BETA 17 - Stopped any music playing when a mod/chapter unexpectedly crashes.)
+(2.0 BETA 18 - Chapters are redownloaded every time you open Aashishkam.)
+(2.0 BETA 17 - Stopped any music playing when a mod/chapter finishes unexpectedly crashes.)
 (2.0 BETA 16 - Added a fake chapter 5.)
 (2.0 BETA 15 - Fixed a soundtrack menu mistake and fixed an error in the saving system (probably))
 (2.0 BETA 14 - Fixed some game breaking bugs, mainly because of downloading the soundtrack. Also, pausing music actually works now.)
@@ -39,7 +40,7 @@ DEVLOG:
 1.0 - CHAPTER 1 RELEASE, save feature prototype.
 """
 global version
-version = "2.0 BETA-17"
+version = "2.0 BETA-18"
  
 def getVersion():
     global version
@@ -321,7 +322,7 @@ def downloadStuff(force=False):
     count = 1
     maxcount = len(downloadList)
     for item in downloadList:
-        if not checkFile(item) or force: # Actually download the item (if its already downloaded,# then the else statement is executed).
+        if (not checkFile(item) or force) or item.startswith("chapters/chapter"): # Actually download the item (if its already downloaded,# then the else statement is executed).
             print(f"Downloading ({count}/{maxcount})")
             urllib.request.urlretrieve(downloadUrls[item], getFilePath(item))
         else:
@@ -814,6 +815,7 @@ def loadMod(modPath): # AASHISHKAM/mods/TestMod/
             modToLoad.start(modArgs)
         else:
             doDialogText("This mod is missing the start function.")
+    stopSong()
     startEngine(False)
  
 def loadChapter(chapterPath): # AASHISHKAM/chapters/chapter1.py
@@ -847,7 +849,7 @@ def loadChapter(chapterPath): # AASHISHKAM/chapters/chapter1.py
             chapterToLoad.start(modArgs)
         else:
             doDialogText("ERROR: This chapter is missing the start function.")
- 
+    stopSong()
     startEngine(False)
  
  
@@ -887,7 +889,7 @@ def startEngine(notice=True, offline=False):
 '''
 ╔═════════════════════════════╦════════════╦═════════════════════════════╗
 ╚╦════════════════════════════╣╡AASHISHKAM╞╠════════════════════════════╦╝   
- ║                            ╚════════════╝      v2.0 BETA-17          ║
+ ║                            ╚════════════╝      v2.0 BETA-18          ║
  ╟ A "Bomboclat" Dating Adventure                                       ║
  ║                         - By Siddharth A                             ║
  ╟(1) Play!                                                             ║

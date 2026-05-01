@@ -583,6 +583,7 @@ def chapter_3(funcs):
     doDialogText("You feel a sharp pain in the right side of your head.")
 
     playSong('assets/soundtrack/vs_tejas.ogg', looping=True)
+    
     doDialogText("You open your eyes .# You're on the ground now.")
     doDialogText("(Did he do this?)")
     doDialogText("You try to stand up,# but suddenly the whole world is spinning.")

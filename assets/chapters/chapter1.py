@@ -14,6 +14,7 @@ def chapter_1(funcs):
     getPrompt = funcs['getPrompt']
     playSong = funcs['playSong']
     stopSong = funcs['stopSong']
+    pauseMusic = funcs['pauseSong']
     timeControl = funcs['timeControl']
     pgFilter = funcs['pgFilter']
     saveFile = funcs['saveFile']
@@ -164,9 +165,11 @@ def chapter_1(funcs):
     doDialogText("TEACHER:# OKAY CHILDREN, EVERYONE LISTEN.", afterdelay=1.4)
     doDialogText("(The students are still talking.)")
     doDialogText("TEACHER: #", spd=15, line=False)
+    pauseMusic()
     doDialogText("IIII SSSAAAAAIIIIDDDDDD LLLIIIISSSTTTTEEEENNNNNN, YYYOOOUUUU UUUNNNGRAAATEFULLL BRRAATTTSSS!!!", step=2)
- 
+
     doDialogText("(... The class is silent now.)")
+    pauseMusic()
     doDialogText("TEACHER: Ahem.# Now that I have everyone's attention,# I have a few words to say.#", afterdelay=0)
     doDialogText("         ", spd=0, line=False)
     doDialogText("Since this is the beginning of your new school year,# I should tell you about the school.")

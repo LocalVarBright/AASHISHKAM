@@ -14,7 +14,26 @@ def downloadMusic():
         urllib.request.urlretrieve("https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/mods/TestMod/music/theme_1.ogg", os.path.join(musicPath, "theme_1.ogg"))
     print()
 
-def start(doDialogText, doDialogSlow, askChoice, askNum, doDialogChoice, doTimedQuestion, doTimedAttack, doTimedSpam, printGraphic, getPrompt, playSong, stopSong, timeControl, pgFilter, saveFile, saveGame, curSaveName, soundImportSuccesful):
+def start(funcs):
+    doDialogText = funcs['doDialogText']
+    doDialogSlow = funcs['doDialogSlow']
+    askChoice = funcs['askChoice']
+    askNum = funcs['askNum']
+    doDialogChoice = funcs['doDialogChoice']
+    doTimedQuestion = funcs['doTimedQuestion']
+    doTimedAttack = funcs['doTimedAttack']
+    doTimedSpam = funcs['doTimedSpam']
+    printGraphic = funcs['printGraphic']
+    getPrompt = funcs['getPrompt']
+    playSong = funcs['playSong']
+    stopSong = funcs['stopSong']
+    timeControl = funcs['timeControl']
+    pgFilter = funcs['pgFilter']
+    saveFile = funcs['saveFile']
+    saveGame = funcs['saveGame']
+    curSaveName = funcs['curSaveName']
+    soundImportSuccesful = funcs['soundImportSuccesful']
+    
     # If music was succesfully loaded, 'soundImportSuccesful' will be set to True. Use this variable when handling sound.
     if soundImportSuccesful:
         downloadMusic()
