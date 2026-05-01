@@ -156,6 +156,7 @@ def chapter_3(funcs):
             doDialogText("ADITHYA:# I know everything that will happen.# You will only HURT Ashish further!")
             doDialogText("YOU:# Hurt him?")
             doDialogText("ADITHYA:# Yeah.# Ok NOW ENOUGH!")
+            print()
     
     # GANG INTRODUCTION AND MONOLOGUE
     doDialogText("ADITHYA:# BOYS!# *snaps fingers* INTRODUCE YOURSELVES!")

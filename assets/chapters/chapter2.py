@@ -460,7 +460,7 @@ NOW TELL ME.#.#.#
             doDialogText("He shoots the shuttle high into the air,# so high that you can't think of hitting it.")
             doDialogText("YOU:# What the.#.#.#")
             doDialogText("It's still going higher.#.#.#")
-            doDialogText(".#.#.# It landed on the lights of the ceiling of the PE Ground.# Now you can't reach it.")
+            doDialogText(".#.#.# It landed on the lights of the ceiling of the PE Stadium.# Now you can't reach it.")
             playSong('assets/soundtrack/second_meet.ogg')
             doDialogText("EARWIND:# oops,# I was trying to focus.#.#.# My bad.")
             doDialogText("YOU:# Great.#.#.# Now we can't play at all.")
