@@ -325,7 +325,10 @@ def downloadStuff(force=False):
     for item in downloadList:
         if (not checkFile(item) or force) or item.startswith("chapters/chapter"): # Actually download the item (if its already downloaded,# then the else statement is executed).
             print(f"Downloading ({count}/{maxcount})")
-            urllib.request.urlretrieve(downloadUrls[item], getFilePath(item))
+            try:
+                urllib.request.urlretrieve(downloadUrls[item], getFilePath(item))
+            except:
+                print(f"Aborted ({count}/{maxcount}).")
         else:
             print(f"Already downloaded. ({count}/{maxcount})")
  
@@ -827,10 +830,15 @@ print()
 
 def loadModule(modulePath, execModule = True): # AASHISHKAM/... | Eg: AASHISHKAM/lib/fightplayer/fights/mechfight.py
     modulePath = getFilePath(modulePath)
-    if os.path.exists(modulePath): 
-        spec = importlib.util.spec_from_file_location("mod", os.path.join(modulePath, "mod.py")) # The spec of the module for the mod
+    if os.path.exists(modulePath):
+        sys.path.insert(0, os.path.dirname(modulePath))
+        spec = importlib.util.spec_from_file_location("module", modulePath) # The spec of the module for the mod
         module = importlib.util.module_from_spec(spec) # The module
         if execModule: spec.loader.exec_module(module)
+
+        if hasattr(module, 'start'):
+            module.start()
+        
     else: return None
     
 def loadMod(modPath): # AASHISHKAM/mods/TestMod/
@@ -932,6 +940,7 @@ def startEngine(notice=True, offline=False):
         evaluateSaveAchievements(saveFile)
  
         if not offline: downloadStuff()
+        print()
  
         doDialogChoice("NOTICE:# It is recommended to use 'IDLE Dark' Highlight theme and Font: Consolas size 14 if using Python IDLE (Windows).",
                        choices = ["I understand,# and have changed my settings",
