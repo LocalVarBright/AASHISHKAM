@@ -19,6 +19,7 @@ timeControl = 1
 # ENGINE DATA
 """
 DEVLOG:
+(2.0 BETA 19 - Added functions 'loadModule()' and 'getFilePath()' to modArgs (mod and chapter files).)
 (2.0 BETA 18 - Chapters are redownloaded every time you open Aashishkam.)
 (2.0 BETA 17 - Stopped any music playing when a mod/chapter finishes unexpectedly crashes.)
 (2.0 BETA 16 - Added a fake chapter 5.)
@@ -40,7 +41,7 @@ DEVLOG:
 1.0 - CHAPTER 1 RELEASE, save feature prototype.
 """
 global version
-version = "2.0 BETA-18"
+version = "2.0 BETA-19"
  
 def getVersion():
     global version
@@ -364,7 +365,34 @@ def getSoundes():
  
     else:
         doDialogText("AUDIO has been disabled.")
+    
+def getKeyboades():
+    keyboardEnabled = getPrompt("Would you like to enable KEYBOARD INPUT? (will attempt to install 'keyboard' library)")
+    if keyboardEnabled:
+        try: # In case pygame is already present, try to access it
+            lib_path = os.path.join(getEngineDir(), "lib")
+            if lib_path not in sys.path:
+                sys.path.insert(0, lib_path)
+
+            global keyboard
+            import keyboard
+
+            global keyboardImportSuccesful
+            keyboardImportSuccesful = True
+            doDialogText("KEYBOARD INPUT has been enabled.")
+        except:
+            print("'keyboard' library wasn't detected.")
+            installKeyboard = getPrompt("Try to install 'keyboard'?")
  
+            if installKeyboard:
+                zipf = urllib.request.urlopen("https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/zips/keyboard.zip")
+                zipd = io.BytesIO(zipf.read())
+ 
+                with zipfile.ZipFile(zipd) as zip_ref:
+                    zip_ref.extractall(getFilePath("lib", makeSure=True))
+
+# SOUND FUNCTIONS
+
 def playSong(name, interruptable=False, looping=False):
     if soundImportSuccesful:
         songPath = getFilePath(name)
@@ -395,6 +423,18 @@ def pauseSong():
             pygame.mixer.music.unpause()
 
 
+
+# KEYBOARD FUNCTIONS
+
+def keyHeld(key):
+    if keyboardImportSuccesful:
+        return keyboard.is_pressed(key)
+    return False
+
+def keyPressed(key):
+    if keyboardImportSuccesful:
+        return keyboard.on_press_key(key)
+    return False
 
 # MOD LOADING FUNCTIONS
  
@@ -785,6 +825,14 @@ print()
  
 # MOD LOADING FUNCTIONS
 
+def loadModule(modulePath, execModule = True): # AASHISHKAM/... | Eg: AASHISHKAM/lib/fightplayer/fights/mechfight.py
+    modulePath = getFilePath(modulePath)
+    if os.path.exists(modulePath): 
+        spec = importlib.util.spec_from_file_location("mod", os.path.join(modulePath, "mod.py")) # The spec of the module for the mod
+        module = importlib.util.module_from_spec(spec) # The module
+        if execModule: spec.loader.exec_module(module)
+    else: return None
+    
 def loadMod(modPath): # AASHISHKAM/mods/TestMod/
     if os.path.exists(modPath): 
         spec = importlib.util.spec_from_file_location("mod", os.path.join(modPath, "mod.py")) # The spec of the module for the mod
@@ -810,7 +858,9 @@ def loadMod(modPath): # AASHISHKAM/mods/TestMod/
                        'saveFile':saveFile, 
                        'saveGame':saveGame, 
                        'curSaveName':curSaveName, 
-                       'soundImportSuccesful':soundImportSuccesful}
+                       'soundImportSuccesful':soundImportSuccesful,
+                       'loadModule': loadModule,
+                       'getFilePath': getFilePath}
             
             modToLoad.start(modArgs)
         else:
@@ -844,7 +894,9 @@ def loadChapter(chapterPath): # AASHISHKAM/chapters/chapter1.py
                        'saveFile':saveFile, 
                        'saveGame':saveGame, 
                        'curSaveName':curSaveName, 
-                       'soundImportSuccesful':soundImportSuccesful}
+                       'soundImportSuccesful':soundImportSuccesful,
+                       'loadModule': loadModule,
+                       'getFilePath': getFilePath}
 
             chapterToLoad.start(modArgs)
         else:
@@ -872,7 +924,8 @@ def startEngine(notice=True, offline=False):
         global version
  
         getSoundes()
- 
+        getKeyboades() 
+
         getSaveFile()
 
         global saveFile
@@ -889,7 +942,7 @@ def startEngine(notice=True, offline=False):
 '''
 ╔═════════════════════════════╦════════════╦═════════════════════════════╗
 ╚╦════════════════════════════╣╡AASHISHKAM╞╠════════════════════════════╦╝   
- ║                            ╚════════════╝      v2.0 BETA-18          ║
+ ║                            ╚════════════╝      v2.0 BETA-19          ║
  ╟ A "Bomboclat" Dating Adventure                                       ║
  ║                         - By Siddharth A                             ║
  ╟(1) Play!                                                             ║
@@ -970,13 +1023,17 @@ def startEngine(notice=True, offline=False):
             if saveFile['route2']['COMPLETED']:
                 tracks += ['Second Meet']
             if saveFile['route3']['COMPLETED']:
-                tracks += ['Clavar La Espada', 
+                tracks += ['Clavar La Espada (from BLEACH)', 
                            'Versus']
             if saveFile['route4']['COMPLETED']:
-                tracks += ['Light and Dark', 
-                           'Light and Dark (Game Ver)',
-                           'Soldier of Dark',
-                           'Bach Cello Suite No. 1 in G Major, Prélude']
+                if saveFile['route3']['rude_stay'] != "UNFORGIVED":
+                    tracks += ['Light and Dark', 
+                               'Light and Dark (Game Ver)',
+                               'Soldier of Dark',
+                               'Bach Cello Suite No. 1 in G Major (by Bach)']
+                else:
+                    tracks += ['A Wonderful Review TV Show Host',
+                               'A School of Magic']
             
             if tracks == []: tracks += ["No soundtracks unlocked yet. Play the game!"]
             else: tracks += ['Return']
@@ -1000,12 +1057,14 @@ def startEngine(notice=True, offline=False):
             musicPaths = {
                 'First Meet':                                 'assets/soundtrack/first_meet.ogg',
                 'Second Meet':                                'assets/soundtrack/second_meet.ogg',
-                'Clavar La Espada':                           'assets/soundtrack/espada.mp3',
+                'Clavar La Espada (from BLEACH)':             'assets/soundtrack/espada.mp3',
                 'Versus':                                     'assets/soundtrack/versus_full.ogg',
                 'Light and Dark':                             'assets/soundtrack/light_and_dark.ogg',
                 'Light and Dark (Game Ver)':                  'assets/soundtrack/videogame.ogg',
                 'Soldier of Dark':                            'assets/soundtrack/darkfight.ogg',
-                'Bach Cello Suite No. 1 in G Major, Prélude': 'assets/soundtrack/bach.mp3'}
+                'A Wonderful Review TV Show Host':            'assets/soundtrack/tv_show_full.ogg',
+                'A School of Magic':                          'assets/soundtrack/magic.ogg',
+                'Bach Cello Suite No. 1 in G Major (by Bach)':'assets/soundtrack/bach.mp3'}
             
             if track not in ["Return", "No soundtracks unlocked yet. Play the game!"]:
                 path = musicPaths[track]
@@ -1025,7 +1084,7 @@ def startEngine(notice=True, offline=False):
     elif menuChoice == 4: # ABOUT
         printGraphic('''╚════╩════════╧════════════════════════╝
 ''', afterdelay=0.1)
-        printGraphic('Siddharth A was born on 28th September 2009 to APT and NTR. When he was born, the pure aura he emitted was so much that it caused a black hole to form inside his centre of mass. He was able to contain it, but as a consequence he is now bl. At the age of 2 he built his very first nuclear reactor. When he was 3 years old he accidentally stumbled into a time machine which he had created and soon he founded the Roman Empire, the British Empire and many others. Once under the fake name Alexander the Great, he conquered a large part of the world. When people say Alexander died in reality Siddhu had just time travelled back. He did all of this in 2 months.When he was 5 years old he joined Bharatiya Vidhya Bhavans School Chevayur in Class 1B. Soon when he was 6 years old he mastered the Limitless and its Domain Expansion. Eventually he came to be known as The Honored One. At the age of 8 created a YouTube video with 2B views titled, I Created The Multiverse in my Backyard in 3 Days. Because of this success he soon rose to the top of the world and became the richest man in the world with a net worth of 1 trillion usd. At the age of 11, he singlehandedly took down the King Of Curses and achieved world peace. Eventually after enrolling in Devagiri Caramellites of Mary Immaculate Public School, he met a very interesting person by the name of Aashish R Nair. This inspired Siddhu to make the very game you are playing now.', spd=2, afterdelay=3, step=1)
+        printGraphic('Siddharth A was born on 28th September 2009 to APT and NTR (names hidden for privacy). When he was born, the pure aura he emitted was so much that it caused a black hole to form inside his centre of mass. He was able to contain it, but as a consequence he is now bl. At the age of 2 he built his very first nuclear reactor. When he was 3 years old he accidentally stumbled into a time machine which he had created and soon he founded the Roman Empire, the British Empire and many others. Once under the fake name Alexander the Great, he conquered a large part of the world. When people say Alexander died in reality Siddhu had just time travelled back. He did all of this in 2 months.When he was 5 years old he joined Bharatiya Vidhya Bhavans School Chevayur in Class 1B. Soon when he was 6 years old he mastered the Limitless and its Domain Expansion. Eventually he came to be known as The Honored One. At the age of 8 created a YouTube video with 2B views titled, I Created The Multiverse in my Backyard in 3 Days. Because of this success he soon rose to the top of the world and became the richest man in the world with a net worth of 1 trillion usd. At the age of 11, he singlehandedly took down the King Of Curses and achieved world peace. Eventually after enrolling in Devagiri Caramellites of Mary Immaculate Public School, he met a very interesting person by the name of Aashish R Nair. This inspired Siddhu to make the very game you are playing now.', spd=2, afterdelay=3, step=1)
  
         print('\n')
         startEngine(False)

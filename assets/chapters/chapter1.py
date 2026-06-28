@@ -16,6 +16,7 @@ def chapter_1(funcs):
     stopSong = funcs['stopSong']
     pauseMusic = funcs['pauseSong']
     timeControl = funcs['timeControl']
+    setTime = funcs['setTime']
     pgFilter = funcs['pgFilter']
     saveFile = funcs['saveFile']
     saveGame = funcs['saveGame']
