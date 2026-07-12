@@ -70,7 +70,7 @@ def render():
     elif anim == 'carCharge':
         if animIndex >= 2: animIndex = 0
 
-        if blocking: curMatrix = spr_fights[14:16][int(animIndex)]
+        if not blocking: curMatrix = spr_fights[14:16][int(animIndex)]
         else: curMatrix = spr_fights[16:18][int(animIndex)]
     elif anim == 'carPunch':
         if animIndex >= 4: animIndex = 3

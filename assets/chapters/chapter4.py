@@ -4559,6 +4559,10 @@ is your imagination.""")
                     doDialogText("Please use your ARROW keys to change the screen size to your liking,# and confirm it by pressing enter.")
                     doDialogText("Also since I'm making this in a rush,# PLEASE make sure you enabled KEYBOARD INPUT.")
                     print()
+                    doDialogText("CONTROLS:")
+                    doDialogText("LEFT KEY -> PUNCH")
+                    doDialogText("RIGHT KEY -> BLOCK")
+                    doDialogText("BRING SR. TRANSFORMER DOWN TO 0 HP.")
                 
 
                 loadModule('lib/fightplayer/setup.py')
