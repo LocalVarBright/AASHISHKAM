@@ -24,14 +24,17 @@ def chapter_4(funcs):
     printGraphic = funcs['printGraphic']
     getPrompt = funcs['getPrompt']
     playSong = funcs['playSong']
+    pauseSong = funcs['pauseSong']
     stopSong = funcs['stopSong']
     timeControl = funcs['timeControl']
+    setTime = funcs['setTime']
     pgFilter = funcs['pgFilter']
     saveFile = funcs['saveFile']
     saveGame = funcs['saveGame']
     curSaveName = funcs['curSaveName']
     soundImportSuccesful = funcs['soundImportSuccesful']
 
+    loadModule = funcs['loadModule']
 
     route4 = {
         "startIndex": 0,
@@ -39,6 +42,7 @@ def chapter_4(funcs):
 
         "inventory": [],
         "money": 0,
+        "players": [],
 
         "on_weirdRoute": False,
         "battle_firstChoice": 0,
@@ -55,6 +59,9 @@ def chapter_4(funcs):
         "COMPLETED": False
     }
 
+    for i in saveFile['route4']:
+        route4[i] = saveFile['route4'][i]
+
     finalSave = False
     
     doDialogText("CHAPTER 4:##  Light and Dark..", spd = 25, step = 3)
@@ -62,43 +69,6 @@ def chapter_4(funcs):
 
     nameChoice = saveFile['route1']['name_choice']
 
-
-    """
-    PLANS FOR CHAPTER 4:
-    Basically we take a dive into a videogame: DELTARUNE.
-    To avoid copyright, ima switch up the name
-    DELTA -> CHANGE IN -> CHANGING
-    RUNE -> RUNES
-
-    therefore, CHANGING RUNES
-
-    If you took the normal route, ASHISH's older sister SEPT (SEPTEMBER R NAIR instead of DECEMBER HOLIDAY [or december r nair]) spawns a dark fountain in ASHISH's bedroom.
-    According to her reasoning, watching the slow pace of these two getting together was so painful to watch, that
-    she put us on an adventure to help us get close quicker.
-    This is a jab at how I suck at planning progression for the two fellas, and how i got a brainstorming idea
-
-    If you're on the NORMAL or LUNATIC route, you have no choice but to accept the sleepover. You can also get into the dark world by
-    being on the RUDE route and accepting the sleepover invitation.
-    Then once the dark fountain is created, you and Ashish are together, and a mysterious figure emerges, claiming to be a darkner.
-    This is actually Ashish's SISTER in disguise, helping you through the dark world and placing you two in romantic situations.
-    commence the MAPPING:
-    1) SNOWY DESERTED AREA:
-        This is where you spawn, alongside ASHISH. This area is meant to be the bedroom. The snow is fluffy,# and you can do nothing else other
-        than advance from the area, while encountering some creepy things.
-    2) LIBRARY WORLD:
-        This area is meant to represent ASHISH's multiple study guides.
-
-    NOTE TO SELF: WAYDANT IS AWARE OF ADITHYA'S PLAN AND SNEAKS INTO ADITHYA'S GROUP AS A SPY.
-    If you're on the RUDE route and went back home by yourself, WAYDANT follows you home, concerned after finding you beat up.
-    then WAYDANT spawns a dark fountain in your house, and you go through a different, rough experience where you're initially seperated from
-    Waydant at the beginning of the fountain world, and when you reach the end of the fountain to try and seal the fountain,
-    you find Waydant on the opposite team. The darkners have convinced him that he needs to PROTECT the dark fountain, and you face off against
-    Waydant as a boss.
-    You then beat Waydant, maybe apologize for downing him, and seal the fountain.
-    Then Waydant realizes that he was wrong and apologizes for trying to do the wrong thing and protecting the fountain.
-    Then the chapter ends as Waydant heads back home and you patch yourself up.
-    """
-    
     money = 0
     inventory = []
 
@@ -114,7 +84,7 @@ def chapter_4(funcs):
         if person == 4: return 15 + flowery['lv']*5
     
     def getDamageDealt(enemyATK, targetStruct, fResult):
-        damage = math.ceil(max(1-fResult, 0.45)*enemyATK/targetStruct["defense"])
+        damage = math.ceil(max(1-fResult, 0.45)*(enemyATK/targetStruct["defense"]))
         return damage
     
 
@@ -864,24 +834,66 @@ def chapter_4(funcs):
         "weapon": "VINE WHIP",
         "armor": "SAND BAG"
     }
+
+    if "players" in saveFile['route4']:
+        if saveFile['route4']['players'] != []:
+            player = saveFile['route4']['players'][0]
+            ashish = saveFile['route4']['players'][1]
+            knight = saveFile['route4']['players'][2]
+            flowery = saveFile['route4']['players'][3]
     
 
 
-    startindex = 0
+    startindex = 1
 
-    global firstLoad
-    firstLoad = True
 
     # Some save files might not have this key, soo fixing that
     if "startIndex" in saveFile['route4']: startindex = saveFile['route4']['startIndex']
 
     if saveFile['route4']['COMPLETED'] == True:
-        startindex = doDialogChoice("Where would you like to start from?", choices=["The Beginning..", "After EDWIN's battle.", "After the Inn."]) - 1
+        pass #startindex = doDialogChoice("Where would you like to start from?", choices=["The Beginning..", "After EDWIN's battle.", "After the Inn."]) - 1
 
-
+    doDialogText("WARNING:# This is a rushed chapter.# Beware of bugs.")
 
     if startindex == 0:
-        firstLoad = False
+
+        player = {
+            "attack": 10,
+            "defense": 10,
+            "hp": 15,
+            "lv": 1,
+            "weapon": "HARDCOVER AXE",
+            "armor": "NIL"
+        }
+        ashish = {
+            "attack": 6,
+            "defense": 8,
+            "hp": 15,
+            "lv": 1,
+            "weapon": "PAPYRUS SWORD",
+            "armor": "HARDCOVER SHIELD",
+            "spells": ["HEALING SONG"]
+        }
+        knight = {
+            "attack": 12,
+            "defense": 10,
+            "hp": 20,
+            "lv": 1,
+            "weapon": "TWISTED SWORD",
+            "armor": "ICE SHEATH",
+        }
+        flowery = {
+            "attack": 12,
+            "defense": 10,
+            "hp": 20,
+            "lv": 1,
+            "spells": ["PHOTOSYNTHESIS"],
+            "weapon": "VINE WHIP",
+            "armor": "SAND BAG"
+        }
+
+        money = 0
+        inventory = []
 
         # DARK WORLD CREATED BY ASHISH'S SISTER:
         if saveFile['route3']['rude_stay'] != "UNFORGIVED":
@@ -1357,11 +1369,12 @@ Ashish's Rival.# He looks strong,# but we can defeat him!""")
 
             if save1:
                 route4["startIndex"] = 1
+                route4['players'] = [player, ashish, knight, flowery]
                 saveFile["route4"] = route4
 
-                if not firstLoad:
-                    saveFile['route4']['inventory'] = inventory
-                    saveFile['route4']['money'] = money
+                
+                saveFile['route4']['inventory'] = inventory
+                saveFile['route4']['money'] = money
 
                 try:
                     saveGame(curSaveName, saveFile)
@@ -1648,6 +1661,7 @@ Ashish's Rival.# He looks strong,# but we can defeat him!""")
              Or you could BEG FOR MERCY from the enemy if you're really hopeless.
              GET READY!''')
 
+            playSong('assets/soundtrack/guards.ogg', looping=True)
             doDialogText("Two guards emerge from within the doors!")
             guardA = {
                 "attack": 15,
@@ -1808,6 +1822,7 @@ They look serious,# but they're actually really bored?""")
 
                 # IF GUARD DIED:
                 if guardA['hp'] <= 0 or guardB['hp'] <= 0:
+                    stopSong()
                     if guardA['hp'] <= 0:
                         doDialogText("GUARD A was turned to dust.")
                         doDialogText("You:# What just happened?")
@@ -1841,7 +1856,7 @@ They look serious,# but they're actually really bored?""")
                         route4["on_weirdRoute"] = True
                         doDialogText("FLOWERY:# DAMN Dude I didn't know you could deal that much damage!")
                         doDialogText("YOU:# I feel.#.#.# stronger.")
-                        player['lv'] = 2
+                        player['lv'] = 3
                         doDialogText("YOU LEVELED UP. (LV 3)", step=2, spd=6)
                         player['attack'] += 10
                         player['defense'] += 10
@@ -1919,14 +1934,31 @@ They look serious,# but they're actually really bored?""")
             doDialogText(".#.#.#", afterdelay = 3)
             doDialogText("It's silent.", afterdelay=3)
 
-            doDialogText("Remaining parts of Chapter 4 not available yet,# so progress will not be saved")
+            print()
+            save1 = getPrompt("Save this chapter here?")
+
+            if save1:
+                route4["startIndex"] = 1
+                route4['players'] = [player, ashish, knight, flowery]
+                saveFile["route4"] = route4
+
+
+                saveFile['route4']['inventory'] = inventory
+                saveFile['route4']['money'] = money
+
+                try:
+                    saveGame(curSaveName, saveFile)
+                    doDialogText("The game was saved.")
+                except:
+                    doDialogText("There was an error in saving the game.")
+            
+            continue1 = getPrompt("Continue your journey?")
+
+            if continue1:
+                startindex = 1
+                doDialogText("Continuing from GREAT DOOR Fight.#.#.#", afterdelay=2)
     
     if startindex == 1:
-        if firstLoad:
-            route4 = saveFile['route4']
-            money = saveFile['route4']['money']
-            inventory = saveFile['route4']['inventory']
-        firstLoad = False
 
         if saveFile['route3']['rude_stay'] != "UNFORGIVED":
             doDialogText("KNIGHT:# Well,# let's continue with this journey.")
@@ -2481,11 +2513,10 @@ More than enough to kill the cat!""")
 
             if save2:
                 route4["startIndex"] = 2
+                route4['players'] = [player, ashish, knight, flowery]
                 saveFile["route4"] = route4
-
-                if not firstLoad:
-                    saveFile['route4']['inventory'] = inventory
-                    saveFile['route4']['money'] = money
+                saveFile['route4']['inventory'] = inventory
+                saveFile['route4']['money'] = money
 
                 try:
                     saveGame(curSaveName, saveFile)
@@ -2500,13 +2531,734 @@ More than enough to kill the cat!""")
                 doDialogText("Continuing from INN.#.#.#")
                 doDialogText("The Finale Approaches.", afterdelay=2)
         else:
-            doDialogText("This part of the chapter is not available yet.")
+            doDialogText("After passing through the great door,# you find yourself in a huge white room.")
+            doDialogText("The walls are shiny enough to reflect your image.")
+
+            doDialogText("YOU:# What is this place?")
+            doDialogText("FLOWERY:# I think this is supposed to be the living room.")
+            doDialogText("         Let's keep walking.")
+            print()
+
+            doDialogText("Soon,# you end up on a gray section of the ground,# with little squares on it.")
+            doDialogText("You pressed the red square.")
+            doDialogText("YOU:# Are these buttons?")
+            doDialogText("FLOWERY:# Oh,# I think this might be the TV remote.")
+            doDialogText("YOU:# If this is a TV remote,# where's the TV?")
+            doDialogText("FLOWERY:# There?")
+            doDialogText("Flowery points to a section of a wall,# which is now covered with static.")
+            doDialogText("YOU:# That wasn't there before,# right?")
+            doDialogText("FLOWERY:# No,# I don't think so.")
+            doDialogText("YOU:# Wait,# can we actually get something on the TV?# I wonder.")
+            doDialogText("FLOWERY:# Go hit the channel button!")
+            print()
+            doDialogText("You find the channel buttons and start hitting them.")
+            doDialogText("The static flickers,# but it still is static.")
+            doDialogText("You notice with each press of the button,# the static slowly fades away.")
+            doDialogText("FLOWERY:# Keep hitting them!# I think we're getting closer!")
+            
+            doDialogText("Until suddenly,# the landscape changes.")
+            doDialogText("The entire room suddenly turns into a long red hallway that slowly closes into a smaller box.")
+            doDialogText("A long table and some chairs appear out of the ground with a carpet as well.")
+            doDialogText("The giant TV on the screen flashes a logo that says.#.#.#")
+            doDialogText("...REVIEWER'S PARADOX?",afterdelay = 1.6)
+            print()
+
+            playSong('assets/soundtrack/tv_show_1.ogg', looping = False)
+            doDialogText("???:# WELCOME,# TO REVIEWER'S PARADISE!!!!!!!!!!!", step=3, spd = 9)
+            doDialogText("SR. CAR:# I'm your host,##### SR.###### CAR########,# and you're on the FAMOUS NIGHTLY PREMIERE OF THE NIGHT!!!!!")
+            doDialogText("SR. CAR:# WE HOPE YOU HAVE FUN!", afterdelay = 3)
+            print()
+
+            
+            if pgFilter: 
+                doDialogText("YOU:# Who the fuck?!?!")
+                stopSong()
+                print()
+                doDialogText("SR. CAR:# Ooohhhh.#.#.# sorry,# but on this show,# we don't tolerate swears!")
+                doDialogText("SR. CAR:# WHITE,###### CENSOR HIS ASS!")
+                print()
+                
+                # UPDATE: REMASTER THIS GOOFY AHH SONG PLEASEEE
+                playSong('assets/soundtrack/lie.ogg')
+                doDialogText("A Giant Whitener appears out from the TV with the host.")
+                doDialogText("YOU:# WHAT THE FUCK ARE YOU?!??!")
+                doDialogText("SR. CAR:# I suggest you don't struggle,# WHITE hates that.")
+                doDialogText("YOU:# N-#NO WAIT,## I TAKE THAT BACK-# WHAT ARE YOU DOING GET AWAY FROM ME NO# NO# NONONONO-#", afterdelay=1, spd=3)
+                print()
+                stopSong()
+                doDialogText("You got whitened.")
+                print()
+
+            else: doDialogText("YOU:# Who the heck?!?!")
+
+            stopSong()
+            
+            playSong('assets/soundtrack/tv_show_2_loop.ogg', looping=True)
+            doDialogText("SR. CAR:# Welcome to our WEDNESDAY NIGHT GAMESHOW!")
+            doDialogText("         And we already have two contestants up here.# PLEASE enter your names right about.#.#.#")
+            doDialogText("         Here: ", line=False, afterdelay=0)
+            input("")
+
+            print()
+            doDialogText("SR. CAR:# Well then,# let's explain how this works for anyone that's new here.")
+            doDialogText("         Three rounds will be held.# Each round will be a different game played by these contestants.")
+            doDialogText("         If they finish all the games with the highest accuracy,# then they will get rewarded with the best prize we have in stock:")
+            doDialogText("         Yes,# that's right!# The fabled,## rumored to be,## rarest mechanic machinery to ever machine out a mechanic,### INORGANIC WINNER:")
+            print()
+            doDialogText("         THE AUTO COOKER!!!")
+            doDialogText("SR. CAR pulls off a table cloth to reveal what looks like an airfryer on screen.")
+            doDialogText("SR. CAR:# This may look like an ordinary airfryer,# but DON'T BE FOOLED.")
+            doDialogText("         Simply explained,# this machine dispenses INFINITE FOOD,# depending on your view of food and whether or not you accept:", afterdelay=0.4)
+            print()
+            doDialogText("         OUR BELOVED MALABAR CHICKEN CURRY!### Designed to heal you to FULL HEALTH in one use.")
+            doDialogText("(What is going on.#.#.#)")
+            doDialogText("SR. CAR:# Now,# without further ado,", afterdelay=1.6)
+            doDialogText("         LETS GET STARTED!!!!!", spd=5, afterdelay=3)
+            print()
+
+            doDialogText("ROUND 1:# BOOKSWEEPER!")
+            doDialogText("SR. CAR:# Have you ever played MINESWEEPER?")
+            doDialogText("         It's the same thing.# A book will be hidden in a square inside a square grid,# and each square will be labeled with a number.")
+            doDialogText("         After each guess,# the distance from the correct position will be given to you,# based of which you have to make your next guess.")
+            doDialogText("         Now,#### ENJOY!")
+
+            stopSong()
+            # GAME STARTS
+            books = ['HARDCOVER BOOK', 
+                     'SIGNED BOOK', 
+                     'RUINED BOOK', 
+                     'BESTSELLING BOOK', 
+                     'COLLECTORS BOOK', 
+                     'SOME NERDS DIARY']
+            yourBooks = []
+
+            attempts = 0
+
+            playSong('assets/soundtrack/tv_show_3.ogg', looping=True)
+
+            # ROUND 1
+            print('\n')
+            doDialogText("LEVEL 1:",spd = 7)
+            print()
+            coords = (random.randint(0, 2), random.randint(0, 2))
+            while True:
+                attempts += 1
+
+#Symbol List wowzie:»│ ┤ ╡ ╢ ╖ ╕ ╣ ║ ╗ ╝ ╜ ╛ ┐ └ ┴ ┬ ├ ─ ┼ ╞ ╟ ╚ ╔ ╩ ╦ ╠ ═ ╬ ╧ ╨ ╤ ╥ ╙ ╘ ╒ ╓ ╫ ╪ ┘ ┌ 
+                printGraphic(''' 
+╔═══╦═══╦═══╗
+║ 1 ║ 2 ║ 3 ║
+╠═══╬═══╬═══╣
+║ 4 ║ 5 ║ 6 ║
+╠═══╬═══╬═══╣
+║ 7 ║ 8 ║ 9 ║
+╚═══╩═══╩═══╝
+''')
+                doDialogText("Pick a square:# ", spd=1, line=False)
+                n = int(askNum())
+                x = n%3
+                y = (n-1)//3
+
+                d = round(((x - coords[0])**2 + (y - coords[1])**2)**0.5, 2)
+
+                print("DISTANCE:", d)
+                if d == 0: 
+                    print()
+                    book = books.pop(random.randint(0, len(books)-1))
+                    if book != 'SOME NERDS DIARY':
+                        doDialogText(f"YOU GOT {book}!")
+                    else:
+                        doDialogText("YOU GOT.#.#.# what looks like some nerd's diary.")
+                        doDialogText("SR. CAR:# How did that get there.")
+                        doDialogText("         Give me that.")
+                        book = books.pop(random.randint(0, len(books)-1))
+                        doDialogText(f"       Here,# take this {book} instead.")
+                        yourBooks.pop()
+                    yourBooks.append(book) 
+                    break
+            
+            
+            # ROUND 2
+            print('\n')
+            doDialogText("LEVEL 2:", spd=7)
+            print()
+            coords = (random.randint(0, 3), random.randint(0, 3))
+            while True:
+                attempts += 1
+
+#Symbol List wowzie:»│ ┤ ╡ ╢ ╖ ╕ ╣ ║ ╗ ╝ ╜ ╛ ┐ └ ┴ ┬ ├ ─ ┼ ╞ ╟ ╚ ╔ ╩ ╦ ╠ ═ ╬ ╧ ╨ ╤ ╥ ╙ ╘ ╒ ╓ ╫ ╪ ┘ ┌ 
+                printGraphic(''' 
+╔═══╦═══╦═══╦═══╗
+║ 1 ║ 2 ║ 2 ║ 4 ║
+╠═══╬═══╬═══╬═══╣
+║ 5 ║ 6 ║ 7 ║ 8 ║
+╠═══╬═══╬═══╬═══╣
+║ 9 ║ 10║ 11║ 12║
+╠═══╬═══╬═══╬═══╣
+║ 13║ 14║ 15║ 16║
+╚═══╩═══╩═══╩═══╝
+''')
+                doDialogText("Pick a square:# ", spd=1, line=False)
+                n = int(askNum())
+                x = n%4
+                y = (n-1)//4
+
+                d = round(((x - coords[0])**2 + (y - coords[1])**2)**0.5, 2)
+
+                print("DISTANCE:", d)
+                if d == 0: 
+                    print()
+                    book = books.pop(random.randint(0, len(books)-1))
+                    if book != 'SOME NERDS DIARY':
+                        doDialogText(f"YOU GOT {book}!")
+                    else:
+                        doDialogText("YOU GOT.#.#.# what looks like some nerd's diary.")
+                        doDialogText("SR. CAR:# How did that get there.")
+                        doDialogText("         Give me that.")
+                        book = books.pop(random.randint(0, len(books)-1))
+                        doDialogText(f"       Here,# take this {book} instead.")
+                        yourBooks.pop()
+                    yourBooks.append(book) 
+                    break
+            
+            # ROUND 3
+            print('\n')
+            doDialogText("LEVEL 3:", spd=7)
+            print()
+            coords = (random.randint(0, 5), random.randint(0, 3))
+            coordBox = {
+                    1: (0, 0),
+                    2: (1, 0),
+                    3: (2, 0),
+                    4: (3, 0),
+                    5: (0, 1),
+                    6: (1, 1),
+                    7: (2, 1),
+                    8: (3, 1),
+                    9: (4, 1),
+                    10: (0, 2),
+                    11: (1, 2),
+                    12: (2, 2),
+                    13: (3, 2),
+                    14: (4, 2),
+                    15: (5, 2),
+                    16: (0, 3),
+                    17: (1, 3),
+                    18: (2, 3),
+                    19: (3, 3),
+                    20: (4, 3)
+                }
+            
+            while coords not in coordBox.values(): 
+                if coords: coords = (random.randint(0, 5), random.randint(0, 4))
+                print(coords)
+            while True:
+                attempts += 1
+
+#Symbol List wowzie:»│ ┤ ╡ ╢ ╖ ╕ ╣ ║ ╗ ╝ ╜ ╛ ┐ └ ┴ ┬ ├ ─ ┼ ╞ ╟ ╚ ╔ ╩ ╦ ╠ ═ ╬ ╧ ╨ ╤ ╥ ╙ ╘ ╒ ╓ ╫ ╪ ┘ ┌ 
+                printGraphic(''' 
+╔═══╦═══╦═══╦═══╗
+║ 1 ║ 2 ║ 2 ║ 4 ║
+╠═══╬═══╬═══╬═══╬═══╗
+║ 5 ║ 6 ║ 7 ║ 8 ║ 9 ║
+╠═══╬═══╬═══╬═══╬═══╬═══╗
+║ 10║ 11║ 12║ 13║ 14║ 15║
+╠═══╬═══╬═══╬═══╬═══╬═══╝
+║ 16║ 17║ 18║ 19║ 20║
+╚═══╩═══╩═══╩═══╩═══╝
+''')
+                doDialogText("Pick a square:# ", spd=1, line=False)
+                n = int(askNum())
+                x, y = coordBox[n]
+
+                d = round(((x - coords[0])**2 + (y - coords[1])**2)**0.5, 2)
+
+                print("DISTANCE:", d)
+                if d == 0: 
+                    print()
+                    book = books.pop(random.randint(0, len(books)-1))
+                    if book != 'SOME NERDS DIARY':
+                        doDialogText(f"YOU GOT {book}!")
+                    else:
+                        doDialogText("YOU GOT.#.#.# what looks like some nerd's diary.")
+                        doDialogText("SR. CAR:# How did that get there.")
+                        doDialogText("         Give me that.")
+                        book = books.pop(random.randint(0, len(books)-1))
+                        doDialogText(f"       Here,# take this {book} instead.")
+                        yourBooks.pop()
+                    yourBooks.append(book) 
+                    break
+            
+            # ROUND 4
+            print('\n')
+            doDialogText("FINAL LEVEL:", spd=7)
+            print()
+            coords = (random.randint(0, 5), random.randint(0, 3))
+            coordBox = {
+                    1: (1, 0),
+                    2: (2, 0),
+                    3: (4, 0),
+                    4: (5, 0),
+                    5: (0, 1),
+                    6: (1, 1),
+                    7: (2, 1),
+                    8: (3, 1),
+                    9: (4, 1),
+                    10: (5, 1),
+                    11: (6, 1),
+                    12: (0, 2),
+                    13: (1, 2),
+                    14: (2, 2),
+                    15: (3, 2),
+                    16: (4, 2),
+                    17: (5, 2),
+                    18: (6, 2),
+                    19: (1, 3),
+                    20: (2, 3),
+                    21: (3, 3),
+                    22: (4, 3),
+                    23: (5, 3),
+                    24: (2, 4),
+                    25: (3, 4),
+                    26: (4, 4),
+                    27: (3, 3)
+            }
+            while coords not in coordBox.values(): coords = (random.randint(0, 5), random.randint(0, 3))
+
+            while True:
+                attempts += 1
+
+# Symbol List wowzie:»│ ┤ ╡ ╢ ╖ ╕ ╣ ║ ╗ ╝ ╜ ╛ ┐ └ ┴ ┬ ├ ─ ┼ ╞ ╟ ╚ ╔ ╩ ╦ ╠ ═ ╬ ╧ ╨ ╤ ╥ ╙ ╘ ╒ ╓ ╫ ╪ ┘ ┌ 
+                printGraphic(''' 
+    ╔═══╦═══╗   ╔═══╦═══╗ 
+    ║ 1 ║ 2 ║   ║ 3 ║ 4 ║         
+╔═══╬═══╬═══╬═══╬═══╬═══╬═══╗
+║ 5 ║ 6 ║ 7 ║ 8 ║ 9 ║ 10║ 11║
+╠═══╬═══╬═══╬═══╬═══╬═══╬═══╣
+║ 12║ 13║ 14║ 15║ 16║ 17║ 18║
+╚═══╬═══╬═══╬═══╬═══╬═══╬═══╝  
+    ║ 19║ 20║ 21║ 22║ 23║   
+    ╚═══╬═══╬═══╬═══╬═══╝
+        ║ 24║ 25║ 26║
+        ╚═══╬═══╬═══╝
+            ║ 27║
+            ╚═══╝
+''')
+                doDialogText("Pick a square:# ", spd=1, line=False)
+                n = int(askNum())
+                
+                x, y = coordBox[n]
+
+                d = round(((x - coords[0])**2 + (y - coords[1])**2)**0.5, 2)
+
+                print("DISTANCE:", d)
+                if d == 0: 
+                    print()
+                    book = books.pop(random.randint(0, len(books)-1))
+                    if book != 'SOME NERDS DIARY':
+                        doDialogText(f"YOU GOT {book}!")
+                    else:
+                        doDialogText("YOU GOT.#.#.# what looks like some nerd's diary.")
+                        doDialogText("SR. CAR:# How did that get there.")
+                        doDialogText("         Give me that.")
+                        book = books.pop(random.randint(0, len(books)-1))
+                        doDialogText(f"       Here,# take this {book} instead.")
+                        yourBooks.pop()
+                    yourBooks.append(book) 
+                    break
+            
+            stopSong()
+            if attempts >= 56:
+                route4['srcar_1'] = 'ASS'
+                doDialogText("SR. CAR:# Well.#.#.#")
+                doDialogText("         I think you would've done better if you just guessed every single square.")
+            elif 56 > attempts >= 38:
+                route4['srcar_1'] = 'BAD'
+                doDialogText("SR. CAR:# I could see a little suffering in your tries.")
+            elif 38 > attempts >= 20:
+                route4['srcar_1'] = 'OK'
+                doDialogText("SR. CAR:# Good job!# It was FUN,# right?")
+            elif 20 > attempts >= 10:
+                route4['srcar_1'] = 'GOOD'
+                doDialogText("SR. CAR:# Great job!# You did fairly well.")
+                doDialogText("         That was FUN,# right?")
+            elif 10 > attempts >= 5:
+                route4['srcar_1'] = 'GREAT'
+                doDialogText("SR. CAR:# Wow,# that was insanely good!")
+            elif 5 > attempts >= 4:
+                saveFile['srcar_1'] = 'PERFECT'
+                doDialogText("SR. CAR:# That.#.# was an impossible achievement.")
+                doDialogText("         YOU GOT EVERYTHING PERFECTLY RIGHT!")
+                doDialogText("         This deserves a great prize,# but since we didn't actually expect anyone to guess everything perfectly because of how rare it is.#.#.#")
+                doDialogText("         .#.#.#unfortunately you have to keep playing for the prize.")
+            else:
+                route4['srcar_1'] = 'CHEATER'
+                doDialogText("SR. CAR:# How did you.#.#.#")
+                doDialogText("         Nevermind.")
+            
+            
+
+            
+            doDialogText("         Well,# it's time to move on to the next game:")
+
+            print()
+            
+            doDialogText("ROUND 2:# BEFRIENDMENT!")
+            doDialogText("SR. CAR:# This one is a unique minigame that we came up with.")
+            doDialogText("         We put almost all our budget into this one!")
+            doDialogText("         Now spin this wheel!")
+            doDialogText("You spin the wheel that you feel came out of nowhere.")
+            doDialogText(".#.#.#")
+            
+            doDialogText("A white light fills the room.")
+            print()
+            doDialogText("SR. CAR:# Welcome.#.#.#")
+            doDialogText("         To The Institute of Magic and Wizardry!")
+            doDialogText("The light fades away,# and you find yourself at Hogwarts.")
+            doDialogText("YOU:# A-### Are we in Harry Potter??")
+            doDialogText("SR. CAR:# Not exactly, You're in our version of Hogwarts.")
+            doDialogText("         This is a simulated experience of.#.#.#")
+            stopSong()
+
+            doDialogText("         A Dating Sim!")
+            doDialogText("YOU:# .#.#.####what.")
+            doDialogText("SR. CAR:# I feel like I don't need to explain more.#")
+            doDialogText("         Find your sweetheart,# and ENJOY!")
+            doDialogText("YOU:# HEY WAIT A MINUTE GET BACK HERE!", spd=3)
+            doDialogText("SR. CAR Disappeared.")
+            doDialogText("YOU:# .#.#.#")
+            doDialogText("     Well,# guess we're on our own now.")
+            doDialogText("FLOWERY:# I've never been to school before.")
+            doDialogText("YOU:# Oh,# you're no longer a massive flower now.#.#.#")
+            doDialogText("     You're in a flower pot.")
+            doDialogText("FLOWERY:# Oh yeah.# Guess he must've done that.")
+            doDialogText("YOU:# I think you could pass off as a talking flower.")
+            doDialogText("FLOWERY:# Good idea actually.")
+            print()
+
+            doDialogText("YOU:# Oh,# it seems I also got a bag of resources when we spawned here.")
+            doDialogText("FLOWERY:# What's in it?")
+            doDialogText("YOU:# There's only a flask.#.#.#")
+            doDialogText("You take a sip of the flask.")
+            doDialogText("YOU:# .#.#.# it's hot chocolate.")
+            doDialogText("FLOWERY:# Oh,# does it restore HP?")
+            doDialogText("YOU:# Not really,# I didn't feel anything.")
+            doDialogText("FLOWERY:# okay.#.#.# Well let's head inside now.")
+            
+            print()
+            playSong('assets/soundtrack/magic.ogg', looping=True)
+            doDialogText("You make your way into the building.")
+            doDialogText("RECEPTIONIST:# Oh!# We've been expecting you.", spd=3)
+            doDialogText("              Uhh,# you must be.#.#.#", spd=3)
+            doDialogText(f"YOU:# {saveFile['name']}.")
+            doDialogText("     Can you tell me where my class is?")
+            doDialogText("RECEPTIONIST:# Right.# Your class is.#.#.#")
+            doDialogText("              D 11, under Ms. Shilda.")
+            doDialogText("              But right now,# you have to attend the opening ceremony!# Go straight,# take a right,# get on the floating stairs and go to the seventh floor,# and keep going straight until you find a rope hanging from the ceiling.# Grab onto that rope and close your eyes.", spd=2)
+            doDialogText("YOU:# Oh,# uh.#.#.# could you repeat that-", spd=5, afterdelay=0)
+            doDialogText("RECEPTIONIST:# No time!# Give me the flower,# I'll put it in your dorm room.")
+            
+            giveUp = doDialogChoice('Give up FLOWERY?', choices=['Give FLOWERY to the RECEPTIONIST', 'Keep FLOWERY'])
+
+            if giveUp == 1:
+                doDialogText("YOU:# Oh.#.#.# here.")
+                doDialogText("You gave FLOWERY to the RECEPTIONIST.")
+                doDialogText("RECEPTIONIST:# I'll keep him in your dorm room.# The rest of your belongings are already there.")
+                doDialogText("YOU:# Okay.#.#")
+                doDialogText("RECEPTIONIST:# Now hurry!")
+                print()
+                doDialogText("You start running.")
+            else:
+                doDialogText("YOU:# Oh no thanks,# I'll keep him.")
+                doDialogText("RECEPTIONIST:# Okay,# now hurry up!")
+                print()
+                doDialogText("You start running with FLOWERY in your hand.")
+            
+            doDialogText("YOU:# Wait a minute,# did she say to get on floating stairs?")
+            doDialogText("And there,# right in front of you are the floating stairs.")
+            doDialogText("(This is bizzare).")
+            'SR. CAR:# I\'d say that is indeed.#.#.#'
+            '         Pretty Bizzare.' 
+            doDialogText("You make your way to the seventh floor.")
+            doDialogText("After walking enough,# you find a rope hanging from the ceiling.")
+            doDialogText("YOU:# I have to grab this and close my eyes?")
+            doDialogText("You grab the rope and close your eyes.")
+            doDialogText("When you open your eyes,# you find yourself in a seat in a hall with murmuring students.")
+            doDialogText("YOU:# What the-", afterdelay=0)
+            doDialogText('"SHH!# The Dean\'s almost here!"')
+            
+            doDialogText("The very next second,# you spot someone walking onto the stage.")
+            print()
+            doDialogText("DEAN:# Welcome,# everyone,# to the magical institute of Devagiri.")
+            doDialogText("The crowd is still murmuring.")
+            doDialogText("DEAN:# .#.#.#")
+            pauseSong()
+            doDialogText("      SILENCE.")
+            doDialogText("The crowd became silent.")
+            print()
+            doDialogText("DEAN:# Anyways.#.#.## as I was saying.#.#.#")
+            pauseSong()
+            doDialogText("      My name is Saint Dumbledore Cardeacurus,# and I'm the humble DEAN of this institute.")
+            doDialogText("      Welcome to your new school of Magic and Wizardry.")
+            doDialogText("      This school is a highly prestigious school of magic,# one of the top schools in the district...###")
+            doDialogText("The DEAN starts yapping about how the school is prestigious and historious and stuff.#.#.#")
+            doDialogText("The details bore you to death.")
+            print()
+            doDialogText("\"As he looks towards his right,# he comes eye to eye with a student.#.#.#")
+            doDialogText("A shy student named.#.#.### ASHTON.\"")
+            doDialogText("(Yo who is narrating this?)")
+
+            ashtonChoices1 = ['Ask about the DEAN\'s speech.', 'Ask about the school.', 'Ask about ASHTON.']
+
+            while ashtonChoices1:
+                ashton1 = doDialogChoice('What do you say to ASHTON?', choices = ashtonChoices1)
+
+                action = ashtonChoices1.pop(ashton1 - 1)
+                if action == 'Ask about the DEAN\'s speech.':
+                    doDialogText("YOU:# Boring speech,# right?")
+                    doDialogText("ASHTON:# O-# oh,# I actually find it quite interesting to learn more about the school's history and heritage.")
+                    doDialogText("YOU:# Oh.#.#.#")
+                    doDialogText("     Nerd.")
+                    print()
+                elif action == 'Ask about the school.':
+                    doDialogText("YOU:# What's so great about this school anyways?")
+                    doDialogText("ASHTON:# U-#uh,# I don't know if you didn't hear,# but the DEAN was talking about it the whole time.")
+                    doDialogText("YOU:# That's true.#.#.#")
+                    print()
+                elif action == 'Ask about ASHTON.':
+                    doDialogText("YOU:# So why'd you come to this school?")
+                    doDialogText("ASHTON:# U-#uh,# to study magic?")
+                    doDialogText("YOU:# Well,# duh.# Why do you want to study magic?")
+                    doDialogText("ASHTON:# T-#To be a wizard??")
+                    doDialogText("YOU:# Oh my god.#.#.#")
+                    doDialogText("ASHTON:# I want to be a wizard.#.#.# just like my dad.")
+                    doDialogText("        Really get into the world of magic.")
+                    doDialogText("        Then maybe I can find my dad.#.#.#")
+                    doDialogText("        And also I just love magic in general.")
+                    doDialogText("YOU:# Oh.# Sweet.")
+                    doDialogText("ASHTON:# What about you?")
+                    doDialogText("YOU:# oh.#.#.#", spd=5)
+                    doDialogText("      i dunno.")
+                    doDialogText("ASHTON:# oh.#.#.#", spd=6)
+                    print()
+                
+            
+            doDialogText("ASHTON:# O-#oh,# by the way,# my name is ASHTON.# Nice to meet you.")
+            doDialogText("YOU:# Well.#.#.# nice to meet you too,# ASHTON.")
+            doDialogText("     Or more like ASHCHEEKS.")
+            'SR. CAR:# WHAT?!# WHO WROTE THIS STORY?!?!'
+            '         I THOUGHT THIS WAS SUPPOSED TO BE CUSS-FREE!'
+            doDialogText("As you said that,# you felt a WHITE-ning sensation crawling behind your back.")
+            doDialogText("ASHTON:# H-#hey,# that's mean!")
+            doDialogText("YOU:# It may not be nice,# but its sure as hell what's written on your book.")
+            doDialogText("ASHTON:# WHAT?!")
+            doDialogText("Ashton checks his book that he was holding.# Indeed,# someone wrote ASHCHEEKS on his book.")
+            'SR. CAR:# Whoever proofread this script is getting fired tonight.#.#.#'
+            doDialogText("ASHTON:# Oh my gosh,# I'm so sorry.#.#.#")
+            doDialogText("        Someone must have written that on my book.#.#.#")
+            doDialogText("YOU:# Don't worry,# I'd say it's a funny nickname.")
+            doDialogText("ASHTON:# .#.#.#")
+            if giveUp == 2:
+                doDialogText("        A-#Also,# I hope you don't mind me asking,# but.#.#.#")
+                doDialogText("        What's with the flower?")
+                doDialogText("YOU:# Oh,# this guy?")
+                doDialogText("FLOWERY:# Hello Ashton.")
+                doDialogText("ASHTON:# A-#AH! It speaks?!")
+                doDialogText("YOU:# What?# Never seen a talking flower before?")
+                doDialogText("ASHTON:# N-#No!# Where'd you get him from?")
+                doDialogText("YOU:# U-#uh,# you see I found him on the gro-", afterdelay=0)
+                doDialogText("FLOWERY:# I was a gift from a powerful wizard.")
+                doDialogText("YOU:# .#.#.#")
+                doDialogText("ASHTON:# .#.#.?")
+                doDialogText("YOU:# .#.#.#yeah.")
+                doDialogText("FLOWERY:# I sure do miss Hagrid.")
+                doDialogText("ASHTON:# Oh.#.#.# that's pretty cool.")
+            print()
+            pauseSong()
+            doDialogText("DEAN:# HEY,# YOU TWO LOVEBIRDS!")
+            doDialogText("YOU:# ?")
+            doDialogText("ASHTON:# Oh no.#.#.#")
+            doDialogText("DEAN:# Are you two talking in the middle of my speech?")
+            doDialogText("ASHTON:# OH,# NONO,# IT WAS NOTHING LIKE THAT-#", afterdelay=0)
+            doDialogText("DEAN:# QUIET!")
+            doDialogText("      And you,# stand up right now.")
+            doDialogText("YOU:# M-#me?")
+            doDialogText("DEAN:# Tell me what I was talking about right now,# and you may sit down.")
+            doDialogText("YOU:# Uh.#.#.#")
+            doDialogText("     That your school is one of the top schools in the district?")
+            doDialogText("     And about how prestigious it is?")
+            doDialogText("DEAN:# .#.#.#")
+            doDialogText("YOU:# .#.#.#")
+            doDialogText("ASHTON:# .#.#.#")
+            if giveUp == 2: doDialogText("FLOWERY:# .#.#.#",afterdelay=3)
+            print()
+            pauseSong()
+            doDialogText("DEAN: .#.#.### you may sit down.")
+            doDialogText("YOU:# (phew.)")
+            doDialogText("ASHTON:# Nice save!")
+            doDialogText("YOU:# Thanks.#.#.#")
+            doDialogText("(Why does this feel like deja vu?)", afterdelay=2)
+            print()
+
+            doDialogText("Eventually the DEAN stops talking about the school's prestigious heritage or smth.")
+            
+            doDialogText("DEAN:# Well,# at the end of the day,# we hope you find Devagiri a welcoming home, as well as a school capable of helping you grow not only as a wizard or witch,# but as a person as well.")
+            doDialogText("      You may move to your respective dorms now.")
+            
+            print()
+            doDialogText("You and the rest of the students move to your respective dorms.")
+            doDialogText("Unaware of where your dormroom is,# you decide to follow ASHTON to the way.")
+            doDialogText("YOU:# Hey,# ASHTON,# you think we're in the same dorm?")
+            doDialogText("ASHTON:# Hmm,# the RECEPTIONIST is supposed to tell you that.")
+            doDialogText("YOU:# Well,# I guess I came late,# so the RECEPTIONIST had no time to tell me.")
+            doDialogText("     I think I'll stick with you for now.")
+            print()
+
+            if pgFilter:
+                doDialogText("You and ASHTON soon make it to his dormitory.")
+                doDialogText("YOU:# Hey,# there's my stuff!")
+
+                if giveUp == 1:
+                    doDialogText("     and FLOWERY too.#.#.#")
+                    doDialogText("FLOWERY:# Heya.# Can't believe you would abandon me like that.")
+                    doDialogText("YOU:# Listen man,# i-#", afterdelay=0)
+                    doDialogText("ASHTON:# I-#Is that a talking flower?!")
+                    doDialogText("FLOWERY:# What?# Have you never seen a talking flower before?")
+                    doDialogText("ASHTON:# N-#NO!# I'VE NEVER SEEN A TALKING FLOWER BEFORE!")
+                    doDialogText("YOU:# uh.#.#.#")
+
+                elif giveUp == 2:
+                    doDialogText("FLOWERY:# Stuff?# Only thing you got there is Hot Chocolate-", afterdelay=0)
+
+                doDialogText('PERSON 1:# OH MY GOSH IS THAT A TALKING FLOWER?!', spd=2)
+                doDialogText("PERSON 2:# OMG HE'S SO CUTEE", spd=2)
+                doDialogText("PERSON 3:# CAN I HOLD HIM?!?!")
+                doDialogText("YOU:# What- WHERE DID ALL THESE PEOPLE COME FROM?!")
+                doDialogText("SOME GUY OUTSIDE:# HEY EVERYONE!# ASHTON BROUGHT A TALKING FLOWER!")
+                print()
+                doDialogText("In an instant,# you could hear the rapid marching of about 20 students moving into your dorm room.")
+                doDialogText("FLOWERY:# what the fuck")
+                'SR. CAR: THE CENSORS ARE DOWN!!!! I REPEAT THE CENSORS ARE DOWN!'
+                '         WHITE, STOP SLACKING OFF YOU...'
+                '         ... oh white.'
+                doDialogText("SOME OTHER GUY:# ASHTON LET ME TOUCH HIMMM")
+                doDialogText("ASHTON:# WAIT WAIT HE'S NOT MINE!# HE BELONGS TO.#.#.#")
+                doDialogText("        I'm sorry,# what was your name?")
+                doDialogText(f"YOU:# {saveFile['name']}.")
+                print()
+
+                doDialogText(f"SOME GIRL:# {saveFile['name'].upper()}!# PLEASE LET ME HOLD HIM!")
+                doDialogText("FLOWERY:# Hey, pal, don't you dare-", afterdelay=0)
+                doDialogText("YOU:# Ladies and Gentlemen,# he's yours.")
+                doDialogText("You gently pass FLOWERY to ASHTON,# and quickly move out of the way.")
+                doDialogText("As soon as you leave the circle of students,# the ring collapses onto ASHTON like a star collapsing right before it's death.")
+                print()
+                doDialogText("You take your flask and take a sip of Hot Chocolate as you watch the chaos unfold.")
+                doDialogText("Eventually ASHTON makes it out of the chaos and stands beside you.")
+                doDialogText("ASHTON:# ...why.", spd=6)
+                doDialogText("        why did you give it to me?")
+                doDialogText("YOU:# Come on,# if I was there,# I would've gotten crushed in there.")
+                doDialogText("ASHTON:# ...## so did i.", spd=7)
+                doDialogText("YOU:# Well.#.#.# sorry about that.")
+                print()
+                bunk = doDialogChoice("ASHTON:# Well,# it looks like we're bunkmates.", choices=['Top Bunk', 'Bottom Bunk'])
+
+                if bunk == 1:
+                    doDialogText("YOU:# I call dibs on the top bunk.")
+                    doDialogText("ASHTON:# That's fine,# I usually prefer bottom anyways.")
+                else:
+                    doDialogText("YOU:# I'll go with the bottom bunk.")
+                    doDialogText("ASHTON:# Well,# then I guess I'll take the top bunk.")
+
+                print()
+                doDialogText(".#.#.#", afterdelay=3)
+            
+            stopSong()
+            doDialogText("Suddenly,# the entire world freezes.")
+            doDialogText("A popup appears in front of you which states:")
+            print()
+            doDialogText("|| YOU HAVE REACHED THE END OF THE DEMO. ||")
+            doDialogText("|| PLEASE SUBSCRIBE TO THE PATREON TO PLAY THE FULL VERSION OF THIS GAME. ||", spd=2)
+            print()
+            doDialogText("YOU:# .#.#.#what?")
+            
+                    
+
+
+
+
+            # SKIP MINIGAME
+            doDialogText("INTERMISSION!")
+            print()
+            doDialogText("SR. CAR:# Let's take a break here.")
+            doDialogText("         Our participants are clearly tired.# Let's give them a treat!")
+            doDialogText("YOU:# What just.#.#.# happened?")
+            doDialogText("     WAIT DID THE GAME RUN OUT OF FREE TRIAL?")
+            doDialogText("SR. CAR:# uh.#.#.#")
+            doDialogText("YOU:# LMAOOOO YOU SPENT ALL OF YOUR MONEY ON A DEMO")
+            if pgFilter:
+                doDialogText("FLOWERY:# t-#thank god.#.#.# it's.#.# over.", spd=6)
+            doDialogText("SR. CAR:# W-#whatever.# I will have a word with whoever's in charge for development.")
+            doDialogText("         For now,# let's take a break,# shall we?")
+            
+            doDialogText("You got teleported to what looks like a grand dining room.")
+            playSong('assets/soundtrack/bach.mp3')
+            doDialogText("SR. CAR:# Please,# take a seat.")
+            doDialogText("As you take a seat,# a plate appears out of thin air,# with food on it.")
+            doDialogText("SR. CAR:# Taste the brilliance of our special MALABAR CHICKEN CURRY.")
+            print()
+            doDialogText("YOU:# This doesn't look that bad.")
+            doDialogText("FLOWERY:# No thanks,# I don't like meat.# I eat sun.")
+            doDialogText("SR. CAR:# Our MALABAR CHICKEN CURRY is a dish for all.# Try it!")
+            doDialogText("You and FLOWERY take a small bite.")
+            print()
+
+            player['hp'] = getMaxHP(1)
+            doDialogText(f"YOUR HP WAS RESTORED TO MAX! ({getMaxHP(1)})")
+            print()
+            doDialogText("(This.#.#.# is really good!)")
+            if pgFilter: doDialogText("FLOWERY:# HOLY SHIII-# DAMN THE CENSOR!")
+            else: doDialogText("FLOWERY:# WOAAAAAHHHHHH")
+            doDialogText("         IS THIS WHAT CHICKEN TASTES LIKE?!?!")
+            doDialogText("         IT'S SO GOOOOD!")
+            print()
+            doDialogText(f"FLOWERY'S HP WAS RESTORED TO MAX! ({getMaxHP(4)})")
+            print()
+            doDialogText("YOU:# Yeah,# not gonna lie,# this is REALLY good!")
+            doDialogText("SR. CAR:# We're glad you enjoy it!")
+            doDialogText("         O-#oh,# excuse me,# I'll be right back.")
+            doDialogText("         You can take a short rest in the meantime.")
+            doDialogText("SR. CAR disappears offstage.")
+            print()
+            doDialogText("YOU:# Wonder what that was about?")
+
+
+            stopSong()
+            save2 = getPrompt("Save this chapter here?")
+
+            if save2:
+                route4["startIndex"] = 2
+                route4['players'] = [player, ashish, knight, flowery]
+                saveFile["route4"] = route4
+
+                saveFile['route4']['inventory'] = inventory
+                saveFile['route4']['money'] = money
+
+                try:
+                    saveGame(curSaveName, saveFile)
+                    doDialogText("The game was saved.")
+                except:
+                    doDialogText("There was an error in saving the game.")
+            
+            continue2 = getPrompt("Continue your journey?")
+
+            if continue2:
+                startindex = 2
+                doDialogText("Continuing from TV SHOW.#.#.#")
+                doDialogText("The Finale Approaches.", afterdelay=2)
     # POSSIBLE SPLIT
+
     if startindex == 2:
-        if firstLoad:
-            route4 = saveFile['route4']
-            inventory = saveFile['route4']['inventory']
-            money = saveFile['route4']['money']
         blush = False
         if saveFile['route1']['name_choice'] == "NORMAL": blush = True
         elif saveFile['route1']['name_choice'] == "RUDE" and saveFile['route1']['rude_choice']: blush = True
@@ -2520,7 +3272,7 @@ More than enough to kill the cat!""")
 
                 if play == 2:
                     doDialogText("You decide to go back to sleep.")
-                    route4['on_weirdRoute']
+                    route4['on_weirdRoute'] = False
                 elif play == 1:
                     route4['played_conjuring'] = True
                     doDialogText("You decide to try the game for yourself.# A quick session can't hurt,# right?")
@@ -3734,10 +4486,760 @@ is your imagination.""")
             doDialogText("YOU:# Sure.# Goodnight.")
             doDialogText("ASHISH:# Goodnight.")
             doDialogText("You lie down on your bed.# Ashish is sound asleep already.#.#.##")
-            doDialogText("Before you get ready to lose conciousness,# you get some notifications from the group chat:")
+            doDialogText("Before you get ready to lose conciousness,# you get some notifications from the class group chat:")
 
             doCreditsSequence(soundImportSuccesful)
 
+            finalSave = True
+        else:
+
+            doDialogText("As you and FLOWERY eat,# SR. CAR comes back.")
+            doDialogText("SR. CAR:# Please excuse me for the trouble,# but it seems on your way here,# you ran into the guards of the Great Door.")
+            if pgFilter: doDialogText("FLOWERY:# Oh shit.#.#.#")
+            else: doDialogText("FLOWERY:# Oh no.#.#.#")
+            doDialogText("YOU:# .#.#.#yes we did.")
+
+
+            if route4['on_weirdRoute']:
+                doDialogText("SR. CAR:# I've just been informed.#.#.#")
+                doDialogText("         ...that both my best friends have died.")
+                doDialogText("         I can't forgive that.")
+                doDialogText("YOU:# uhh...")
+                doDialogText("SR. CAR:# I'm afraid you have to die now.")
+                doDialogText("FLOWERY:# Please,# it's what we had to do!")
+                doDialogText("SR. CAR:# I know those two buffoons well.# If one of them died,# then the other would submit immediately.")
+                doDialogText("         You didn't have to kill them both.#.#.# but you still did.")
+                print()
+                playSong('assets/soundtrack/enraged.ogg')
+                doDialogText("SR. CAR grabs your throat.")
+                doDialogText("YOUR SENSES FAIL TO HEIGHTEN DUE TO THE MALABAR CURRY!")
+                doDialogText(f"FLOWERY:# {saveFile['name'].upper()}!# I'LL HELP-", afterdelay=0)
+                doDialogText("Flowery got crushed by a falling piano that appeared out of nowhere.")
+                doDialogText("YOU:# No..# Let go of me!")
+                doDialogText("SR. CAR:# Mercy no longer deserves you.", spd=5)
+                doDialogText("You equip the HARDCOVER AXE")
+                if pgFilter: doDialogText("YOU HACK THE AXE INTO SR. CAR'S NECK!")
+                else: doDialogText("YOU STRIKE SR. CAR WITH YOUR AXE!")
+                doDialogText("SR. CAR:# ACK!")
+                doDialogText("He lets go of you.")
+                doDialogText("SR. CAR:# So,# you still have something left in you.#.#.#")
+                doDialogText("         WHITE,# let's combine.")
+                print()
+                doDialogText("SR. CAR shines with a powerful glow.")
+                doDialogText("He starts floating up into the air,# slowly transforming into a huge figure.")
+                if pgFilter: doDialogText("YOU:# What the fuck is happening...")
+                else: doDialogText("YOU:# What the heck is happening...")
+                doDialogText(f"FLOWERY:# {saveFile['name'].upper()}!")
+                doDialogText("You turn around to find FLOWERY,# who has lifted the piano off of him.")
+                doDialogText("FLOWERY:# I'm feeling a strong sense of overwhelming energy.")
+                if pgFilter: doDialogText("YOU:# What the fuck is happening up there?!")
+                else: doDialogText("YOU:# What is happening up there?!")
+                doDialogText("FLOWERY:# It seems like he's transforming.#.#.# and giving off a lot of energy as light.")
+                stopSong()
+                doDialogText("         Hey,# wait!# I can use this energy to transform!")
+                doDialogText("YOU:# You can transform?!")
+                doDialogText("FLOWERY:# I probably could.#.#.# but I've never tried it before.")
+                doDialogText("YOU:# What are you waiting for?!# Let's do it!")
+
+                playSong('assets/soundtrack/mechfight_intro.ogg')
+                doDialogText("FLOWERY spreads its petals,# absorbing the light emitted by SR. CAR.")
+                doDialogText("FLOWERY starts growing!")
+                doDialogText("You also focus on absorbing energy.")
+                doDialogText("Before you know it,# you're floating in the sky with FLOWERY as well.")
+                doDialogText("You can feel your SOULS unite,# even if just for this one fight.")
+                doDialogText("You begin transformation along with FLOWERY.")
+                doDialogText(".#.#.#", afterdelay=3)
+                doDialogText("You have now transformed into a giant flower.#.#.#")
+                doDialogText("...with somewhat muscular arms.", afterdelay=2)
+                print()
+
+                if not saveFile['route4']['COMPLETED']:
+                    doDialogText("DEVELOPER NOTE:")
+                    doDialogText("This is a very experimental setup.# You will soon see a display on screen.")
+                    doDialogText("Please use your ARROW keys to change the screen size to your liking,# and confirm it by pressing enter.")
+                    doDialogText("Also since I'm making this in a rush,# PLEASE make sure you enabled KEYBOARD INPUT.")
+                    print()
+                
+
+                loadModule('lib/fightplayer/setup.py')
+
+
+                playSong('assets/soundtrack/mechfight.ogg', looping=True)
+                loadModule('lib/fightplayer/mechfight.py')
+
+                stopSong()
+
+                doDialogText("SR. TRANSFORMER has been defeated.", afterdelay=3)
+                print()
+                doDialogText("You and FLOWERY split into your original forms.")
+                doDialogText("FLOWERY:# That was insane.#.#.#")
+                doDialogText("You notice two items on the ground.")
+                doDialogText("YOU:# Are these.#.#.# gloves?")
+                doDialogText("You equip the TRUCK GLOVES.")
+                doDialogText("ATTACK raised by 30!")
+                doDialogText("FLOWERY:# What are those?")
+                doDialogText("YOU:# Woah,# I feel insanely strong!")
+                doDialogText("Suddenly,# an elevator appears in front of you.")
+                doDialogText("FLOWERY:# Why is there an elevator here?")
+                doDialogText("YOU:# Maybe it could take us to the fountain.")
+                doDialogText("FLOWREY:# .#.#.#eh,# let's try our luck.")
+                
+
+            else:
+                doDialogText("SR. CAR:# I've received a call from the Royalty.# I've been instructed to kill you both if I find you.")
+                doDialogText("YOU:# what.")
+                doDialogText("FLOWERY:# Those guards must've been pretty important to the Royalty.#.#.#")
+                doDialogText("SR. CAR:# Worry not,# however.# I can understand where you're coming from.")
+                doDialogText("         Despite having killed a Great Guard,# I know it's what you probably had to do.")
+                doDialogText("         So I won't kill you.")
+                doDialogText("FLOWERY:# Oh wait really?")
+                doDialogText("YOU:# So are we safe?")
+                doDialogText("SR. CAR:# For now,# yes.# I won't do anything to you.")
+                doDialogText("         However,# you're trying to \"leave\" this Dark World,# aren't you?")
+                doDialogText("YOU:# Yeah,# we're looking for the Dark Fountain.")
+                doDialogText("SR. CAR:# The only way to exit is to seal the fountain itself,# and other darkners will definitely try to stop you.")
+                doDialogText("          Though I have no objection,# it won't be easy for you.")
+                doDialogText("YOU:# We'll deal with it.# We'll seal the fountain.")
+                doDialogText("SR. CAR:# Im afraid I can only help you get to the Fountain.")
+                doDialogText("         But first,# we must end this show.# If it goes on,# people will find you,# and I won't be able to help you.")
+                doDialogText("         What do you say,# folks?")
+                doDialogText("One of the walls suddenly collapses to reveal a stage full of people cheering.")
+                playSong("assets/soundtrack/tv_show_2_loop.ogg", looping=True)
+                doDialogText("SR. CAR:# FOLKS!# I'm afraid we'll have to end this show early!# It's time for our participants to depart!")
+                doDialogText("         Shall we give them a send-off?")
+                doDialogText("The Crowd cheers very aggressively.")
+                doDialogText("SR. CAR:# You two,# thank you for participating in our famous late night game show.")
+                doDialogText("         Though this time it had to end early,# we will be here every night.")
+                doDialogText("         And to make up for this abrupt ending,# the next one will be MUCH MORE FUN,# CHALLENGING,# THRILLING.#.#.#")
+                doDialogText("         and we hope to see you in the next one!# Thanks for stopping by in the Reviewer's Paradise!.")
+                stopSong()
+                playSong('assets/soundtrack/tv_show_2_end.ogg')
+                doDialogText("         See you on the next one!")
+                doDialogText("The crowd continues to cheer,# even louder this time.")
+                doDialogText("SR. CAR:# Please,# stand by folks.")
+                doDialogText("A huge Elevator spawns in the stage.")
+
+                doDialogText("SR. CAR:# Once you enter this elevator,# you'll be transported to the Queen's Castle.")
+                doDialogText("         I can't take you directly to the fountain,# but the castle can.")
+                doDialogText("         Inside the castle lies a door which takes you straight to the fountain is.")
+                doDialogText("         Right now,# it's in the middle of nowhere,# and only the door can take you there.")
+                doDialogText("FLOWERY:# We'll have to be ready to face the darkners.#.#.#")
+                doDialogText("         The closer we get to the fountain,# the stronger the darkners get.")
+                doDialogText("SR. CAR:# You're right about that.")
+                doDialogText("         That's right!# We almost forgot about your prize!")
+                doDialogText("         here, take this.")
+                doDialogText("YOU GOT THE AUTO COOKER!", spd=6, step=2)
+                inventory += ['AUTO COOKER']
+                doDialogText("YOU:# Oh sweet,# thanks!")
+                doDialogText("SR. CAR:# Let this help you on your journey.")
+                doDialogText("         Now,# step into the elevator,# and good luck.")
+            
+            doDialogText("You and FLOWERY step into the elevator.")
+            doDialogText("The Elevator starts moving with a faint hum.")
+            doDialogText("FLOWERY:# Are you ready?")
+            doDialogText("YOU:# I'm ready.")
+            doDialogText("YOU AND FLOWERY:# Lets do this.", afterdelay=3)
+            print()
+            doDialogText("The Elevator door opens.# You're faced with a huge,# black castle.")
+            doDialogText("The darkness from the castle dulls your senses.")
+            doDialogText("FLOWERY:# Wow,# that's.#.#.# really dark.")
+            doDialogText("YOU:# Let's go inside.")
+            print()
+            doDialogText("You approach the castle and open the door.")
+            playSong('assets/soundtrack/castle_walls.ogg', looping=True)
+            doDialogText("A strange atmosphere of sound fills your ears.")
+            doDialogText("You can hear distant noise.#.#.# a PULSING.")
+            doDialogText("YOU:# .#.#.#okay,# so far there's no one.")
+            doDialogText("The castle is completely black inside,# with white outlines on objects.")
+            doDialogText("FLOWERY:# We have to get to the center of the castle,# so let's keep going straight.")
+            doDialogText("YOU:# Okay.")
+            doDialogText("You and FLOWERY walk along the hallways of the castle.")
+            doDialogText("The Hallways are pitch black colored,# with torches of white flames on the walls.")
+            doDialogText("There's a pitch black carpet on the floor.")
+            doDialogText("YOU:# You think anyone would have noticed us by now?")
+            doDialogText("FLOWERY:# Not sure.#.#.#")
+            doDialogText("         Wait stop.# shh.")
+            doDialogText("You stop in your tracks.", afterdelay=2)
+            doDialogText("YOU:# what happened?")
+            doDialogText("FLOWERY:# I can hear a guard.# Take the left hallway.")
+            doDialogText("YOU:# oh,# okay.")
+            doDialogText("You quietly navigate through the castle,# somehow avoiding all the other guards in the castle with the help of FLOWERY.", afterdelay=3)
+            doDialogText("YOU:# is that snoring?")
+            doDialogText("FLOWERY:# It's coming from this room.")
+            doDialogText("You and FLOWERY slowly enter the room.")
+            doDialogText("You find a sleeping rook.")
+            doDialogText("YOU:# Are you thinking what I'm thinking?")
+            doDialogText("FLOWERY:# Yep.# Say it at the same time?")
+            doDialogText("YOU:# Yep.### 3,###### 2,######, 1..######")
+            print('\n' + "YOU: We ride the rook and use it to navigate.\nFLOWERY: We tie him up and interrogate him.")
+            time.sleep(1.5)
+            doDialogText("FLOWERY:# excuse me-# what?")
+            doDialogText("YOU:# This rook is huge!# There's enough space for both of us.")
+            if pgFilter:
+                doDialogText("FLOWERY:# How the hell are we gonna ride it??")
+            else: doDialogText("FLOWERY:# How would we even ride it??")
+            doDialogText("YOU:# Just get on it.")
+            doDialogText("FLOWERY:# .#.#.#fine.")
+            doDialogText("You and FLOWERY get on top of the rook, waking it up.")
+            doDialogText("ROOK:# Huh,# what the-")
+            doDialogText("      WHO'S ON TOP OF ME?!")
+            doDialogText("      GET OFF,# PLEASE IT HURTS!")
+            doDialogText("YOU:# Take us to the fountain door.")
+            doDialogText("ROOK:# I CAN'T DO THAT.# YOU GUYS ARE OUTSIDERS.")
+            doDialogText("      PLEASE,# I HAVE NO ARMS,# I CAN'T TAKE YOU OFF MYSELF.")
+            doDialogText("      IT HURTS SO BAADD,# PLEASE.")
+            doDialogText("YOU:# Take us to the fountain.")
+            doDialogText("ROOK:# OKAY OKAY FINE,# PLEASE GET OFF FIRST.")
+            doDialogText("YOU:# No,# take us to the fountain first.")
+            doDialogText("ROOK:# PLEASEEEE,# I'LL TAKE YOU TO THE FOUNTAIN RIGHT NOW.")
+            doDialogText("YOU:# Okay,# great!# See?")
+            doDialogText("FLOWERY:# what the heck did i just witness?")
+            doDialogText("The rook starts moving.# You breeze throught the hallways so fast the guards don't even see you.")
+            doDialogText("YOU:# Holy hell you're fast.")
+            doDialogText("ROOK:# PLEASE,# I JUST NEED YOU TO GET OFF OF ME.")
+            print()
+            doDialogText(".#.#.#", afterdelay=3)
+            doDialogText("After a while,# the rook stops in front of a door.")
+            doDialogText("FLOWERY:# Are we here?")
+            doDialogText("ROOK:# Yes,# PLEASE GET OFF!")
+            doDialogText("You and FLOWERY get off of the rook.")
+            doDialogText("YOU:# Hey,# this door is locked.")
+            doDialogText("     Do you know what the passwo-", afterdelay=0.6)
+            doDialogText("The rook is gone.")
+            doDialogText("FLOWERY:# He probably went to alert the guards.# We better hurry!")
+            doDialogText("YOU:# Okay,# let's solve this quick then.")
+            doDialogText("The door is locked behind a puzzle.#")
+            doDialogText("Below the puzzle it says \"N b1 -> c3\"")
+            doDialogText("YOU:# What does this mean?")
+            doDialogText("FLOWERY:# Isn't that chess notation?")
+            doDialogText("YOU:# Chess notation?")
+            doDialogText("FLOWERY:# Yeah,# it represents a move you make in a chess game.")
+            print()
+            doDialogText("There's an interface that lets you enter three directions,# and a keypad which lets you enter the four directions up, down, left and right.")
+            doDialogText("FLOWERY:# Maybe you have to trace the knight's path?")
+            doDialogText("YOU:# Let's see.#.#.#")
+            doDialogText("     The hint suggests that the Knight is at b1,# and moves to c3.")
+            doDialogText("FLOWERY:# Lets start inputting things.")
+            doDialogText("YOU:# Wait.# a1 is at the bottom left corner of the board right?")
+            doDialogText("FLOWERY:# Yes,# and remember:# The squares from a1-a8 are a vertical file.")
+            doDialogText("YOU:# Okay got it.")
+            print()
+            tries = 0
+            move = ''
+            doDialogText("TYPE L, R, U, or D in a sequence to enter your input.")
+            while move not in ['UUR', 'RUU', 'URU']:
+                move = ''
+                if tries == 10:
+                    doDialogText("FLOWERY:# Damn,# this is taking a while.")
+                elif tries == 20:
+                    doDialogText("FLOWERY:# I thought the guards would be here by now,# where are they?")
+                elif tries == 25:
+                    doDialogText("FLOWERY:# Move over,# let me try.")
+                    doDialogText("FLOWERY unlocked the door.")
+                    doDialogText("FLOWERY:# See?# First try.")
+                    doDialogText("YOU:# I-#I was gonna input that next!")
+                    doDialogText("FLOWERY:# Blatant lie,# bro.# Let's go already.")
+                    break
+                moveInput = input("INPUT: ").upper()
+                tries += 1
+                for i in moveInput:
+                    if i in 'LURD':
+                        move += i
+            if tries < 25:
+                doDialogText("FLOWERY:# Yes,# we got it!")
+                doDialogText("YOU:# I'm pretty surprised we didn't have to fight anyone.#")
+                doDialogText("FLOWERY:# Yeah,# we got really lucky.")
+            
+            stopSong()
+            doDialogText("You open the door.")
+            doDialogText("It reveals a path that slowly grows darker the further you get.")
+            doDialogText("There's a faint light at the end of the tunnel.")
+            doDialogText("FLOWERY:# I can sense it.#.#.#")
+            doDialogText("         THE FOUNTAIN.", spd=5, afterdelay=3)
+            print()
+            doDialogText("YOU:# Let's seal it then.")
+            print()
+            doDialogText("You and FLOWERY slowly take a step.")
+            doDialogText("A Dark sensation pushes back.")
+            doDialogText("With each step,# the Darkness pushes back further.#.#.#")
+            doDialogText("...until it doesn't.")
+            doDialogText("Slowly,# the Darkness begins to nudge you closer,")
+            doDialogText("pushing you closer into the darkness.")
+            doDialogText("It pushes you in faster than you can think,# and-#", afterdelay=0)
+            print()
+            doDialogText("|| CRASH! ||", spd=6, step=2, afterdelay=2)
+            print()
+            doDialogText("You find yourself on a different ground.")
+            doDialogText("You and FLOWERY are out of the castle.")
+            doDialogText("???:# No way...")
+            doDialogText("You quickly look upto the familiar voice.")
+            doDialogText("YOU:# No way...")
+            doDialogText("FLOWERY:# It's the fountain!")
+            doDialogText("WAYDANT:# I found you!")
+            doDialogText("         Listen guys,# I found a way out.")
+            doDialogText("         These guys called \"Darkners\" told me they would take us to a place,# and from there we can go back to our old world!")
+            doDialogText("         But in return,# I have to guard this,# uh,# \"Fountain\" from two bad guys that are about to come here.")
+            doDialogText("         You can help me right?")
+            doDialogText("YOU: .#.#.#####what?")
+            doDialogText("WAYDANT:# Who's your big flower friend,# by the way?")
+            doDialogText("FLOWERY:# WAYDANT.#.#.# ", afterdelay=0, line=0)
+            playSong('assets/soundtrack/enraged.ogg', looping=True)
+            doDialogText("we need to seal that fountain.")
+            doDialogText("WAYDANT:# What?!# No!# We have to guard it,# the Darkners will take us out of this world!")
+            doDialogText("YOU:# What is going on?# I thought we had to seal it!")
+            doDialogText("FLOWERY:# WAYDANT,# they're lying to you.")
+            doDialogText("WAYDANT:# W-#what.#.## No!")
+            doDialogText("         Theres no way!")
+            doDialogText("FLOWERY:# WAYDANT.#.#.# there's no way to simply get out of a Dark World.")
+            doDialogText("         The fountain is what gives shape to this world.# We must destroy it.")
+            doDialogText("WAYDANT:# But then what about the exit?!# They told me there was an exit!")
+            doDialogText("FLOWERY:# There's no exit out of a dark world.#.#.# You must seal it.")
+            doDialogText("         ...god this is annoying...")
+            doDialogText("???:# What's the hold up,# WAYDANT?")
+            doDialogText("WAYDANT:# The Bishop!")
+            if pgFilter: doDialogText("YOU:# What the fuck.#.#.#")
+            else: doDialogText("YOU:# A bishop?")
+            doDialogText("WAYDANT:# Bishop,# are you lying to me?")
+            doDialogText("BISHOP:# Lying about what?")
+            doDialogText("WAYDANT:# How to leave the dark world.# They told me I have to seal it.")
+            doDialogText("BISHOP:# UTTER FOOLISHNESS!# THE FOUNTAIN MUST REMAIN INTACT!")
+            doDialogText("        Listen WAYDANT,# these must be the enemies the prophecy warns us about.")
+            doDialogText("        They are NOT your friends.# They're here to simply seal the fountain.")
+            doDialogText("        Whatever they tell you,# do not believe them.")
+            doDialogText("        If this Dark World collapses while we're in it.#.#.#")
+            doDialogText("        You will die.")
+            doDialogText("WAYDANT:# .#.#.#")
+            doDialogText("         So,# you tried to kill me?")
+            doDialogText("FLOWERY:# He's lying!# You guys will be fine!")
+            doDialogText("BISHOP:# So this one's the mastermind.")
+            doDialogText("        WAYDANT,# do not forgive a single one of them.")
+            doDialogText("WAYDANT:# .#.#.#")
+            doDialogText("         Yes,# Bishop.")
+            doDialogText("YOU:# WAYDANT,# are you gonna fight us?")
+            doDialogText("WAYDANT:# I'm afraid I got no other choice.")
+            doDialogText("BISHOP:# That you're right about,# WAYDANT...")
+            doDialogText("         ...heh.")
+            doDialogText("FLOWERY:# Oh boy.#.#.# I can tell this guy's strong.")
+            
+            stopSong()
+            if route4['on_weirdRoute']:
+                doDialogText("YOU:# Leave it to me then.")
+                doDialogText("FLOWERY:# What?")
+                print()
+                playSong('assets/soundtrack/guardian.ogg', looping=True)
+                doDialogText("You use TRUCK GLOVES to speed up to WAYDANT.")
+                doDialogText("WAYDANT:# WHAT THE-#", afterdelay=0)
+                doDialogText("YOU:# You ever been hit by a truck?")
+                doDialogText("You smash two POWERFUL hits into WAYDANT's body,# enough force to equal a truck.")
+                doDialogText("WAYDANT:# EUGH.#.#")
+                doDialogText("WAYDANT spits blood on the floor.")
+                doDialogText("WAYDANT:# so...# strong...")
+                doDialogText("YOU:# Damn,# these gloves are handy as hell.")
+                doDialogText("WAYDANT:# I.#.#.## I.#.#.#")
+                doDialogText("YOU:# You still think you can stop me?")
+                doDialogText("WAYDANT takes out a dark tinted crystal.")
+                doDialogText("WAYDANT:# ...In Tenembre...")
+                doDialogText("YOU:# ?")
+                doDialogText("WAYDANT:# ...### TENEBRAE IN CORDE MEO FREMANT!")
+                doDialogText("Suddenly,# the fountain flashes.")
+                doDialogText("Three powerful dark attacks stand above you.")
+                doDialogText("You use your TRUCK SPEED to swiftly weave through the attacks.")
+                doDialogText("YOU:# Impressive latin you've got there.")
+            else:
+                doDialogText("YOU:# Yeah,# he's pretty strong.")
+                doDialogText("     It's gonna be a tough battle if we have to fight him.")
+                print()
+                playSong('assets/soundtrack/guardian.ogg', looping=True)
+                doDialogText("YOUR SENSES HEIGHTEN IN RESPONSE TO WAYDANT'S CHARGE!")
+                doDialogText("You narrowly dodge it.")
+                print()
+                # BATTLE LOOP
+                turn = 0
+                wayHP = 500
+                guardDef = 5
+                guardAtk = 40
+                guarde = 0
+                shownSpells = False
+                spellCooldown = 0
+                firstSpell = True
+                castSpell = False
+                while turn < 15:
+                
+                    if player['hp'] <=0:
+                        player['hp'] = 1
+                        doDialogText("Your HP reached 0...")
+                        doDialogText("...but you held on!", afterdelay=1)
+                        doDialogText("HP regenerated to 1.")
+                    if turn == 5:
+                        doDialogText("BISHOP:# WAYDANT!# You haven't taken care of these small fry yet?")
+                        doDialogText("WAYDANT:# SHUT UP!# IM TRYING!")
+                        doDialogText("WAYDANT's attack increased.")
+                        guardAtk += 20
+                    if spellCooldown > 0: spellCooldown -= 1
+                    btselect = doDialogChoice("What will you do?", choices=['Fight', 'Acts', 'Spell', 'Item', 'B̶e̶g̶ f̶o̶r̶ m̶e̶r̶c̶y̶'])
+                    
+                    print()
+                    if btselect == 5:
+                        doDialogText("Mercy isn't an option to WAYDANT.")
+                        
+                    elif btselect == 1:
+                        playingPlayers = ["You"]
+                        if flowery['hp'] > 0: playingPlayers += ["Flowery"]
+                        doDialogText(f"{", ".join(playingPlayers)} get ready to strike!")
+                        fightResult = doTimedAttack(3, 3, 2.8)
+                        playingStructs = [player]
+                        if flowery['hp'] > 0: playingStructs += [flowery]
+                        if fightResult > 0.2:
+                            totalAtk = 0
+                            for pl in playingStructs:
+                                totalAtk += pl['attack']
+                            dmg = math.ceil((totalAtk)*fightResult/guardDef)
+                            wayHP -= dmg
+                            doDialogText(f"Your party deals {dmg} damage to WAYDANT! ({wayHP}/500)")
+                        else:
+                            doDialogText("Your party missed!")
+                    elif btselect == 2:
+                        action = doDialogChoice("ACTS:", choices=['Check', 'Talk'] + ['Return.'])
+                        
+                        if action == 1:
+                            doDialogText("WAYDANT:\nATK: 40\nDF: 15")
+                            doDialogText("Your final obstacle.")
+                            print()
+                            continue
+                        elif action == 2:
+                            doDialogText("You try to talk to WAYDANT.")
+                            doDialogText("He does not listen to you.")
+                            print()
+                        else: continue
+                    elif btselect == 3:
+                        if not shownSpells:
+                            shownSpells = True
+                            doDialogText("From the exposure of darkness,# FLOWERY's PHOTOSYNTHESIS evolved into DARKSYNTHESIS!")
+                            flowery['spells'][0] = 'DARKSYNTHESIS'
+                            flowery['spells'].append('VON GUARDE')
+                            doDialogText("FLOWERY learnt VON GUARDE!")
+                        spell = doDialogChoice("SPELLS:", choices=flowery['spells'] + ['Return.'])
+                        spell = (flowery['spells'] + ['Return'])[spell-1]
+                        if spell == "DARKSYNTHESIS":
+                            if spellCooldown == 0:
+                                spellCooldown = 3
+                                if firstSpell:
+                                    doDialogText("Flowery channeled the dark presence...")
+                                    doDialogText("His petals turned dark!")
+                                    firstSpell = False
+                                doDialogText("FLOWERY LAUNCHES HIS DARK PETALS TOWARDS WAYDANT!")
+                                dmg = 24 + random.randint(-12, 12)
+                                wayHP -= dmg
+                                doDialogText(f"THE PETALS DEAL {dmg} DAMAGE TO WAYDANT! ({wayHP}/500)")
+                            else:
+                                doDialogText(f"FLOWERY can only use this spell after {spellCooldown} turn{'s'*(spellCooldown != 1)}.")
+                        elif spell == "VON GUARDE":
+                            if guarde < 2:
+                                doDialogText("FLOWERY used VON GUARDE!")
+                                doDialogText(f"Your party's defensed has been raised by {(3 - guarde)}.")
+                                guarde += 1
+                                player['defense'] += 3-guarde
+                                flowery['defense'] += 3-guarde
+                            else:
+                                doDialogText("FLOWERY used VON GUARDE!")
+                                doDialogText("But it failed to raise your defense any further!")
+                        else: continue
+                    elif btselect == 4:
+                        item = doDialogChoice("ITEMS:", choices=inventory + ["Return."])
+                        curItem = (inventory + ['Return.'])[item-1]
+                        if curItem == "AUTO COOKER":
+                            doDialogText("The AUTO COOKER spits out a Chicken Curry.")
+                            if flowery['hp'] == 0:
+                                doDialogText("FLOWERY wakes up to the smell of the Chicken Curry.")
+                            doDialogText("You and FLOWERY quickly share a meal before getting ready to battle.")
+                            player['hp'] = getMaxHP(1)
+                            doDialogText(f"{saveFile['name']} was HEALED. ({player['hp']}/{getMaxHP(1)})")
+                            flowery['hp'] = getMaxHP(4)
+                            doDialogText(f"FLOWERY was HEALED. ({str(flowery['hp'])}/{str(getMaxHP(4))})")
+                        else:
+                            doDialogText("You cannot use this item.")
+                    
+                    print()
+                    # WAYDANT's TURN
+                    target = random.randint(0, 1)
+                    targetStruct = [player, flowery][target]
+                    targetName = ["You", 'FLOWERY'][target]
+                    if 0 <= turn < 5:
+                        attack = random.randint(0, 2)
+                        if attack == 0:
+                            doDialogText("WAYDANT RUSHES IN FOR A PUNCH!")
+                            fResult = doTimedAttack(3, 1, 2)
+                            dmg = getDamageDealt(guardAtk, targetStruct, fResult)
+                            
+                            if fResult >= 0.9:
+                                doDialogText(f"{targetName} narrowly avoided his punch.")
+                            else:
+                                targetStruct['hp'] -= dmg
+                                doDialogText(f"{targetName} was struck!")
+                                if targetStruct['hp'] <= 0: targetStruct['hp'] = 0
+                                doDialogText(f"{targetName} lost {dmg} HP! ({targetStruct['hp']}/{getMaxHP(target*3+1)})")
+                                if flowery['hp'] == 0:                                    
+                                    doDialogText("FLOWERY fainted.")
+                        elif attack == 1:
+                            doDialogText("WAYDANT LIFTS A GIANT ROCK!")
+                            fResult = doTimedAttack(3, 1, 2)
+                            dmg = getDamageDealt(guardAtk, targetStruct, fResult)
+                            
+                            if fResult >= 0.9:
+                                doDialogText(f"{targetName} quickly ducks, narrowly dodging the rock.")
+                            else:
+                                targetStruct['hp'] -= dmg
+                                doDialogText(f"{targetName} was hit by the rock!")
+                                if targetStruct['hp'] <= 0: targetStruct['hp'] = 0
+                                doDialogText(f"{targetName} lost {dmg} HP! ({targetStruct['hp']}/{getMaxHP(target*3+1)})")
+                                if flowery['hp'] == 0:                                    
+                                    doDialogText("FLOWERY fainted.")
+                        elif attack == 2:
+                            doDialogText(f"WAYDANT RUNS TOWARDS {targetName.upper()}!")
+                            fResult = doTimedAttack(3, 1, 2)
+                            dmg = getDamageDealt(guardAtk, targetStruct, fResult)
+                            
+                            if fResult >= 0.9:
+                                doDialogText(f"{targetName} moves out of the way,# barely avoiding the attack.")
+                            else:
+                                targetStruct['hp'] -= dmg
+                                doDialogText(f"{targetName} was struck!")
+                                if targetStruct['hp'] <= 0: targetStruct['hp'] = 0
+                                doDialogText(f"{targetName} lost {dmg} HP! ({targetStruct['hp']}/{getMaxHP(target*3+1)})")
+                                if flowery['hp'] == 0:                                    
+                                    doDialogText("FLOWERY fainted.")
+                    
+                    elif 5 <= turn < 12:
+                        attack = random.randint(0, 2)
+                        if not castSpell: attack = 2
+                        if attack == 0:
+                            doDialogText("WAYDANT PUNCHES THE GROUND HARD!")
+                            doDialogText("A SHOCKWAVE EMERGES FROM THE GROUND.# DODGE IT!")
+                            fResult = doTimedAttack(3, 1, 2)
+                            dmg = getDamageDealt(guardAtk, targetStruct, fResult)
+                            
+                            if fResult >= 0.9:
+                                doDialogText(f"You and FLOWERY jumped on time.")
+                            else:
+                                player['hp'] -= dmg
+                                flowery['hp'] -= dmg
+                                doDialogText(f"YOU and FLOWERY were caught in the shockwave!")
+                                if flowery['hp'] <= 0: flowery['hp'] = 0
+                                doDialogText(f"FLOWERY lost {dmg} HP! ({flowery['hp']}/{getMaxHP(4)})")
+                                if player['hp'] <= 0: player['hp'] = 0
+                                doDialogText(f"YOU lost {dmg} HP! ({player['hp']}/{getMaxHP(1)})")
+                                if flowery['hp'] == 0:                                    
+                                    doDialogText("FLOWERY fainted.")
+                        elif attack == 1:
+                            doDialogText("WAYDANT TRIPS AND FALLS!")
+                            doDialogText("HE CREATES A POWERFUL SHOCKWAVE!.# DODGE IT!")
+                            fResult = doTimedAttack(3, 1, 3)
+                            dmg = getDamageDealt(guardAtk, targetStruct, fResult)*1.3
+                            
+                            if fResult >= 0.9:
+                                doDialogText(f"You and FLOWERY jumped on time.")
+                            else:
+                                player['hp'] -= dmg
+                                flowery['hp'] -= dmg
+                                doDialogText(f"YOU and FLOWERY were caught in the shockwave!")
+                                if flowery['hp'] <= 0: flowery['hp'] = 0
+                                doDialogText(f"FLOWERY lost {dmg} HP! ({flowery['hp']}/{getMaxHP(4)})")
+                                if player['hp'] <= 0: player['hp'] = 0
+                                doDialogText(f"YOU lost {dmg} HP! ({player['hp']}/{getMaxHP(1)})")
+                                if flowery['hp'] == 0:                                    
+                                    doDialogText("FLOWERY fainted.")
+                        elif attack == 2:
+                            if not castSpell:
+                                doDialogText("WAYDANT:# Let's see if this works.")
+                                doDialogText("WAYDANT pulls out a dark tinted crystal.")
+                                doDialogText("WAYDANT:# ...In Tenebris Mergere...")
+                                doDialogText("The FOUNTAIN momentarily shined.")
+                                doDialogText(f"A DARK ATTACK SPAWNS ABOVE {targetName.upper()}!# DODGE!")
+                            else:
+                                doDialogText("WAYDANT casts DARKNESS!# DODGE!")
+                            fResult = doTimedAttack(3, 1, 4)
+                            dmg = getDamageDealt(guardAtk, targetStruct, fResult)*1.6
+                            
+                            if fResult >= 0.9:
+                                doDialogText(f"YOU and FLOWERY dodged the darkness!")
+                            else:
+                                player['hp'] -= dmg
+                                flowery['hp'] -= dmg
+                                doDialogText(f"YOU and FLOWERY got caught in the darkness!")
+                                if flowery['hp'] <= 0: flowery['hp'] = 0
+                                doDialogText(f"FLOWERY lost {dmg} HP! ({flowery['hp']}/{getMaxHP(4)})")
+                                if player['hp'] <= 0: player['hp'] = 0
+                                doDialogText(f"YOU lost {dmg} HP! ({player['hp']}/{getMaxHP(1)})")
+                                if flowery['hp'] == 0:                                    
+                                    doDialogText("FLOWERY fainted.")
+                            
+                            if not castSpell:
+                                doDialogText("WAYDANT:# Woah.#.#.#")
+                                castSpell = True
+                                
+                    turn += 1
+            
+            stopSong()
+            doDialogText("WAYDANT collapses.")
+            doDialogText("WAYDANT:# I can't.#.#.# I have to.#.#.# protect.#.#.#")
+            doDialogText("???:# Useless.")
+            doDialogText("YOU:# What?")
+            doDialogText("WAYDANT:# KING!# I'm sorry!# I let you down.")
+            doDialogText("KING:# That you have.")
+            doDialogText("      You're no longer useful to me.# I shall have you discarded now.")
+            doDialogText("WAYDANT:# ...what?")
+            doDialogText("FLOWERY suddenly grabs WAYDANT.")
+            doDialogText("FLOWERY:# WATCH OUT!")
+            doDialogText("Before you can even comprehend,# something moves past you at a speed high enough to kill someone.")
+            doDialogText("QUEEN:# Tch.# Almost had him.")
+            playSong('assets/soundtrack/enraged.ogg', looping=True)
+            doDialogText("WAYDANT:# QUEEN!# Why would you.#.#.#")
+            doDialogText(f"FLOWERY: {saveFile['name'].upper()}!# QUICK,# SEAL THE FOUNTAIN!", spd=2)
+            doDialogText("YOU:# What?# But I don't know-", afterdelay=0)
+            doDialogText("FLOWERY:# YOU'LL FIND YOUR WAY!# I'LL HOLD THEM OFF,# SO QUICK!", spd=2)
+            doDialogText("YOU:# O-#OKAY!")
+            doDialogText("You start running towards the fountain as fast as you can.")
+            doDialogText("KING:# Get him!")
+            doDialogText("QUEEN:# Got it,# King-", afterdelay=0)
+            doDialogText("FLOWERY:# Not so fast!")
+            doDialogText("FLOWERY stands in the way of QUEEN,# restraining her for a few seconds.")
+            doDialogText("QUEEN:# Damn you insolate flower.#.#.#")
+            doDialogText("       Take this!")
+            printGraphic('''
+████████████████████████▀▄▄████▄ ▀████████████████████████████████████
+████████████▀█████████▀▄▄████████▄ ▀██████████████████████████████████
+██████████▀  ▄▄▄▄▄▄▀ ▄█████████████▄▀█████████████████████████████████
+█████████▀ █▄██████ █████████████████ ████████████████████████████████
+█████████ █████████▀▀▀▀██████████████▄▀▄▄▄▀███████████████████████████
+████████▀▄████████     █▀██████████████▄██ ███████████████████████████
+████████ ████████      ▄█▀███████████▄█▀██ ███████████████████████████
+████████ ▀██████         ▀███████████▀ ███ ███████████████████████████
+█████████ █████▀        ▄ ▀████████▀▄▄████ ███████████████████████████
+█████████▀ ████       ▄███ ████▀▀ ▄██████▀█▄███████▀▀▀ ▀██████████████
+████████▀▄█▄▄██    ▄▄█████ ███▄▄████████ ████████▀      ██████████████
+████████ ██████  ▄████████ ████████████▄█████████       ██████████████
+████████▄▀█████▄▀████████ ████████████▀▄███████████     ████████████▀▀
+██████████ █████ ▀█████▀ ███▀▀▀▀▀▀▀▄█▀▀▄███████████     ██████▀▀▀
+███████████ ▀▀███▄  ▄▄▄█████████ ███▄█████████████     █▀▀▀
+█████████████  ▄█████▀██████████ ████████████████▀▄▄▄█▀
+█████████████▄▀▀█▀███▄ ██████▀▀ ██▀██████████▀▀▀▄███▀
+███████████████▄▄█▄█▀▀█ ▄▄▄▄▄▄█▀▀  ████▀▀▀    ▄████
+███████████████████▄██▀████████▄█▀▀▀        ▄████▀
+███████████████████████████▀▀▀   ▄▄       ▄████▀
+█████████████████████▀▀▀      ▄███      ▄████▀
+████████████████▀▀▀           ████    ▄███▀▀
+██████████▀▀▀        ▄▄▄▄     ██▀▀ ▄ ▀▀▀
+████▀▀▀                █▀▀     ▄  ▀▀
+▀                          ▄▄██▀        ▄▄ ▀█▀
+                     ▄▄▄    ▀▀▀
+         ▄▄▄▄▄▄▄████▀▀▀        ▄  █    ▀█▀  ██▀▀
+       ▀▀            ▄▄▄▄▄█▄   █▀          ▀▀
+                      ▀▀███▀      ▄  ▀  ▀
+                      ▄█▀ ▄▄   █▄██
+                       ▄▄▀▀█    ▀████
+                       ▀   ▀     ▀███
+                                   ███▄
+                                   ▀███
+                                    ▀▀█▄
+
+''')
+            doDialogText("FLOWERY was snapped in half.")
+            doDialogText("YOU:# FLOWERY!")
+            doDialogText("SEVERED FLOWERY:# ...go...# seal it.")
+            doDialogText("QUEEN:# Next,# that kid-", afterdelay=0)
+            doDialogText("WAYDANT:# IN TENEBRIS MONGERE!", spd=3)
+            doDialogText("QUEEN dodges WAYDANT's dark attack.")
+            doDialogText("QUEEN:# You brat...# I regret giving you that Shadow Crystal.")
+            doDialogText("WAYDANT:# Don't worry about us!# SEAL IT!")
+            doDialogText("YOU:# Okay.")
+            print()
+            doDialogText("You focus deep inside.")
+            doDialogText(".#.#.#")
+            doDialogText("You feel a growing light within your heart.", spd=5)
+            doDialogText("Soon,# everything goes bright.", spd=6)
+            print()
+            stopSong()
+            doDialogText(".#.#.#", spd=7)
+            doDialogText("You open your eyes.")
+            doDialogText("Everything is black.")
+            doDialogText("You feel a crushing weight against your body.")
+            doDialogText("YOU:# MAN GET OFF OF ME!")
+            doDialogText("WAYDANT:# Oh sorry.")
+            print()
+            doDialogText("Well,# you're back in the real world.")
+            if pgFilter: doDialogText("YOU:# What the fuck was that.#.#.#")
+            else: doDialogText("YOU:# What the heck was that.#.#.#")
+            doDialogText("WAYDANT:# That was a crazy adventure.#.#.#")
+            doDialogText("         What even happened in there?")
+            doDialogText("YOU:# I have no clue...")
+            doDialogText("     Oh yeah,# I remember now.# I dropped the knife.")
+            doDialogText("WAYDANT:# I think I almost died in there.#.#.#")
+            doDialogText("         Can't believe I was tricked like that.")
+            doDialogText("YOU:# ...WAYDANT,# is that a chess piece stuck on your finger?")
+            doDialogText("WAYDANT:# Oh yeah,# it's the queen.")
+            doDialogText("WAYDANT takes the queen out of his finger.")
+            doDialogText("YOU:# How'd it even fit on your finger?")
+            doDialogText("WAYDANT:# I don't know,# it hurts...")
+            doDialogText("         Oh yeah.#.#.# I'm sorry.")
+            doDialogText("         I got tricked,# and tried to stop us from leaving the...# the \"dark world\".")
+            if pgFilter: doDialogText("YOU:# It's okay,# shit happens sometimes.")
+            else: doDialogText("YOU:# It's okay,# stuff happens.")
+            print()
+            doDialogText("You notice a torn flower on your bed.")
+            doDialogText("YOU:# Flowery.#.#.#")
+            doDialogText("WAYDANT:# Who's flowery?")
+            doDialogText("YOU:# This lil fella.# It was a name my mom gave to this flower.")
+            doDialogText("WAYDANT:# Oh.#.#.#")
+            doDialogText("YOU:# I need to get tape.")
+            doDialogText("WAYDANT:# Can tape fix it?")
+            doDialogText("YOU:# I don't know,# but I gotta try.#.#.#")
+            doDialogText("     ...or my mom's gonna be sad.")
+            print()
+            doDialogText("Suddenly,# you both lock eyes on a 500 rupee note on the bed.")
+            doDialogText("YOU:# .#.#.#")
+            doDialogText("WAYDANT:# .#.#.#")
+            doDialogText("         DIBS!")
+            doDialogText("WAYDANT grabs the 500 rupee note.")
+            doDialogText("YOU:# HEY,# THAT'S MINE!")
+            doDialogText("WAYDANT:# I CALLED IT FIRST,# IT'S MINE NOW!")
+            doDialogText("YOU:# Buddy,# don't you dare mess with me right now.")
+            doDialogText("WAYDANT:# Okay chill,# I was just kidding.")
+            doDialogText("WAYDANT hands the money back.")
+            doDialogText("WAYDANT:# I think I should leave now.# It's pretty late.")
+            doDialogText("YOU:# Yeah,# get out of my room already.")
+            doDialogText("     Actually,# why'd you even come to my house in the first place?")
+            doDialogText("WAYDANT:# Oh,# to give you the knife.# And to also warn you about ADITHYA.# He's getting suspicious.")
+            doDialogText("YOU:# Okay,# but why the knife?")
+            doDialogText("WAYDANT:# ...i thought you dropped it.", spd=5)
+            doDialogText("YOU:# Dropped it?")
+            doDialogText("WAYDANT:# Yeah.# I wasn't sure if it was yours,# so I kept it temporarily.")
+            doDialogText("         But then I remembered later that I had to give it back,# so that's why i came in the middle of the night.")
+            doDialogText("YOU:# Bro,# I don't carry a knife around.# Who does anyways?")
+            doDialogText("WAYDANT:# ...#you're right.", spd=5)
+            if pgFilter: doDialogText("YOU:# Dumbass...")
+            else: doDialogText("YOU:# Moron...")
+            doDialogText("     now get out of my house already!")
+            doDialogText("WAYDANT:# Yeah yeah,# I'll be on my way.")
+            doDialogText("         See ya.")
+            doDialogText("YOU:# See you too...# I guess.")
+            doDialogText("WAYDANT leaves.")
+            doDialogText("You focus on taping back the snapped flower.")
+            doDialogText("After careful craftsmanship,# you can breathe in relief that the flower can live to bloom another day.")
+            doDialogText("You head back to lock your front door,# and place \"FLOWERY\" in his respective place.")
+            doDialogText("YOU:# Get well soon.")
+            print()
+            doDialogText("You head back to your room and plop down on your bed.")
+            doDialogText("Before you can fall asleep,# you notice some messages coming from the group chat:")
+
+            doCreditsSequence(soundImportSuccesful)
+
+
+
+                
+
+
+
+            
             finalSave = True
         
     

@@ -19,6 +19,10 @@ timeControl = 1
 # ENGINE DATA
 """
 DEVLOG:
+2.0 - Released Chapter 4 completely.
+    - Added mods, which are basically their own chapters.
+    - Added the ability to load custom modules into chapters.
+
 (2.0 BETA 19 - Added functions 'loadModule()' and 'getFilePath()' to modArgs (mod and chapter files).)
 (2.0 BETA 18 - Chapters are redownloaded every time you open Aashishkam.)
 (2.0 BETA 17 - Stopped any music playing when a mod/chapter finishes unexpectedly crashes.)
@@ -29,6 +33,7 @@ DEVLOG:
                You no longer need to redownload Aashishkam every time for a new update,
                just run the aashishkam launcher file and everything should arrange itself.
                Also updated the first three chapters. Now they have their own songs!)
+
 
 1.8 - School Computer compatibility
 1.7 - Added sound support for both pygame and winsound.
@@ -41,7 +46,7 @@ DEVLOG:
 1.0 - CHAPTER 1 RELEASE, save feature prototype.
 """
 global version
-version = "2.0 BETA-19"
+version = "2.0"
  
 def getVersion():
     global version
@@ -307,6 +312,11 @@ def downloadStuff(force=False):
         "chapters/chapter4.py":                   "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter4.py",
         "chapters/chapter5.py":                   "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/chapters/chapter5.py",
  
+        "lib/fightplayer/__display.py":           "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/lib/fightplayer/__display.py",
+        "lib/fightplayer/__matrix.py":            "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/lib/fightplayer/__matrix.py",
+        "lib/fightplayer/mechfight.py":           "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/lib/fightplayer/mechfight.py",
+        "lib/fightplayer/setup.py":               "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/lib/fightplayer/setup.py",
+    
         "assets/soundtrack/darkfight.ogg":        "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/darkfight.ogg",
         "assets/soundtrack/videogame.ogg":        "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/videogame.ogg",
         "assets/soundtrack/lokahbanger.ogg":      "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/lokahbanger.ogg",
@@ -317,18 +327,34 @@ def downloadStuff(force=False):
         "assets/soundtrack/espada.mp3":           "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/espada.mp3",
         "assets/soundtrack/versus.ogg":           "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/versus.ogg",
         "assets/soundtrack/vs_adithya.ogg":       "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/vs_adithya.ogg",
-        "assets/soundtrack/vs_tejas.ogg":         "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/vs_tejas.ogg"
+        "assets/soundtrack/vs_tejas.ogg":         "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/vs_tejas.ogg",
+        "assets/soundtrack/tv_show_1.ogg":        "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/tv_show_1.ogg",
+        "assets/soundtrack/tv_show_2_loop.ogg":   "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/tv_show_2_loop.ogg",
+        "assets/soundtrack/tv_show_2_end.ogg":    "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/tv_show_2_end.ogg",
+        "assets/soundtrack/tv_show_3.ogg":        "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/tv_show_3.ogg",
+        "assets/soundtrack/tv_show_full.ogg":     "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/tv_show_full.ogg",
+        "assets/soundtrack/magic.ogg":            "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/magic.ogg",
+        "assets/soundtrack/guards.ogg":           "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/guards.ogg",
+        "assets/soundtrack/mechfight_intro.ogg":  "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/mechfight_intro.ogg",
+        "assets/soundtrack/mechfight.ogg":        "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/mechfight.ogg",
+        "assets/soundtrack/mechfight_full.ogg":   "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/mechfight_full.ogg",
+        "assets/soundtrack/enraged.ogg":          "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/enraged.ogg",
+        "assets/soundtrack/castle_walls.ogg":     "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/castle_walls.org",
+        "assets/soundtrack/guardian.ogg":         "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/guardian.ogg"
     }
  
     count = 1
     maxcount = len(downloadList)
+    canDownload = True
     for item in downloadList:
         if (not checkFile(item) or force) or item.startswith("chapters/chapter"): # Actually download the item (if its already downloaded,# then the else statement is executed).
             print(f"Downloading ({count}/{maxcount})")
             try:
-                urllib.request.urlretrieve(downloadUrls[item], getFilePath(item))
+                if canDownload:
+                    urllib.request.urlretrieve(downloadUrls[item], getFilePath(item))
             except:
-                print(f"Aborted ({count}/{maxcount}).")
+                print(f"Unable to download. ({count}/{maxcount}).")
+                canDownload = False
         else:
             print(f"Already downloaded. ({count}/{maxcount})")
  
@@ -425,7 +451,17 @@ def pauseSong():
         else:
             pygame.mixer.music.unpause()
 
-
+def playSound(name, looping=False):
+    if soundImportSuccesful:
+        soundPath = getFilePath(name)
+        sound = pygame.mixer.Sound(soundPath)
+        
+        if looping:
+            sound.play(-1)
+        else:
+            sound.play()
+        
+        return sound
 
 # KEYBOARD FUNCTIONS
 
@@ -828,13 +864,40 @@ print()
  
 # MOD LOADING FUNCTIONS
 
-def loadModule(modulePath, execModule = True): # AASHISHKAM/... | Eg: AASHISHKAM/lib/fightplayer/fights/mechfight.py
+def loadModule(modulePath, execModule = True, supportsArgs = False): # AASHISHKAM/... | Eg: AASHISHKAM/lib/fightplayer/fights/mechfight.py
     modulePath = getFilePath(modulePath)
     if os.path.exists(modulePath):
         sys.path.insert(0, os.path.dirname(modulePath))
         spec = importlib.util.spec_from_file_location("module", modulePath) # The spec of the module for the mod
         module = importlib.util.module_from_spec(spec) # The module
         if execModule: spec.loader.exec_module(module)
+
+        if supportsArgs:
+            if hasattr(module, 'args'):
+                modArgs = {'doDialogText':doDialogText, 
+                       'doDialogSlow':doDialogSlow, 
+                       'askChoice':askChoice,
+                       'askNum':askNum, 
+                       'doDialogChoice':doDialogChoice, 
+                       'doTimedQuestion':doTimedQuestion, 
+                       'doTimedAttack':doTimedAttack, 
+                       'doTimedSpam':doTimedSpam, 
+                       'printGraphic':printGraphic, 
+                       'getPrompt':getPrompt, 
+                       'playSong':playSong, 
+                       'stopSong':stopSong,
+                       'pauseSong': pauseSong,
+                       'playSound': playSound,
+                       'timeControl':timeControl,
+                       'setTime': setTime,
+                       'pgFilter':pgFilter, 
+                       'saveFile':saveFile, 
+                       'saveGame':saveGame, 
+                       'curSaveName':curSaveName, 
+                       'soundImportSuccesful':soundImportSuccesful,
+                       'loadModule': loadModule,
+                       'getFilePath': getFilePath}
+                module.args = modArgs
 
         if hasattr(module, 'start'):
             module.start()
@@ -860,6 +923,7 @@ def loadMod(modPath): # AASHISHKAM/mods/TestMod/
                        'playSong':playSong, 
                        'stopSong':stopSong,
                        'pauseSong': pauseSong,
+                       'playSound': playSound,
                        'timeControl':timeControl,
                        'setTime': setTime,
                        'pgFilter':pgFilter, 
@@ -896,6 +960,7 @@ def loadChapter(chapterPath): # AASHISHKAM/chapters/chapter1.py
                        'playSong':playSong, 
                        'stopSong':stopSong,
                        'pauseSong': pauseSong,
+                       'playSound': playSound,
                        'timeControl':timeControl,
                        'setTime': setTime,
                        'pgFilter':pgFilter, 
@@ -951,7 +1016,7 @@ def startEngine(notice=True, offline=False):
 '''
 ╔═════════════════════════════╦════════════╦═════════════════════════════╗
 ╚╦════════════════════════════╣╡AASHISHKAM╞╠════════════════════════════╦╝   
- ║                            ╚════════════╝      v2.0 BETA-19          ║
+ ║                            ╚════════════╝      v2.0                  ║
  ╟ A "Bomboclat" Dating Adventure                                       ║
  ║                         - By Siddharth A                             ║
  ╟(1) Play!                                                             ║
@@ -1041,8 +1106,14 @@ def startEngine(notice=True, offline=False):
                                'Soldier of Dark',
                                'Bach Cello Suite No. 1 in G Major (by Bach)']
                 else:
-                    tracks += ['A Wonderful Review TV Show Host',
-                               'A School of Magic']
+                    tracks += ['Guards Encounter!',
+                               'A Wonderful Review TV Show Host',
+                               'A School of Magic',]
+                    
+                    if saveFile['route4']['on_weirdRoute']: tracks += ['Mechfight']
+                    tracks += ['Castle Walls',
+                               'Enraged',
+                               'Guardian']
             
             if tracks == []: tracks += ["No soundtracks unlocked yet. Play the game!"]
             else: tracks += ['Return']
@@ -1064,16 +1135,21 @@ def startEngine(notice=True, offline=False):
             track = tracks[ostChoice - 1]
 
             musicPaths = {
-                'First Meet':                                 'assets/soundtrack/first_meet.ogg',
-                'Second Meet':                                'assets/soundtrack/second_meet.ogg',
-                'Clavar La Espada (from BLEACH)':             'assets/soundtrack/espada.mp3',
-                'Versus':                                     'assets/soundtrack/versus_full.ogg',
-                'Light and Dark':                             'assets/soundtrack/light_and_dark.ogg',
-                'Light and Dark (Game Ver)':                  'assets/soundtrack/videogame.ogg',
-                'Soldier of Dark':                            'assets/soundtrack/darkfight.ogg',
-                'A Wonderful Review TV Show Host':            'assets/soundtrack/tv_show_full.ogg',
-                'A School of Magic':                          'assets/soundtrack/magic.ogg',
-                'Bach Cello Suite No. 1 in G Major (by Bach)':'assets/soundtrack/bach.mp3'}
+                'First Meet':                                  'assets/soundtrack/first_meet.ogg',
+                'Second Meet':                                 'assets/soundtrack/second_meet.ogg',
+                'Clavar La Espada (from BLEACH)':              'assets/soundtrack/espada.mp3',
+                'Versus':                                      'assets/soundtrack/versus_full.ogg',
+                'Light and Dark':                              'assets/soundtrack/light_and_dark.ogg',
+                'Light and Dark (Game Ver)':                   'assets/soundtrack/videogame.ogg',
+                'Soldier of Dark':                             'assets/soundtrack/darkfight.ogg',
+                'A Wonderful Review TV Show Host':             'assets/soundtrack/tv_show_full.ogg',
+                'Guards Encounter!':                           'assets/soundtrack/guards.ogg',
+                'A School of Magic':                           'assets/soundtrack/magic.ogg',
+                'Bach Cello Suite No. 1 in G Major (by Bach)': 'assets/soundtrack/bach.mp3',
+                'Mechfight':                                   'assets/soundtrack/mechfight.ogg',
+                'Castle Walls':                                'assets/soundtrack/castle_walls.ogg',
+                'Enraged':                                     'assets/soundtrack/enraged.ogg',
+                'Guardian':                                    'assets/soundtrack/guardian.ogg'}
             
             if track not in ["Return", "No soundtracks unlocked yet. Play the game!"]:
                 path = musicPaths[track]
