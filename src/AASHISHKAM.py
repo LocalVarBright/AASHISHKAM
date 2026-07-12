@@ -339,22 +339,29 @@ def downloadStuff(force=False):
         "assets/soundtrack/mechfight.ogg":        "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/mechfight.ogg",
         "assets/soundtrack/mechfight_full.ogg":   "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/mechfight_full.ogg",
         "assets/soundtrack/enraged.ogg":          "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/enraged.ogg",
-        "assets/soundtrack/castle_walls.ogg":     "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/castle_walls.org",
+        "assets/soundtrack/castle_walls.ogg":     "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/castle_walls.ogg",
         "assets/soundtrack/guardian.ogg":         "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/guardian.ogg"
     }
  
     count = 1
-    maxcount = len(downloadList)
+    maxcount = len(downloadUrls)
     canDownload = True
-    for item in downloadList:
+    for item in downloadUrls:
         if (not checkFile(item) or force) or item.startswith("chapters/chapter"): # Actually download the item (if its already downloaded,# then the else statement is executed).
             print(f"Downloading ({count}/{maxcount})")
             try:
                 if canDownload:
-                    urllib.request.urlretrieve(downloadUrls[item], getFilePath(item))
+                    dest_path = getFilePath(item)
+                    try:
+                        dest_dir = os.path.dirname(dest_path)
+                        if dest_dir:
+                            os.makedirs(dest_dir, exist_ok=True)
+                    except Exception:
+                        pass
+                    urllib.request.urlretrieve(downloadUrls[item], dest_path)
             except:
                 print(f"Unable to download. ({count}/{maxcount}).")
-                canDownload = False
+                #canDownload = False
         else:
             print(f"Already downloaded. ({count}/{maxcount})")
  
@@ -1146,7 +1153,7 @@ def startEngine(notice=True, offline=False):
                 'Guards Encounter!':                           'assets/soundtrack/guards.ogg',
                 'A School of Magic':                           'assets/soundtrack/magic.ogg',
                 'Bach Cello Suite No. 1 in G Major (by Bach)': 'assets/soundtrack/bach.mp3',
-                'Mechfight':                                   'assets/soundtrack/mechfight.ogg',
+                'Mechfight':                                   'assets/soundtrack/mechfight_full.ogg',
                 'Castle Walls':                                'assets/soundtrack/castle_walls.ogg',
                 'Enraged':                                     'assets/soundtrack/enraged.ogg',
                 'Guardian':                                    'assets/soundtrack/guardian.ogg'}
