@@ -19,6 +19,8 @@ timeControl = 1
 # ENGINE DATA
 """
 DEVLOG:
+
+2,1 - Fixed a bug where declining to load a save file would... reset the save file to default.
 2.0 - Released Chapter 4 completely.
     - Added mods, which are basically their own chapters.
     - Added the ability to load custom modules into chapters.
@@ -822,39 +824,9 @@ def getSaveFile():
     saveFile = loadGame(curSaveName)
 
     if saveFile == "ERROR":
-        saveFile = {
-        "version": version,
-    
-        "name" : "DefulatName",
-        "achievements": {},
-    
-        "route1": {
-            "COMPLETED": False
-            },
-        "route2": {
-            "COMPLETED": False
-            },
-        "route3": {
-            "COMPLETED": False
-            },
-        "route4": {
-            "COMPLETED": False
-        },
-        "route5": {
-            "COMPLETED": False
-        },
-        "route6": {
-            "COMPLETED": False
-        },
-        "route7": {
-            "COMPLETED": False
-        }
-
-        }
-
-        saveGame(curSaveName, saveFile)
-
         getSaveFile()
+
+    
  
  
 global pgFilter
