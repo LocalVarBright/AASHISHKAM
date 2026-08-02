@@ -295,11 +295,6 @@ def chapter_1(funcs):
                 doDialogText("He stands up for his introduction...")
                 doDialogText("...your mind fades...")
  
-                doDialogText("...as soon as you snap back,# Ashish is done with his introduction.")
-                doDialogText("YOU:# (whispering)# sorry about that...")
-                doDialogText("ASHISH:# (also whispering)# don't mind it.#.#", afterdelay = 1)
-                print()
- 
                 doDialogText("The rest of the school day goes by quickly.")
                 doDialogText("You occasionally share glances with Ashish,# and he shyly looks away each time.")
                 print()

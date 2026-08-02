@@ -24,7 +24,7 @@ def chapter_3(funcs):
 
     route3 = {
         "surrender": 0,
-        "rude_stay": 0
+        "rude_stay": "FORGIVED"
     }
     adithyaNameList = ["aditya", "aaditya", "adithya", "aadithya", "adhitya", "aadhitya", "adhithya", "aadhithya", 
                    "adityan", "aadityan", "adithyan", "aadithyan", "adhityan", "aadhityan", "adhithyan", "aadhithyan"]
@@ -635,8 +635,8 @@ def chapter_3(funcs):
         print("        ", end="")
         doDialogText(".#.#.# s-#sorry for y-#yelling.")
         doDialogText("You look around.# You're still outside the grocery store.# It's late evening.")
-        doDialogText("There are bandages on your head.")
-        if f3 == 0: doDialogText("Your nose is broken.") # PG MARKER
+        doDialogText("There are bandages on your head. ", line=False)
+        if f3 == 0 and pgFilter: doDialogText("Your nose is broken.") # PG MARKER
         doDialogText("YOU:# Right.#.#.# I was grocery shopping,# when.#.#.")
         doDialogText("ASHISH:# I can't leave you like this! Come over to my house,# I will treat you.")
         doDialogText("YOU:# No i-#it's fine!# I'm alright-", afterdelay=0, spd=6)

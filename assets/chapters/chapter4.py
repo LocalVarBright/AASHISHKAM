@@ -673,11 +673,11 @@ def chapter_4(funcs):
     
     def doCreditsSequence(music=True):
         if not music:
-            doDialogText("ADVIL:# yooo anyone wanna play deadshot?", step=99)
-            doDialogText("SIBIN:# Bro its 2AM only I am here.", step=99)
-            doDialogText("ADVIL:# you wanna play deadshot?", step=99)
-            doDialogText("SIBIN:# sure, Im here anyways. What's the code?", step=99, afterdelay=3)
-            doDialogText("ADVIL:# WBISKW.", spd=6,  step=2)
+            doDialogText("AWAITH:# yooo anyone wanna play deadshot?", step=99)
+            doDialogText("SIBI:# Bro its 2AM only I am here.", step=99)
+            doDialogText("AWAITH:# you wanna play deadshot?", step=99)
+            doDialogText("SIBI:# sure, Im here anyways. What's the code?", step=99, afterdelay=3)
+            doDialogText("AWAITH:# WBISKW.", spd=6,  step=2)
             print()
             printGraphic('''
  
@@ -711,15 +711,15 @@ def chapter_4(funcs):
             doDialogText("To be continued.#.#.#")
             print()
         else:
-            doDialogText("ADVIL:# yooo anyone wanna play deadshot?", indep=True, afterdelay=1.5)
-            doDialogText("SIBIN:# Bro its 2AM only I am here.", indep=True, afterdelay=1.5)
-            doDialogText("ADVIL:# you wanna play deadshot?", indep=True, afterdelay=1.5)
+            doDialogText("AWAITH:# yooo anyone wanna play deadshot?", indep=True, afterdelay=1.5)
+            doDialogText("SIBI:# Bro its 2AM only I am here.", indep=True, afterdelay=1.5)
+            doDialogText("AWAITH:# you wanna play deadshot?", indep=True, afterdelay=1.5)
 
-            doDialogText("SIBIN:# sure, Im here anyways. What's the code?", afterdelay=1, indep=True)
+            doDialogText("SIBI:# sure, Im here anyways. What's the code?", afterdelay=1, indep=True)
             playSong("assets/soundtrack/lokahbanger.ogg")
             startTime = time.time()
 
-            doDialogText("ADVIL:# ", indep=True, line=False, afterdelay=0)
+            doDialogText("AWAITH:# ", indep=True, line=False, afterdelay=0)
 
             texts = 0
             while True:
@@ -844,7 +844,7 @@ def chapter_4(funcs):
     
 
 
-    startindex = 1
+    startindex = 0
 
 
     # Some save files might not have this key, soo fixing that

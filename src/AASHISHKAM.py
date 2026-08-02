@@ -20,7 +20,13 @@ timeControl = 1
 """
 DEVLOG:
 
-2,1 - Fixed a bug where declining to load a save file would... reset the save file to default.
+2.2 - CHAPTER 5 RELEASE
+    - Updated the name ADVIL to AWAITH in chapter 4 to match with chapter 5
+    - Fixed Chapter 3's route checking to not miss a route change in chapter 3
+    - Removed the WARNING for when version of save file does not match with version of AASHISHKAM. It has been deemed useless.
+    - Ensured dialog consistency in chapter 1 between rude name choice and normal name choice.
+    - Changed the way 'pygame' and 'keyboard' modules are imported. (the correct way, I think.)
+2.1 - Fixed a bug where declining to load a save file would... reset the save file to default.
 2.0 - Released Chapter 4 completely.
     - Added mods, which are basically their own chapters.
     - Added the ability to load custom modules into chapters.
@@ -48,7 +54,7 @@ DEVLOG:
 1.0 - CHAPTER 1 RELEASE, save feature prototype.
 """
 global version
-version = "2.0"
+version = "2.2"
  
 def getVersion():
     global version
@@ -342,7 +348,18 @@ def downloadStuff(force=False):
         "assets/soundtrack/mechfight_full.ogg":   "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/mechfight_full.ogg",
         "assets/soundtrack/enraged.ogg":          "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/enraged.ogg",
         "assets/soundtrack/castle_walls.ogg":     "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/castle_walls.ogg",
-        "assets/soundtrack/guardian.ogg":         "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/guardian.ogg"
+        "assets/soundtrack/guardian.ogg":         "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/guardian.ogg",
+
+        "assets/soundtrack/classroom.ogg":        "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/classroom.ogg",
+        "assets/soundtrack/doubted.ogg":          "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/doubted.ogg",
+        "assets/soundtrack/third_meet.ogg":       "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/third_meet.ogg",
+        "assets/soundtrack/cake_lie.ogg":         "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/cake_lie.ogg",
+        "assets/soundtrack/projection_full.ogg":  "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/projection_full.ogg",
+        "assets/soundtrack/projection.ogg":       "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/projection.ogg",
+        "assets/soundtrack/results.ogg":          "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/results.ogg",
+        "assets/soundtrack/musicroom.ogg":        "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/musicroom.ogg",
+        "assets/soundtrack/shepherd.ogg":         "https://github.com/LocalVarBright/AASHISHKAM/raw/refs/heads/main/assets/soundtrack/shepherd.ogg"
+        
     }
  
     count = 1
@@ -382,9 +399,10 @@ def getSoundes():
             if lib_path not in sys.path:
                 sys.path.insert(0, lib_path)
 
-            global pygame
+            
             import pygame
             pygame.mixer.init()
+            globals()['pygame'] = pygame
             global soundImportSuccesful
             soundImportSuccesful = True
             doDialogText("Pygame was found,# AUDIO has been enabled.")
@@ -412,9 +430,8 @@ def getKeyboades():
             if lib_path not in sys.path:
                 sys.path.insert(0, lib_path)
 
-            global keyboard
             import keyboard
-
+            globals()['keyboard'] = keyboard
             global keyboardImportSuccesful
             keyboardImportSuccesful = True
             doDialogText("KEYBOARD INPUT has been enabled.")
@@ -632,6 +649,10 @@ def loadGame(saveName):
             with open(os.path.join(getFilePath("saves"), f"{saveName}.json"), "r") as file:
                 dumpFile = json.load(file)
 
+                # I made a mistake with the chapter 3 rude_stay thing. lemme fix
+                if 'rude_stay' in dumpFile['route3'] and dumpFile['route3']['rude_stay'] == 0:
+                    dumpFile['route3']['rude_stay'] = "FORGIVED"
+
                 # Sometimes save.json only has the string "ERROR", which messes with the loading system.
                 if dumpFile == "ERROR": return "ERROR"
  
@@ -671,7 +692,8 @@ def loadGame(saveName):
  
  
                 if dumpFile["version"] != version:
-                    doDialogText(f"WARNING:# This version of the save file ({dumpFile['version']}) does not match the version of this engine ({version}).")
+                    # REMOVED this warning, it's basically useless.
+                    #doDialogText(f"WARNING:# This version of the save file ({dumpFile['version']}) does not match the version of this engine ({version}).")
                     dumpCorrupt = getPrompt("Continue Loading?")
                     if dumpCorrupt:
                         dumpFile["version"] = version
@@ -1028,8 +1050,12 @@ def startEngine(notice=True, offline=False):
                         chapterChoices += ["CHAPTER 4: Light and Dark."]
                         if saveFile['route5']['COMPLETED']:
                             chapterChoices += ["CHAPTER 5: Projection."]
+                            if saveFile['route6']['COMPLETED']:
+                                chapterChoices += ["CHAPTER 6: ???"]
+                            else:
+                                chapterChoices += ["CHAPTER 6: ???"]
                         else:
-                            chapterChoices += ["CHAPTER 5: Projection."] # CHANGE THIS TO ??? AFTER THE ACTUAL CHAPTER RELEASES
+                            chapterChoices += ["CHAPTER 5: ???"] # CHANGE THIS TO ??? AFTER THE ACTUAL CHAPTER RELEASES
                     else:
                         chapterChoices += ["CHAPTER 4: ???"]
                 else:
@@ -1093,6 +1119,13 @@ def startEngine(notice=True, offline=False):
                     tracks += ['Castle Walls',
                                'Enraged',
                                'Guardian']
+            if saveFile['route5']['COMPLETED']:
+                tracks += ['Classroom',
+                           'Doubted']
+                if saveFile['route5']['date']: tracks += ['Third Meet']
+                tracks += ['Projection']
+                if saveFile['route5']['key']:
+                    tracks += ['Shepherd Of My Soul (Choir Version)']
             
             if tracks == []: tracks += ["No soundtracks unlocked yet. Play the game!"]
             else: tracks += ['Return']
@@ -1128,7 +1161,12 @@ def startEngine(notice=True, offline=False):
                 'Mechfight':                                   'assets/soundtrack/mechfight_full.ogg',
                 'Castle Walls':                                'assets/soundtrack/castle_walls.ogg',
                 'Enraged':                                     'assets/soundtrack/enraged.ogg',
-                'Guardian':                                    'assets/soundtrack/guardian.ogg'}
+                'Guardian':                                    'assets/soundtrack/guardian.ogg',
+                'Classroom':                                   'assets/soundtrack/classroom.ogg',
+                'Doubted':                                     'assets/soundtrack/doubted.ogg',
+                'Third Meet':                                  'assets/soundtrack/third_meet.ogg',
+                'Projection':                                  'assets/soundtrack/projection_full.ogg',
+                'Shepherd Of My Soul (Choir Version)':         'assets/soundtrack/shepherd.ogg'}
             
             if track not in ["Return", "No soundtracks unlocked yet. Play the game!"]:
                 path = musicPaths[track]
@@ -1136,7 +1174,7 @@ def startEngine(notice=True, offline=False):
  
             startEngine(False)
         else:
-            doDialogText("Feature not developed yet.")
+            doDialogText("Feature not available. Please enable SOUND.")
             startEngine(False)
     elif menuChoice == 3: # ACHIEVEMENTS
         printGraphic('''\
