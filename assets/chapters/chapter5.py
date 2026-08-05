@@ -96,7 +96,7 @@ def chapter_5(funcs):
 
         return r, hotpoints
 
-    doDialogText("CHAPTER 5:##  Weekdays.", spd = 25, step = 3)
+    doDialogText("CHAPTER 5:##  Projection.", spd = 25, step = 3)
 
     if index == 0:    
         print()
